@@ -1,23 +1,23 @@
 package com.tom.sort;
 
+
 /**
  * @author WangTao
  * 由于无法创建范式数组
  *
  * 归并排序主要思想 分而治之 核心方法归并函数
  */
-public class MergeSort {
+public class MergeSort <S extends Comparable> implements Sort<S> {
 
-
-    public static void sort(int[] t) {
-        //开辟一个新的空间 存放数组元素用于排序
-        int[] temp = new int[t.length];
+    @Override
+    public void sort(S[] t) {
+        S[] temp =(S[]) new Comparable[t.length];
         sort(t, 0, t.length-1,temp);
-
     }
 
 
-    private static void sort(int[] t,int left,int right,int[] temp){
+
+    private  void sort(S[] t,int left,int right,S[] temp){
         if (left < right){
             int mid = (right - left) / 2 + left;
             sort(t,left,mid,temp);
@@ -34,12 +34,12 @@ public class MergeSort {
      * @param mid 中间下标
      * @param right 右边下标
      */
-    private static void merge(int[] t, int left, int mid, int right,int[] temp) {
+    private  void merge(S[] t, int left, int mid, int right,S[] temp) {
         int i = left;
         int j = mid+1;
         int tmp = 0;
         while (i <= mid && j<=right){
-            if(t[i]< t[j]){
+            if(t[i].compareTo(t[j]) < 0){
                 temp[tmp++] = t[i++];
             }else {
                 temp[tmp++] = t[j++];
@@ -60,8 +60,9 @@ public class MergeSort {
 
 
     public static void main(String[] args) {
-        int[] b = new int[]{2,3,6,1,10,5,30,90,-1};
-        sort(b);
+        Sort<Integer> a = new MergeSort<>();
+        Integer[] b = new Integer[]{2,3,6,1,10,5,30,90,-1};
+        a.sort(b);
         for (int i : b){
             System.out.print(i + " ");
         }

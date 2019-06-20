@@ -5,9 +5,9 @@ package com.tom.array;
 /**
  * @author WangTao
  */
-public class MyArray {
+public class MyArray<T> {
 
-    private Object[] data;
+    private T[] data;
 
     private int size;
 
@@ -19,7 +19,7 @@ public class MyArray {
      * @param capacity  数组的容量
      */
     public MyArray(int capacity) {
-        data = new Object[capacity];
+        data =(T[]) new Object[capacity];
         size = 0;
     }
 
@@ -39,15 +39,15 @@ public class MyArray {
         return size == 0;
     }
 
-    public void addLast(Object o){
-        add(size, o);
+    public void addLast(T t){
+        add(size, t);
     }
 
-    public void addFirst(Object o){
-        add(0, o);
+    public void addFirst(T t){
+        add(0, t);
     }
 
-    public void add(int index, Object o){
+    public void add(int index, T o){
         if (size == data.length){
             throw new IllegalArgumentException("Array is full");
         }
@@ -70,30 +70,58 @@ public class MyArray {
         return data[index];
     }
 
-    public void set(int index,Object e){
+    public void set(int index,T t){
         if (index < 0 || index > size){
             throw new IllegalArgumentException("index is illegal");
         }
-        data[index] = e;
+        data[index] = t;
     }
 
 
-    public boolean contains(Object e){
+    public boolean contains(T t){
         for (int i = 0; i < size; i++) {
-            if (e == data[i]){
+            if (t.equals(data[i])){
                 return true;
             }
         }
         return false;
     }
 
-    public int find(Object e){
+    public int find(T t){
         for (int i = 0; i < size; i++) {
-            if (e == data[i]){
+            if (t.equals(data[i])){
                 return i;
             }
         }
         return -1;
+    }
+
+    public T remove(int index){
+        if (index < 0 || index >= size){
+            throw new IllegalArgumentException("index is illegal");
+        }
+        T temp = data[index];
+        for (int i = index+1; i < size; i++) {
+            data[i-1] = data[i];
+        }
+        data[size] = null;
+        size--;
+        return temp;
+    }
+
+    public T removeFirst(){
+        return remove(0);
+    }
+
+    public T removeLast(){
+        return remove(size - 1);
+    }
+
+    public void removeElement(T t){
+        int index = find(t);
+        if (index != -1){
+            remove(index);
+        }
     }
 
     @Override

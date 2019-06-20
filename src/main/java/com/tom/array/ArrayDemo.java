@@ -6,7 +6,7 @@ package com.tom.array;
 public class ArrayDemo {
 
     public static void main(String[] args) {
-        MyArray myArray = new MyArray(20);
+        MyArray<Integer> myArray = new MyArray<>(20);
         for (int i = 0; i < 10 ; i++) {
             myArray.addLast(i);
         }
@@ -16,6 +16,14 @@ public class ArrayDemo {
         myArray.addFirst(900);
         System.out.println(myArray);
         myArray.addLast(1000);
+        System.out.println(myArray);
+        myArray.remove(2);
+        System.out.println(myArray);
+        myArray.removeFirst();
+        System.out.println(myArray);
+        myArray.removeLast();
+        System.out.println(myArray);
+        myArray.removeElement(4);
         System.out.println(myArray);
     }
 }
