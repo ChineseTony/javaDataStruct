@@ -2,6 +2,8 @@ package com.tom.interview;
 
 /**
  * @author WangTao
+ *
+ * 阅读java虚拟机规范 分析字节码流程 知其然而知其所以然
  */
 public class TryCatchFianlly {
 
