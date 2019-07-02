@@ -6,7 +6,7 @@ package com.tom.array;
 public class ArrayDemo {
 
     public static void main(String[] args) {
-        MyArray<Integer> myArray = new MyArray<>(20);
+        MyArray<Integer> myArray = new MyArray<>(10);
         for (int i = 0; i < 10 ; i++) {
             myArray.addLast(i);
         }

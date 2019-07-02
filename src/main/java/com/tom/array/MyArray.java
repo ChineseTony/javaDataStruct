@@ -48,13 +48,14 @@ public class MyArray<T> {
     }
 
     public void add(int index, T o){
-        if (size == data.length){
-            throw new IllegalArgumentException("Array is full");
-        }
-
         if (index < 0 || index > size ){
             throw new IllegalArgumentException("add index");
         }
+
+        if (size == data.length){
+            resize(data.length*2);
+        }
+
 
         for (int i = size - 1 ; i >= index; i--) {
             data[i + 1] = data[i];
@@ -104,8 +105,11 @@ public class MyArray<T> {
         for (int i = index+1; i < size; i++) {
             data[i-1] = data[i];
         }
-        data[size] = null;
         size--;
+        data[size] = null;
+        if (size == data.length / 2){
+            resize(data.length / 2);
+        }
         return temp;
     }
 
@@ -122,6 +126,16 @@ public class MyArray<T> {
         if (index != -1){
             remove(index);
         }
+    }
+
+
+
+    private void resize(int length){
+        T[] objects = (T[]) new Object[length];
+        for (int i = 0; i < size; i++) {
+            objects[i] = data[i];
+        }
+        data = objects;
     }
 
     @Override
