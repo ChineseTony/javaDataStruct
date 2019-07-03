@@ -64,7 +64,7 @@ public class MyArray<T> {
         size++;
     }
 
-    public Object get(int index){
+    public T get(int index){
         if (index < 0 || index > size){
             throw new IllegalArgumentException("index is illegal");
         }
@@ -129,6 +129,13 @@ public class MyArray<T> {
     }
 
 
+    public T getLast(){
+        return get(size-1);
+    }
+
+    public T getFirst(){
+        return get(0);
+    }
 
     private void resize(int length){
         T[] objects = (T[]) new Object[length];
