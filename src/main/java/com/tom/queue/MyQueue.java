@@ -5,9 +5,12 @@ package com.tom.queue;
  */
 public interface MyQueue<T> {
 
-    void enque(T t);
+    void enqueue(T t);
 
-    T deque();
+    T dequeue();
+
+
+    T getFront();
 
     boolean isEmpty();
 
