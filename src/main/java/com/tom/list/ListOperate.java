@@ -2,6 +2,7 @@ package com.tom.list;
 
 
 import com.tom.util.ListNode;
+import java.util.Stack;
 
 /**
  * @author WangTao
@@ -12,7 +13,7 @@ import com.tom.util.ListNode;
  * 输入: 1->2->6->3->4->5->6, val = 6
  * 输出: 1->2->3->4->5
  */
-public class RemoveElement {
+public class ListOperate {
 
     //没有头结点
     public ListNode removeElements1(ListNode head, int val) {
@@ -145,15 +146,133 @@ public class RemoveElement {
         return pre;
     }
 
-    public static void main(String[] args) {
-        int[] nums = new int[]{1,2,1};
-        RemoveElement removeElement = new RemoveElement();
-        ListNode head = new ListNode(nums);
-        System.out.println(removeElement.length(head));
-        System.out.println(removeElement.removeElements3(head,2));
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        //头节点
+        ListNode head = new ListNode(-1);
+        //尾节点
+        ListNode rear = head;
+        ListNode head1 = l1;
+        ListNode head2 = l2;
+        while (head1 != null && head2 != null){
+            if (head1.val <= head2.val){
+                rear.next = head1;
+                rear = rear.next;
+                head1 = head1.next;
+            }else {
+                rear.next = head2;
+                rear = rear.next;
+                head2 = head2.next;
+            }
+        }
+        if (head1 != null ){
+            rear.next = head1;
+        }
+        if (head2 != null ){
+            rear.next = head2;
+        }
+        return  head.next;
+    }
 
-        ListNode res = removeElement.removeElements(head, 1, 0);
-        System.out.println(res);
+    /**
+     * 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+     *
+     * 示例 1:
+     *
+     * 输入: 1->1->2
+     * 输出: 1->2
+     * 示例 2:
+     *
+     * 输入: 1->1->2->3->3
+     * 输出: 1->2->3
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+
+     /*   ListNode current = head;
+        while (current != null && current.next != null) {
+            if (current.next.val == current.val) {
+                current.next = current.next.next;
+            } else {
+                current = current.next;
+            }
+        }
+        return head;
+        */
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode tmp = new ListNode(-1);
+        tmp.next = head;
+        ListNode pre = head;
+        ListNode cur = head.next;
+        while (cur != null){
+            if (pre.val == cur.val){
+                ListNode node = cur;
+                pre.next = node.next;
+                cur = node.next;
+                node.next = null;
+            }else {
+                pre = cur;
+                cur = pre.next;
+            }
+        }
+        return tmp.next;
+    }
+
+
+    /**
+     * 请判断一个链表是否为回文链表。
+     *
+     * 示例 1:
+     *
+     * 输入: 1->2
+     * 输出: false
+     * 示例 2:
+     *
+     * 输入: 1->2->2->1
+     * 输出: true
+     * 进阶：
+     * 你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+     * @param head
+     * @return
+     */
+    public boolean isPalindrome(ListNode head) {
+        //用stack
+        int count = 0;
+        Stack<Integer> stack = new Stack<>();
+        ListNode cur = head;
+        while (cur != null){
+            stack.push(cur.val);
+            cur = cur.next;
+            count++;
+        }
+        cur = head;
+        for (int i = 0; i < count/2; i++) {
+            if (stack.peek() != cur.val){
+                return false;
+            }else {
+                stack.pop();
+                cur = cur.next;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = new int[]{1,1,2,3,3};
+        ListOperate listOperate = new ListOperate();
+        ListNode head = new ListNode(nums);
+        System.out.println(listOperate.length(head));
+        System.out.println(listOperate.removeElements3(head,2));
+
+
+        int[] nums1 = new int[]{1,2,9};
+        int[] nums2 = new int[]{4,5,9};
+        ListNode head1 = new ListNode(nums1);
+        ListNode head2 = new ListNode(nums2);
+        System.out.println(listOperate.mergeTwoLists(head1,head2));
+        System.out.println(listOperate.deleteDuplicates(head));
     }
 
 }
