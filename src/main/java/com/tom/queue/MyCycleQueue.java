@@ -18,7 +18,7 @@ public class MyCycleQueue<T> implements MyQueue<T> {
     //队尾
     private int rear;
 
-    //private int size;
+    private int size;
 
     private final int DEFAULT_CAPACITY = 9;
 
@@ -43,7 +43,7 @@ public class MyCycleQueue<T> implements MyQueue<T> {
         }
         t[rear] = e;
         rear = (rear + 1) % t.length;
-        //size++;
+        size++;
     }
 
     @Override
@@ -54,8 +54,11 @@ public class MyCycleQueue<T> implements MyQueue<T> {
         T e = t[front];
         t[front] = null;
         front = (front + 1) % t.length;
-        //size--;
-        if ((rear - front + t.length) % t.length == getCapacity() / 4 && getCapacity() / 2 != 0){
+        size--;
+       /* if ((rear - front + t.length) % t.length == getCapacity() / 4 && getCapacity() / 2 != 0){
+            resize(getCapacity() / 2);
+        }*/
+        if( size == getCapacity() / 4 && getCapacity() / 2 != 0){
             resize(getCapacity() / 2);
         }
         return e;
@@ -77,14 +80,14 @@ public class MyCycleQueue<T> implements MyQueue<T> {
 
     @Override
     public int getSize() {
-        //return size;
-        return (rear - front + t.length) % t.length;
+        return size;
+        //return (rear - front + t.length) % t.length;
     }
 
     @SuppressWarnings("unchecked")
     private void resize(int capacity){
         T[] newData = (T[])new Object[capacity+1];
-        int size = (rear - front + t.length) % t.length;
+        //int size = (rear - front + t.length) % t.length;
         for (int i = 0; i < size; i++) {
             newData[i] = t[(i + front) % t.length];
         }
