@@ -33,19 +33,6 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         return search(root,key);
     }
 
-    private Value search(Node node,Key key){
-        if (node == null){
-            return null;
-        }
-        if (key.compareTo(node.key) < 0){
-            return search(node.left,key);
-        }else if (key.compareTo(node.key) > 0){
-            return search(node.right,key);
-        }else {
-            return node.value;
-        }
-    }
-
 
     public void insertBSF(Key  key,Value value){
         root = insertBSF(root, key,value);
@@ -68,7 +55,10 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         return node;
     }
 
-
+    //中序遍历递归调用
+    public void order(){
+        order(root);
+    }
 
     //中序遍历非递归实现
     public void  travelBSF(){
@@ -93,11 +83,19 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         }
     }
 
-
-    //中序遍历递归调用
-    public void order(){
-        order(root);
+    private Value search(Node node,Key key){
+        if (node == null){
+            return null;
+        }
+        if (key.compareTo(node.key) < 0){
+            return search(node.left,key);
+        }else if (key.compareTo(node.key) > 0){
+            return search(node.right,key);
+        }else {
+            return node.value;
+        }
     }
+
 
 
 
