@@ -42,22 +42,40 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         root = insertBSF(root, key,value);
     }
 
-
-    private Node insertBSF(Node node,Key  key,Value value){
-        if(node == null){
-            lenght++;
-            node = new Node(key,value);
-            return node;
+    public Value getMin(){
+        if (lenght == 0){
+            throw new RuntimeException("tree is empty");
         }
-        if((node.key.compareTo(key)) > 0){
-            node.left  =   insertBSF(node.left,key,value);
-        }else if ((node.key.compareTo(key)) < 0){
-            node.right = insertBSF(node.right,key,value);
-        } else {
-            node.value = value;
-        }
-        return node;
+        return getMin(root);
     }
+
+
+
+    public Value getMax(){
+        if (lenght == 0){
+            throw new RuntimeException("tree is empty");
+        }
+        return getMax(root);
+    }
+
+    public Value removeMin(){
+        if (lenght == 0){
+            throw new RuntimeException("tree is empty");
+        }
+        Value min = getMin();
+        root = removeMin(root);
+        return min;
+    }
+
+    public Value removeMax(){
+        if (lenght == 0){
+            throw new RuntimeException("tree is empty");
+        }
+        Value max = getMax();
+        root = removeMax(root);
+        return max;
+    }
+
 
     //中序遍历递归调用
     public void order(){
@@ -88,12 +106,66 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         level(root);
     }
 
+    //中序遍历非递归实现
+    public void  travelBSF(){
+        travelBSF1(root);
+    }
+
+    public Value deleteMin(){
+        if (root == null){
+            throw new RuntimeException("tree is empty");
+        }
+        Value value;
+        if (root.left == null && root.right == null){
+            value = root.value;
+            root = null;
+        }else if (root.right != null && root.left == null){
+            Node temp = root;
+            value = temp.value;
+            root = root.right;
+            //从树中断开
+            temp.right = null;
+        }else {
+            Node pre = root;
+            Node cur = root.left;
+            while (cur.left != null) {
+                pre = cur;
+                cur = cur.left;
+            }
+
+            if (cur.right != null) {
+                value = cur.value;
+                pre.left = cur.right;
+                cur.right = null;
+            } else {
+                value = cur.value;
+                pre.left = null;
+            }
+        }
+        lenght--;
+        return value;
+    }
+
+
+    private Value getMin(Node node){
+        if (node.left == null){
+            return node.value;
+        }
+        Node tmp = node.left;
+        while (tmp.left != null){
+            tmp = tmp.left;
+        }
+        return tmp.value;
+    }
+
+
+
     //层次遍历
     private void level(Node node){
-        Queue<Node> queue = new ArrayDeque<>(10);
         if (node == null){
             return;
         }
+        Queue<Node> queue = new ArrayDeque<>(10);
         queue.offer(node);
         while (!queue.isEmpty()){
             Node node1 = queue.poll();
@@ -107,10 +179,7 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         }
     }
 
-    //中序遍历非递归实现
-    public void  travelBSF(){
-        travelBSF1(root);
-    }
+
 
     private void travelBSF1(Node node){
         if (node != null){
@@ -180,6 +249,61 @@ public class BinarySearchTree<Key extends Comparable,Value> {
 
     }
 
+
+    private Node removeMax(Node node){
+        if (node.right == null){
+            Node leftNode = node.left;
+            node.left = null;
+            lenght --;
+            return leftNode;
+        }
+        node = removeMax(node.right);
+        return node;
+    }
+
+    private Node removeMin(Node node){
+        if (node.left == null){
+            Node rightNode = node.right;
+            node.right = null;
+            lenght --;
+            return rightNode;
+        }
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+
+
+
+
+    private Value getMax(Node node){
+        if (node.right == null){
+            return node.value;
+        }
+        Node tmp = node.right;
+        while (tmp.right != null){
+            tmp = tmp.right;
+        }
+        return tmp.value;
+    }
+
+
+    private Node insertBSF(Node node,Key  key,Value value){
+        if(node == null){
+            lenght++;
+            node = new Node(key,value);
+            return node;
+        }
+        if((node.key.compareTo(key)) > 0){
+            node.left  =   insertBSF(node.left,key,value);
+        }else if ((node.key.compareTo(key)) < 0){
+            node.right = insertBSF(node.right,key,value);
+        } else {
+            node.value = value;
+        }
+        return node;
+    }
+
 /*    private void reverse(Node node){
         if (node == null ){
             return;
@@ -206,7 +330,7 @@ public class BinarySearchTree<Key extends Comparable,Value> {
     public static void main(String[] args) {
         BinarySearchTree<Integer,String> tree = new BinarySearchTree<>();
         Random random = new Random();
-        final int nums = 1;
+        final int nums = 5;
         for (int i = 0; i < nums; i++) {
                 tree.insertBSF(random.nextInt(100),"a"+i);
         }
@@ -217,6 +341,15 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         tree.level();
         tree.postOrder();
         tree.inderBSF();
+        tree.order();
+        tree.level();
+        System.out.println(tree.getMin());
+        System.out.println(tree.removeMin());
+        tree.order();
+        System.out.println(tree.deleteMin());
+        while (!tree.isEmpty()){
+            System.out.println(tree.deleteMin());
+        }
 
     }
 
