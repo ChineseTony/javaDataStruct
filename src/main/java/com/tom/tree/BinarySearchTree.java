@@ -1,5 +1,8 @@
 package com.tom.tree;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -8,6 +11,7 @@ import java.util.Stack;
  * 二分搜索树
  * 中序遍历为有序序列
  */
+@SuppressWarnings("unchecked")
 public class BinarySearchTree<Key extends Comparable,Value> {
 
 
@@ -38,7 +42,7 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         root = insertBSF(root, key,value);
     }
 
-    @SuppressWarnings("unchecked")
+
     private Node insertBSF(Node node,Key  key,Value value){
         if(node == null){
             lenght++;
@@ -58,6 +62,49 @@ public class BinarySearchTree<Key extends Comparable,Value> {
     //中序遍历递归调用
     public void order(){
         order(root);
+    }
+
+    //后序遍历递归实现
+    public void postOrder(){
+        postOrder(root);
+    }
+
+ /*   public void reverse(){
+        reverse(root);
+    }*/
+
+    //前序遍历
+    public void inder(){
+        inder(root);
+    }
+
+    //前序非递归实现
+    public void inderBSF(){
+        inderBSF(root);
+    }
+
+    //层次遍历
+    public void level(){
+        level(root);
+    }
+
+    //层次遍历
+    private void level(Node node){
+        Queue<Node> queue = new ArrayDeque<>(10);
+        if (node == null){
+            return;
+        }
+        queue.offer(node);
+        while (!queue.isEmpty()){
+            Node node1 = queue.poll();
+            System.out.format("key:{%s}------->value:{%s}\n",node1.key,node1.value);
+            if (node1.left != null){
+                queue.offer(node1.left);
+            }
+            if (node1.right != null){
+                queue.offer(node1.right);
+            }
+        }
     }
 
     //中序遍历非递归实现
@@ -97,6 +144,55 @@ public class BinarySearchTree<Key extends Comparable,Value> {
     }
 
 
+    private void inder(Node node){
+        if (node != null){
+            System.out.println(node.key+"----->"+node.value);
+            order(node.left);
+            order(node.right);
+        }
+    }
+
+    private void inderBSF(Node node){
+        if (node != null){
+            Stack<Node> stack = new Stack<>();
+            Node p = node;
+            stack.push(p);
+            while (!stack.isEmpty()){
+                p = stack.pop();
+                System.out.println(p.key+"----->"+p.value);
+                if (p.right != null){
+                    stack.push(p.right);
+                }
+                if (p.left != null){
+                    stack.push(p.left);
+                }
+            }
+
+        }
+    }
+
+    private void postOrder(Node node){
+        if (node != null){
+            postOrder(node.left);
+            postOrder(node.right);
+            System.out.format("key:{%s}------->value:{%s}\n",node.key,node.value);
+        }
+
+    }
+
+/*    private void reverse(Node node){
+        if (node == null ){
+            return;
+        }
+        if (node.left == null && node.right == null){
+            return;
+        }
+        Node temp = node.right;
+        node.right = temp.left;
+        node.left = temp;
+        reverse(node.left);
+        reverse(node.right);
+    }*/
 
 
     private void order(Node node){
@@ -109,13 +205,25 @@ public class BinarySearchTree<Key extends Comparable,Value> {
 
     public static void main(String[] args) {
         BinarySearchTree<Integer,String> tree = new BinarySearchTree<>();
-        for (int i = 0; i < 5; i++) {
-                tree.insertBSF(i,"a"+i);
+        Random random = new Random();
+        final int nums = 1;
+        for (int i = 0; i < nums; i++) {
+                tree.insertBSF(random.nextInt(100),"a"+i);
         }
         System.out.println("length:"+tree.getLenght());
         tree.order();
         System.out.println(tree.search(1));
         tree.travelBSF();
+        tree.level();
+        tree.postOrder();
+        tree.inderBSF();
+
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        return sb.toString();
     }
 
     private class Node{
