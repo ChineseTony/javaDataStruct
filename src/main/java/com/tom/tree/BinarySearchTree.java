@@ -111,6 +111,14 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         travelBSF1(root);
     }
 
+    public Value delete(Key key){
+        return delete(root,key);
+    }
+/*
+    public void remove(Key key){
+        root = remove(root,key);
+    }*/
+
     public Value deleteMin(){
         if (root == null){
             throw new RuntimeException("tree is empty");
@@ -146,6 +154,87 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         return value;
     }
 
+
+    /**private Node remove(Node node,Key key){
+        if (node != null){
+            if (key.compareTo(node.key) < 0){
+                node.left = remove(node.left,key);
+                return node;
+            }else if (key.compareTo(node.key) > 0){
+                node.right = remove(node.right,key);
+                return node;
+            }else {
+                //删除 节点值为key 的值
+                if (node.left == null){
+                    Node rightNode = node.right;
+                    node.right = null;
+                    lenght--;
+                    return rightNode;
+                }
+                if (node.right == null){
+                    Node leftNode = node.left;
+                    node.left = null;
+                    lenght--;
+                    return leftNode;
+                }
+
+                Node succsor = getMin(root.right);
+                succsor.right = removeMin(node.right);
+                succsor.left = node.left;
+                node.left = node.right = null;
+                return succsor;
+            }
+        }
+    }*/
+
+    private Value delete(Node node,Key key) {
+        if (node.key.equals(key)) {
+            if (root.left == null ) {
+                Node temp = node;
+                Value value = temp.value;
+                node.key = node.right.key;
+                node.value = node.right.value;
+                temp.right = null;
+                lenght--;
+                return value;
+            }else if (node.right == null) {
+                Node temp = node;
+                Value value = temp.value;
+                node.key = node.left.key;
+                node.value = node.left.value;
+                temp.left = null;
+                temp = null;
+                lenght--;
+                return value;
+            }else {
+                Node temp = node;
+                Node cur = node.left;
+                Value value;
+                while (cur.right != null){
+                    temp = cur;
+                    cur = cur.right;
+                }
+                node.key = cur.key;
+                node.value = cur.value;
+                if (temp != node){
+                    temp.right = cur.left;
+                    value = cur.value;
+                    cur.right = null;
+                }else {
+                    temp.left = cur.left;
+                    value = cur.value;
+                    cur.left = null;
+                }
+                lenght--;
+                return value;
+            }
+        } else if (key.compareTo(node.key) < 0) {
+            return delete(node.left, key);
+        } else if (key.compareTo(node.key) > 0) {
+            return delete(node.right, key);
+        }
+        return null;
+    }
 
     private Value getMin(Node node){
         if (node.left == null){
@@ -331,10 +420,17 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         BinarySearchTree<Integer,String> tree = new BinarySearchTree<>();
         Random random = new Random();
         final int nums = 5;
-        for (int i = 0; i < nums; i++) {
+      /*  for (int i = 0; i < nums; i++) {
                 tree.insertBSF(random.nextInt(100),"a"+i);
-        }
-        System.out.println("length:"+tree.getLenght());
+        }*/
+
+        tree.insertBSF(80,"a0");
+        tree.insertBSF(90,"a1");
+        tree.insertBSF(40,"a2");
+        tree.insertBSF(30,"a3");
+        tree.insertBSF(38,"a4");
+
+       /* System.out.println("length:"+tree.getLenght());
         tree.order();
         System.out.println(tree.search(1));
         tree.travelBSF();
@@ -349,7 +445,9 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         System.out.println(tree.deleteMin());
         while (!tree.isEmpty()){
             System.out.println(tree.deleteMin());
-        }
+        }*/
+       tree.delete(40);
+       tree.inderBSF();
 
     }
 
