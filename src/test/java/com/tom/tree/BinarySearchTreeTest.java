@@ -17,9 +17,11 @@ public class BinarySearchTreeTest {
         tree = new BinarySearchTree<>();
         tree.insertBSF(80,"a0");
         tree.insertBSF(90,"a1");
-        tree.insertBSF(40,"a2");
-        tree.insertBSF(30,"a3");
-        tree.insertBSF(38,"a4");
+        tree.insertBSF(100,"a2");
+        tree.insertBSF(98,"a3");
+        tree.insertBSF(99,"a4");
+        tree.insertBSF(96,"a5");
+        tree.insertBSF(97,"a6");
     }
 
     @Test
@@ -63,7 +65,10 @@ public class BinarySearchTreeTest {
 
     @Test
     public void delete(){
-        assertEquals(tree.delete(40),"a2");
-        assertEquals(tree.getLenght(),4);
+        tree.inderBSF();
+        System.out.println("======");
+        assertEquals(tree.remove(90),"a1");
+        assertEquals(tree.getLenght(),6);
+        tree.inderBSF();
     }
 }

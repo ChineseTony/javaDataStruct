@@ -75,6 +75,22 @@ public class MyLinkedList<E> {
         return e;
     }
 
+    public void removeElement(E e){
+        Node pre = head;
+        while (pre.next != null){
+            if(pre.next.e.equals(e)){
+                break;
+            }
+            pre = pre.next;
+        }
+        if (pre.next != null){
+            Node deadNode  = pre.next;
+            pre.next = deadNode.next;
+            deadNode.next = null;
+            size --;
+        }
+    }
+
     public E removeFirst(){
         return remove(0);
     }
@@ -181,6 +197,8 @@ public class MyLinkedList<E> {
         list.removeFirst();
         System.out.println(list);
         list.removeLast();
+        System.out.println(list);
+        list.removeElement(2);
         System.out.println(list);
     }
 }

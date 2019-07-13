@@ -111,12 +111,56 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         travelBSF1(root);
     }
 
+
+    //返回的value暂时还有问题 删除算法已经成功
     public Value delete(Key key){
-        return delete(root,key);
+        Node p = root;
+        Node pParent = null;
+        Value value = null;
+        while (p != null && !p.key.equals(key)){
+            pParent = p;
+            if (key.compareTo(p.key) > 0){
+                p = p.right;
+            }else {
+                p = p.left;
+            }
+        }
+        if (p == null){
+            return null;
+        }
+        if (p.left != null && p.right != null){
+            Node minParent = p;
+            Node min = p.right;
+            while (min.left != null){
+                minParent = min;
+                min = min.left;
+            }
+            value = p.value;
+            p.key = min.key;
+            p.value = min.value;
+            pParent = minParent;
+            p = min;
+        }
+        value = p.value;
+
+        // 删除的是根节点
+        if (pParent == null){
+            root = null;
+        }
+        else if(pParent.left == p) {
+            pParent.left = p.left;
+            p.left = null;
+        }else{
+            pParent.right = p.right;
+            p.right = null;
+        }
+
+        lenght--;
+        return value;
     }
-/*
-    public void remove(Key key){
-        root = remove(root,key);
+
+/*    public void remove(Key key){
+
     }*/
 
     public Value deleteMin(){
@@ -187,54 +231,7 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         }
     }*/
 
-    private Value delete(Node node,Key key) {
-        if (node.key.equals(key)) {
-            if (root.left == null ) {
-                Node temp = node;
-                Value value = temp.value;
-                node.key = node.right.key;
-                node.value = node.right.value;
-                temp.right = null;
-                lenght--;
-                return value;
-            }else if (node.right == null) {
-                Node temp = node;
-                Value value = temp.value;
-                node.key = node.left.key;
-                node.value = node.left.value;
-                temp.left = null;
-                temp = null;
-                lenght--;
-                return value;
-            }else {
-                Node temp = node;
-                Node cur = node.left;
-                Value value;
-                while (cur.right != null){
-                    temp = cur;
-                    cur = cur.right;
-                }
-                node.key = cur.key;
-                node.value = cur.value;
-                if (temp != node){
-                    temp.right = cur.left;
-                    value = cur.value;
-                    cur.right = null;
-                }else {
-                    temp.left = cur.left;
-                    value = cur.value;
-                    cur.left = null;
-                }
-                lenght--;
-                return value;
-            }
-        } else if (key.compareTo(node.key) < 0) {
-            return delete(node.left, key);
-        } else if (key.compareTo(node.key) > 0) {
-            return delete(node.right, key);
-        }
-        return null;
-    }
+
 
     private Value getMin(Node node){
         if (node.left == null){
