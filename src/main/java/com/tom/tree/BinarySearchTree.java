@@ -416,46 +416,6 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         }
     }
 
-    public static void main(String[] args) {
-        BinarySearchTree<Integer,String> tree = new BinarySearchTree<>();
-        Random random = new Random();
-        final int nums = 5;
-      /*  for (int i = 0; i < nums; i++) {
-                tree.insertBSF(random.nextInt(100),"a"+i);
-        }*/
-
-        tree.insertBSF(80,"a0");
-        tree.insertBSF(90,"a1");
-        tree.insertBSF(40,"a2");
-        tree.insertBSF(30,"a3");
-        tree.insertBSF(38,"a4");
-
-       /* System.out.println("length:"+tree.getLenght());
-        tree.order();
-        System.out.println(tree.search(1));
-        tree.travelBSF();
-        tree.level();
-        tree.postOrder();
-        tree.inderBSF();
-        tree.order();
-        tree.level();
-        System.out.println(tree.getMin());
-        System.out.println(tree.removeMin());
-        tree.order();
-        System.out.println(tree.deleteMin());
-        while (!tree.isEmpty()){
-            System.out.println(tree.deleteMin());
-        }*/
-       tree.delete(40);
-       tree.inderBSF();
-
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        return sb.toString();
-    }
 
     private class Node{
         Key key;

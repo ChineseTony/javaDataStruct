@@ -306,20 +306,4 @@ public class ListOperate {
 
     }
 
-    public static void main(String[] args) {
-        int[] nums = new int[]{1,1,2,3,3};
-        ListOperate listOperate = new ListOperate();
-        ListNode head = new ListNode(nums);
-        System.out.println(listOperate.length(head));
-        System.out.println(listOperate.removeElements3(head,2));
-
-
-        int[] nums1 = new int[]{1,2,9};
-        int[] nums2 = new int[]{4,5,9};
-        ListNode head1 = new ListNode(nums1);
-        ListNode head2 = new ListNode(nums2);
-        System.out.println(listOperate.mergeTwoLists(head1,head2));
-        System.out.println(listOperate.deleteDuplicates(head));
-    }
-
 }
