@@ -58,9 +58,9 @@ public class BinarySearchTreeTest {
 
     @Test
     public void getMin(){
-        assertEquals(tree.getMin(),"a3");
-        assertEquals(tree.removeMin(),"a3");
-        assertEquals(tree.getLenght(),4);
+        assertEquals(tree.getMin(),"a1");
+        assertEquals(tree.removeMin(),"a1");
+        assertEquals(tree.getLenght(),6);
     }
 
     @Test
