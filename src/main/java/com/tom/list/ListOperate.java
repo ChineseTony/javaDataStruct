@@ -248,13 +248,42 @@ public class ListOperate {
             count++;
         }
         cur = head;
-        for (int i = 0; i < count/2; i++) {
+        for (int i = 0; i < count / 2; i++) {
             if (stack.peek() != cur.val){
                 return false;
             }else {
                 stack.pop();
                 cur = cur.next;
             }
+        }
+        return true;
+    }
+
+
+    //使用 快慢指针方法 判断链表是不是回文链表
+    public boolean isPalindrome2(ListNode head) {
+        //用stack
+        ListNode slow = head;
+        ListNode fast = head;
+        boolean  isOdd = true;
+        Stack<Integer> stack = new Stack<>();
+        while (fast != null && fast.next != null){
+            stack.push(slow.val);
+            slow = slow.next;
+            fast = fast.next.next;
+            if (fast == null){
+                isOdd = false;
+            }
+        }
+        //链表长度是奇数
+        if (isOdd){
+            slow = slow.next;
+        }
+        while (!stack.isEmpty()){
+            if (stack.pop() != slow.val){
+                return false;
+            }
+            slow = slow.next;
         }
         return true;
     }

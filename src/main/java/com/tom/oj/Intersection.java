@@ -40,4 +40,20 @@ public class Intersection {
         }
         return res;
     }
+
+    //leetcode 771
+    public int numJewelsInStones(String J, String S) {
+        Set<Character> set = new TreeSet<>();
+        char[] characters = J.toCharArray();
+        for (char c : characters){
+            set.add(c);
+        }
+        int count = 0;
+        for (int i = 0; i < S.length(); i++) {
+            if (set.contains(S.charAt(i))){
+                count++;
+            }
+        }
+        return count;
+    }
 }

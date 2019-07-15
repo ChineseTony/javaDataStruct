@@ -145,6 +145,15 @@ public class MyArray<T> {
         data = objects;
     }
 
+    public void swap(int i,int j){
+        if (i < 0 || i >= size || j < 0 || j >= size){
+            throw new RuntimeException("i,j illegal");
+        }
+        T temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

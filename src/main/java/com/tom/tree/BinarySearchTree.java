@@ -1,8 +1,6 @@
 package com.tom.tree;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 /**
  *
