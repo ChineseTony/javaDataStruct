@@ -23,6 +23,14 @@ public class MyArray<T> {
         size = 0;
     }
 
+    public MyArray(T[] t) {
+        data = (T[]) new Object[t.length];
+        for (int i = 0; i < t.length; i++) {
+            data[i] = t[i];
+        }
+        size = t.length;
+    }
+
     public MyArray() {
         this(DEFAULT_CAPACITY);
     }

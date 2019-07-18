@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class MyMaxHeapTest {
 
     private MyMaxHeap<Integer> maxHeap;
+    private MyMaxHeap<Integer> maxHeap2;
 
     private boolean flag = true;
 
@@ -41,4 +42,18 @@ public class MyMaxHeapTest {
     public void removeElements() {
         assertTrue(flag);
     }
+
+    @Test
+    public void heapify() {
+        Integer[] a = new Integer[]{3,4,1,5,6};
+        maxHeap2 = new MyMaxHeap<>(a);
+        int[] arr = new int[a.length];
+        for (int j = 0; j < a.length; j++) {
+            arr[j] = maxHeap2.removeMax();
+            System.out.println(arr[j]);
+        }
+
+    }
+
+
 }

@@ -22,6 +22,18 @@ public class MyMaxHeap<E extends Comparable> {
 
     }
 
+    //heapify 堆操作 将一个非堆 转换成堆结构
+    public MyMaxHeap(E[] e){
+
+        data = new MyArray<>(e);
+
+        //从一个非叶子节点中的父节点进行下沉操作
+        for (int i = getParent(e.length-1); i >= 0 ; i--) {
+            shiftDown(i);
+        }
+
+    }
+
     public void insert(E e){
         data.addLast(e);
         shiftUp(data.getSize()-1);
@@ -43,6 +55,14 @@ public class MyMaxHeap<E extends Comparable> {
         data.removeLast();
         shiftDown(0);
         return e;
+    }
+
+    //replace取出最大值 并且替换成 e
+    public E replace(E e){
+        E ret = getMax();
+        data.set(0,e);
+        shiftDown(0);
+        return ret;
     }
 
     public int getLength(){
