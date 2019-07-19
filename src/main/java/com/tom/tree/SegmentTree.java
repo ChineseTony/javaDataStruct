@@ -9,6 +9,7 @@ public class SegmentTree<T> {
 
     private T[] data;
 
+    // 线段树索引 通过 时间换取空间
     private T[] tree;
 
     private Merge<T> merge;
