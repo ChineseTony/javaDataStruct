@@ -35,6 +35,34 @@ public class SegmentTree<T> {
         return data[index];
     }
 
+    public void set(int index,T t){
+        if (index < 0 || index >= data.length){
+            throw new RuntimeException("index error");
+        }
+        data[index] = t;
+        set(0,0,data.length-1,index,t);
+
+    }
+
+    //递归调用 在 treeIndex
+    private void set(int treeIndex,int l,int r,int index,T t){
+        if (l == r){
+            tree[treeIndex] = t;
+            return;
+        }
+        int mid = (r - l) /2 + l;
+        int rightIndex = getRightChild(treeIndex);
+        int leftIndex = getLeftChild(treeIndex);
+        //递归设置值
+        if (treeIndex >= mid+1){
+            set(rightIndex,mid+1,r,index,t);
+        }else {
+            set(leftIndex,l,mid,index,t);
+        }
+        //更新祖父节点
+        tree[treeIndex] = merge.merge(tree[leftIndex],tree[rightIndex]);
+    }
+
     public T query(int queryL,int queryR){
         if(queryL < 0 || queryL >= data.length ||
                 queryR < 0 || queryR >= data.length || queryL > queryR) {
