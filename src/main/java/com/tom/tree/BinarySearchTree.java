@@ -155,11 +155,7 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         lenght--;
         return value;
     }
-
-/*    public void remove(Key key){
-
-    }*/
-
+    
     public Value deleteMin(){
         if (root == null){
             throw new RuntimeException("tree is empty");
@@ -195,9 +191,15 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         return value;
     }
 
+    public void remove(Key key){
+        root = remove(root,key);
+    }
 
-    /**private Node remove(Node node,Key key){
-        if (node != null){
+
+    private Node remove(Node node,Key key){
+            if (node == null){
+                return null;
+            }
             if (key.compareTo(node.key) < 0){
                 node.left = remove(node.left,key);
                 return node;
@@ -218,16 +220,21 @@ public class BinarySearchTree<Key extends Comparable,Value> {
                     lenght--;
                     return leftNode;
                 }
-
-                Node succsor = getMin(root.right);
+                Node succsor = getM(root.right);
                 succsor.right = removeMin(node.right);
                 succsor.left = node.left;
                 node.left = node.right = null;
                 return succsor;
             }
-        }
-    }*/
+    }
 
+
+    private Node getM(Node node){
+        if (node.left == null){
+            return node;
+        }
+        return getM(node.left);
+    }
 
 
     private Value getMin(Node node){
