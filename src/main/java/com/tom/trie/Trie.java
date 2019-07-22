@@ -1,4 +1,4 @@
-package com.tom.tree;
+package com.tom.trie;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -42,33 +42,34 @@ public class Trie {
 
     }
 
-    public void delete(String word){
+    public boolean delete(String word){
         if ("".equals(word)){
-            return;
+            return false;
         }
-        delete(root,word,0);
+        return delete(root,word,0);
     }
 
-    private void delete(Node node,String word,int index){
+    private boolean delete(Node node,String word,int index){
         if (index == word.length()){
             if (node.isWord){
                 node.isWord = false;
                 size--;
-                return;
+                return true;
             }
-            return;
+            return false;
         }
         char c = word.charAt(index);
         //不包含c
         if(!node.next.containsKey(c)) {
-            return ;
+            return false;
         }
-        delete(node.next.get(c),word,index+1);
-        //关键部分
+        boolean ret = delete(node.next.get(c),word,index+1);
+        //关键部分 看当前节点是不是叶子节点 递归调用删除
         Node nextNode = node.next.get(c);
         if(!nextNode.isWord && nextNode.next.size() == 0) {
             node.next.remove(word.charAt(index));
         }
+        return ret;
     }
 
 

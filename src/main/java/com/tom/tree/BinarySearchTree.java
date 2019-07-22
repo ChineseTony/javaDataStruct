@@ -155,7 +155,7 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         lenght--;
         return value;
     }
-    
+
     public Value deleteMin(){
         if (root == null){
             throw new RuntimeException("tree is empty");
@@ -392,6 +392,7 @@ public class BinarySearchTree<Key extends Comparable,Value> {
             node.value = value;
         }
         return node;
+
     }
 
 /*    private void reverse(Node node){

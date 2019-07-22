@@ -1,5 +1,6 @@
 package com.tom.tree;
 
+import com.tom.trie.Trie;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,9 +32,10 @@ public class TrieTest {
         assertTrue(trie.isPrefix("ca"));
         assertTrue(trie.isPrefixDiGui("pa"));
         assertTrue(trie.searchRegx("c.t"));
-        trie.delete("cat");
-        assertEquals(trie.getSize(),2);
+        assertTrue(trie.delete("cat"));
+        assertTrue(trie.delete("can"));
+        assertEquals(trie.getSize(),1);
         assertFalse(trie.search("cat"));
-        assertTrue(trie.search("can"));
+        assertFalse(trie.search("can"));
     }
 }
