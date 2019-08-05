@@ -2,7 +2,12 @@ package com.tom.list;
 
 
 import com.tom.util.ListNode;
+import javafx.animation.PauseTransitionBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 
 /**
  * @author WangTao
@@ -269,6 +274,75 @@ public class ListOperate {
             }
         }
         return true;
+    }
+
+    //leetcode 链表两两翻转 递归法
+    public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode next =  head.next;
+        head.next = swapPairs(next.next);
+        next.next = head;
+        //递归返回值
+        return next;
+    }
+
+    public ListNode swapPairs1(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode pre = new ListNode(-1);
+        pre.next = head;
+        ListNode temp = head;
+        while (temp.next != null && temp.next.next != null){
+            ListNode start = temp.next;
+            ListNode end= temp.next.next;
+            temp.next = end;
+            start.next = end.next;
+            end.next = start;
+            temp = start;
+        }
+        return pre.next;
+    }
+
+    public boolean hasCycle(ListNode head) {
+        /*Set<ListNode> s = new HashSet<>();
+        ListNode cur = head;
+        while (cur != null){
+            if (s.contains(cur)){
+                return true;
+            }else {
+                s.add(cur);
+            }
+            cur = cur.next;
+        }
+        return false;*/
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //相交链表
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null){
+            return null;
+        }
+        ListNode p = headA;
+        ListNode q = headB;
+        while (p != q){
+            p = p == null ? headB : p.next;
+            q = q == null ? headA : q.next;
+        }
+        return p;
+
     }
 
 

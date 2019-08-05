@@ -25,6 +25,25 @@ public class ListNode {
     }
 
     @Override
+    public boolean equals(Object anObject) {
+        if (this == anObject) {
+            return true;
+        }
+        if (anObject instanceof ListNode) {
+            ListNode anotherListNode = (ListNode)anObject;
+            if (anotherListNode.val == this.val){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return  this.val * 31 ;
+    }
+
+    @Override
     public String toString(){
 
         StringBuilder s = new StringBuilder();

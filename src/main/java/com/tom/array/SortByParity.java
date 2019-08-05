@@ -2,7 +2,7 @@ package com.tom.array;
 
 /**
  * @author WangTao
- *给定一个非负整数数组 A，返回一个数组，在该数组中， A 的所有偶数元素之后跟着所有奇数元素。
+ *给定一个非负整数数组 MyLinkedListLeetcode，返回一个数组，在该数组中， MyLinkedListLeetcode 的所有偶数元素之后跟着所有奇数元素。
  *
  * 你可以返回满足此条件的任何数组作为答案。
  *
