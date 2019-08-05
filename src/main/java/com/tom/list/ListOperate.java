@@ -89,6 +89,18 @@ public class ListOperate {
         return tmp.next;
     }
 
+    public ListNode reverseList(ListNode head) {
+        //递归出口
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode p = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return p;
+    }
+
+
     public int length(ListNode head){
         if (head == null){
             return 0;
