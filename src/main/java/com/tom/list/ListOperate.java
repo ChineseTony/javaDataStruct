@@ -432,8 +432,7 @@ public class ListOperate {
         ListNode pre = new ListNode(-1);
         pre.next = head;
         ListNode q = head.next;
-        ListNode p = head;
-        p.next = null;
+        head.next = null;
         while (q != null){
                 int val = q.val;
                 ListNode cur = pre;
@@ -450,4 +449,33 @@ public class ListOperate {
         }
         return pre.next;
     }
+
+    public ListNode selectSortList(ListNode head) {
+        if (head == null || head.next ==  null){
+            return head;
+        }
+        ListNode pre = new ListNode(-1);
+        pre.next = head;
+        ListNode p = pre;
+        while (p.next != null){
+            //最小节点
+            ListNode minNode = p.next;
+            ListNode q = p.next.next;
+            while (q != null){
+                //找到最小的节点
+                if (q.val < minNode.val){
+                    minNode = q;
+                }
+                q = q.next;
+            }
+            //和最小节点的值进行交换
+            int tempVal = p.next.val;
+            p.next.val = minNode.val;
+            minNode.val = tempVal;
+            p = p.next;
+        }
+        head = pre.next;
+        return head;
+    }
+
 }

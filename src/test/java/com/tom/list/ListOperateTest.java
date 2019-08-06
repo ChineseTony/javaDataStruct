@@ -61,7 +61,18 @@ public class ListOperateTest {
         int[] nums = new int[]{6,9,2,3,8};
         listOperate = new ListOperate();
         head = new ListNode(nums);
+        //暂时有问题 进行2次排序后 打印的不是 2->3->6->8->9
         System.out.println(listOperate.insertsortList(head).toString());
+        System.out.println(listOperate.insertsortList(head).toString());
+    }
+
+    @Test
+    public void selectSortList(){
+        int[] nums = new int[]{6,9,2,3,8};
+        listOperate = new ListOperate();
+        head = new ListNode(nums);
+        assertEquals(listOperate.selectSortList(head).toString(),
+                "2->3->6->8->9->NULL");
 
     }
 
