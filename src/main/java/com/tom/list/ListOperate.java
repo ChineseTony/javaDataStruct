@@ -2,7 +2,6 @@ package com.tom.list;
 
 
 import com.tom.util.ListNode;
-import javafx.animation.PauseTransitionBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -421,4 +420,34 @@ public class ListOperate {
 
     }
 
+    /**
+     *  链表的插入排序
+     * @param head
+     * @return
+     */
+    public ListNode insertsortList(ListNode head) {
+        if (head == null || head.next ==  null){
+            return head;
+        }
+        ListNode pre = new ListNode(-1);
+        pre.next = head;
+        ListNode q = head.next;
+        ListNode p = head;
+        p.next = null;
+        while (q != null){
+                int val = q.val;
+                ListNode cur = pre;
+                while (cur.next != null){
+                    if (cur.next.val > val){
+                        break;
+                    }
+                    cur = cur.next;
+                }
+                ListNode temp = q.next;
+                q.next = cur.next;
+                cur.next = q;
+                q = temp;
+        }
+        return pre.next;
+    }
 }

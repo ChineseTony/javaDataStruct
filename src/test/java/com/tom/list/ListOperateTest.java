@@ -55,4 +55,15 @@ public class ListOperateTest {
                 "1->2->3->NULL");
 
     }
+
+    @Test
+    public void sortList(){
+        int[] nums = new int[]{6,9,2,3,8};
+        listOperate = new ListOperate();
+        head = new ListNode(nums);
+        System.out.println(listOperate.insertsortList(head).toString());
+
+    }
+
+
 }
