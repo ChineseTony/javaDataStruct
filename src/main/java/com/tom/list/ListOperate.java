@@ -293,7 +293,7 @@ public class ListOperate {
         }
         ListNode pre = new ListNode(-1);
         pre.next = head;
-        ListNode temp = head;
+        ListNode temp = pre;
         while (temp.next != null && temp.next.next != null){
             ListNode start = temp.next;
             ListNode end= temp.next.next;

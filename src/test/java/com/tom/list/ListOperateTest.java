@@ -98,4 +98,15 @@ public class ListOperateTest {
     }
 
 
+    @Test
+    public void splitListToParts1(){
+        int[] nums = new int[]{1,2,3,4,5,6,7,8};
+        listOperate = new ListOperate();
+        head = new ListNode(nums);
+        assertEquals(listOperate.swapPairs1(head).toString(),
+                "2->1->4->3->6->5->8->7->NULL");
+
+    }
+
+
 }
