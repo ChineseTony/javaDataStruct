@@ -86,5 +86,16 @@ public class ListOperateTest {
 
     }
 
+    @Test
+    public void splitListToParts(){
+        int[] nums = new int[]{1,2,3,4,5,6,7,8};
+        listOperate = new ListOperate();
+        head = new ListNode(nums);
+        ListNode[] listNodes = listOperate.splitListToParts(head,3);
+        for (ListNode node : listNodes){
+            System.out.println(node);
+        }
+    }
+
 
 }

@@ -513,4 +513,45 @@ public class ListOperate {
         return pre.next;
     }
 
+    //分隔链表
+    public ListNode[] splitListToParts(ListNode root, int k) {
+        if (root == null || k < 0){
+            return null;
+        }
+        ListNode[] nodes = new ListNode[k];
+        int length = 0;
+        ListNode cur = root;
+        while (cur != null){
+            cur = cur.next;
+            length++;
+        }
+        cur = root;
+        //分割长度大于 链表长度
+        if (k >= length){
+            for (int i = 0; i < length; i++) {
+                nodes[i]  = new ListNode(cur.val);
+                cur = cur.next;
+            }
+        }else {
+            int width = length / k;
+            int big = length % k;
+            int[] nums = new int[k];
+            for (int i = 0; i < k; i++) {
+                nums[i] = big-- > 0 ? width+1 : width;
+            }
+            for (int i = 0; i < k; i++) {
+                int num = nums[i];
+                nodes[i] = cur;
+                while (--num  > 0){
+                    cur = cur.next;
+                }
+                //从链表中断开元素
+                ListNode temp = cur.next;
+                cur.next = null;
+                cur = temp;
+            }
+        }
+        return nodes;
+    }
+
 }
