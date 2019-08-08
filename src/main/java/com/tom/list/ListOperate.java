@@ -218,17 +218,24 @@ public class ListOperate {
         if(head == null || head.next == null){
             return head;
         }
+        //虚拟一个头结点
         ListNode tmp = new ListNode(-1);
         tmp.next = head;
         ListNode pre = head;
         ListNode cur = head.next;
         while (cur != null){
+            //如果有相同值 删除
             if (pre.val == cur.val){
+                //暂存当前节点
                 ListNode node = cur;
+                //删除当前节点
                 pre.next = node.next;
+                //cur 往后移动
                 cur = node.next;
+                //从链表中断开
                 node.next = null;
             }else {
+                //往后移动
                 pre = cur;
                 cur = pre.next;
             }
@@ -553,5 +560,15 @@ public class ListOperate {
         }
         return nodes;
     }
+
+
+    //leetcode 1009
+    public int[] nextLargerNodes(ListNode head) {
+        int[] i = new int[10];
+        return i;
+    }
+
+
+
 
 }

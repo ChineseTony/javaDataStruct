@@ -1,5 +1,7 @@
 package com.tom.stack;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -40,9 +42,33 @@ public class Valid {
         return stack.isEmpty() ;
     }
 
+    public static boolean isValid2(String s) {
+        char[] chars = s.toCharArray();
+        Stack<Character> stack = new Stack<>();
+        Map<Character,Character> map = new HashMap<>(16);
+        map.put('}','{');
+        map.put(')','(');
+        map.put(']','[');
+
+        for (int i = 0; i < chars.length; i++) {
+            Character c = chars[i];
+            if (!map.containsKey(c)) {
+                //左括号 入栈
+                stack.push(c);
+            } else {
+                //栈为空 或者 括号不匹配
+                if (stack.isEmpty() || stack.pop().charValue() != map.get(c)){
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty() ;
+    }
+
     public static void main(String[] args) {
 
         String s = "{}[]";
         System.out.println(isValid(s));
+        System.out.println(isValid2(s));
     }
 }
