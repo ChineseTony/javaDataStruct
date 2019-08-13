@@ -108,5 +108,25 @@ public class ListOperateTest {
 
     }
 
+    @Test
+    public void reversePart(){
+        int[] nums = new int[]{1,2,3,4,5,6,7,8};
+        listOperate = new ListOperate();
+        head = new ListNode(nums);
+        assertEquals(listOperate.reversePart(head,1,5).toString(),
+                "5->4->3->2->1->6->7->8->NULL");
+
+    }
+
+    @Test
+    public void reversePart2(){
+        int[] nums = new int[]{1,2,3,4,5,6,7,8};
+        listOperate = new ListOperate();
+        head = new ListNode(nums);
+        assertEquals(listOperate.reversePart(head,2,5).toString(),
+                "1->5->4->3->2->6->7->8->NULL");
+
+    }
+
 
 }

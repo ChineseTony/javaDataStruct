@@ -3,10 +3,7 @@ package com.tom.list;
 
 import com.tom.util.ListNode;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author WangTao
@@ -566,6 +563,84 @@ public class ListOperate {
     public int[] nextLargerNodes(ListNode head) {
         int[] i = new int[10];
         return i;
+    }
+
+
+    //leetcode 867给定一个带有头结点 head 的非空单链表，返回链表的中间结点。
+    //如果有两个中间结点，则返回第二个中间结点。
+
+    public ListNode middleNode(ListNode head) {
+        //第一种方法
+  /*      ListNode[] A = new ListNode[100];
+        int t = 0;
+        while (head.next != null) {
+            A[t++] = head;
+            head = head.next;
+        }
+        return A[t / 2];*/
+
+        //快慢指针法
+        if(head == null || head.next == null){
+            return head;
+        }
+        if (head.next.next == null){
+            return head.next;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+        return slow;
+
+    }
+
+
+    /**
+     * 反转部分链表
+     * @param head
+     * @param from
+     * @param to
+     * @return
+     */
+    public ListNode reversePart(ListNode head,int from, int to){
+        int length = 0;
+        //虚拟一个头结点
+        ListNode pre = new ListNode(-1);
+        pre.next = head;
+        ListNode node1 = pre;
+
+        ListNode fpre = null;
+        ListNode tPos = null;
+        while (node1 != null){
+
+            fpre = length == from - 1 ? node1 : fpre;
+            tPos = length == to+1 ? node1 : tPos;
+
+            node1 = node1.next;
+            length++;
+        }
+        if (from > to || from <1 || to > length){
+            return head;
+        }
+
+        //反转链表包含头节点
+        node1 = fpre == null ? head : fpre.next;
+        ListNode node2 = node1.next;
+        node1.next = tPos;
+        while (node2 != tPos){
+            ListNode next = node2.next;
+            node2.next = node1;
+            node1 = node2;
+            node2 = next;
+        }
+        if (fpre != null){
+            fpre.next = node1;
+            return pre.next;
+        }
+        return node1;
     }
 
 
