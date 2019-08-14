@@ -643,6 +643,155 @@ public class ListOperate {
         return node1;
     }
 
+    /**
+     * 链表求和
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addLists(ListNode l1, ListNode l2) {
+        Stack<ListNode> s1 = new Stack<>();
+        Stack<ListNode> s2 = new Stack<>();
+        ListNode cur = l1;
+        while (cur != null){
+            s1.push(cur);
+            cur = cur.next;
+        }
+        cur = l2;
+        while (cur != null){
+            s2.push(cur);
+            cur = cur.next;
+        }
+        int n = 0;
+        //进位
+        int ca = 0;
+        int n1 = 0;
+        int n2 = 0;
+        ListNode node = null;
+        ListNode pre = null;
+        while (!s1.isEmpty() || !s2.isEmpty()){
+            n1 = s1.isEmpty() ? 0 : s1.pop().val;
+            n2 = s2.isEmpty() ? 0 : s2.pop().val;
+            n = n1 + n2 + ca;
+            pre = node;
+            node = new ListNode(n % 10);
+            node.next = pre;
+            ca = n / 10;
+        }
+        if (ca == 1){
+            pre = node;
+            node = new ListNode(1);
+            node.next = pre;
+        }
+        return node;
+    }
+
+    public ListNode addTwoNumbers(ListNode l1,ListNode l2){
+        ListNode pre = new ListNode(-1);
+        ListNode cur = pre;
+        ListNode p = l1;
+        ListNode q = l2;
+        int carry = 0;
+        int n1 = 0;
+        int n2 = 0;
+        while (p != null || q != null){
+            n1 = p == null ? 0 : p.val;
+            n2 = q == null ? 0 : q.val;
+            int sum = n1 + n2 + carry;
+            cur.next = new ListNode(sum%10);
+            cur = cur.next;
+            carry = sum / 10;
+            if (p != null){
+                p = p.next;
+            }
+            if (q != null){
+                q = q.next;
+            }
+
+        }
+        if (carry == 1){
+          cur.next = new ListNode(1);
+        }
+        return pre.next;
+    }
+
+    public ListNode plusOne(ListNode head) {
+        if(head == null){
+            return head;
+        }
+        Stack<ListNode> stack = new Stack<>();
+        ListNode cur = head;
+        while (cur != null){
+            stack.push(cur);
+            cur = cur.next;
+        }
+        int carry = 1;
+        //carry没有进位直接跳出循环
+        while (!stack.isEmpty() && carry != 0){
+            ListNode t  =  stack.pop();
+            int sum = t.val + carry;
+            t.val = sum % 10;
+            //进位
+            carry = sum / 10;
+        }
+        //有进位
+        if (carry == 1) {
+            ListNode newHead = new ListNode(1);
+            newHead.next = head;
+            head = newHead;
+        }
+        return head;
+    }
+
+    public ListNode partitionList(ListNode head,int pivot){
+        if (head == null){
+            return head;
+        }
+        int length = 0;
+        ListNode cur = head;
+        while (cur != null){
+            length++;
+            cur = cur.next;
+        }
+        cur = head;
+        ListNode[] arr = new ListNode[length];
+        int i;
+        for (i = 0; i < length; i++) {
+            arr[i] = cur;
+            cur = cur.next;
+        }
+        partition(arr,pivot);
+        for (i = 1; i < length; i++) {
+            arr[i-1].next = arr[i];
+        }
+        arr[i-1].next = null;
+        return arr[0];
+    }
+
+
+    private void partition(ListNode[] arr,int pivot){
+        int low = -1;
+        int height = arr.length;
+        int index = 0;
+        while (index != height){
+            if (arr[index].val < pivot){
+                swap(arr,++low,index++);
+            }else if (arr[index].val == pivot){
+                index++;
+            }else {
+                swap(arr,--height,index);
+            }
+        }
+    }
+
+
+    private void swap(ListNode[] arr,int i,int j){
+        ListNode temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+
 
 
 

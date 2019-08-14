@@ -129,4 +129,44 @@ public class ListOperateTest {
     }
 
 
+    @Test
+    public void plusOne(){
+        int[] nums = new int[]{9,8,7,6,5,4,3,2,1,0};
+        listOperate = new ListOperate();
+        head = new ListNode(nums);
+        assertEquals(listOperate.plusOne(head).toString(),
+                "9->8->7->6->5->4->3->2->1->1->NULL");
+
+    }
+
+
+    @Test
+    public void partitionList(){
+        int[] nums = new int[]{9,8,7,6,5,4,3,2,1,0};
+        listOperate = new ListOperate();
+        head = new ListNode(nums);
+        System.out.println(listOperate.partitionList(head,5));
+
+
+    }
+
+
+    @Test
+    public void addTwoNumbers(){
+        int[] nums1 = new int[]{2,4,3};
+        int[] nums2 = new int[]{5,6,4};
+        listOperate = new ListOperate();
+        head = new ListNode(nums1);
+        head2 = new ListNode(nums2);
+        assertEquals(listOperate.addTwoNumbers(head,head2).toString(),
+                "7->0->8->NULL");
+
+
+    }
+
+
+
+
+
+
 }
