@@ -1,8 +1,6 @@
 package com.tom.stack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author WangTao
@@ -65,10 +63,60 @@ public class Valid {
         return stack.isEmpty() ;
     }
 
+
+    /**
+     * 834. 移除多余字符
+     * 中文
+     * English
+     * 给定一个字符串s由小写字符组成，移除多余的字符使得每个字符只出现一次。
+     * 你必须保证结果是字典序是最小的合法字符串。
+     *
+     * 样例
+     * 样例1
+     *输入: s = "cbacdcbc"
+     * 输出: "acdb"
+     *
+     * 字典序 暂时还没有理解
+     *
+     * @param s
+     * @return
+     */
+
+    public static String removeDuplicateLetters(String s) {
+        // write your code here
+        if(s==null || s.length()<=0) {
+            return "";
+        }else{
+            int[] count=new int[26];
+            for(int i=0;i<s.length();i++) {
+                count[s.charAt(i) - 'a']++;
+            }
+            int pos=0;
+            for(int i=0;i<s.length();i++)
+            {
+                if(s.charAt(i)<s.charAt(pos)) {
+                    pos = i;
+                }
+                count[s.charAt(i)-'a']--;
+                if(count[s.charAt(i)-'a']==0) {
+                    break;
+                }
+            }
+//            System.out.println(s.charAt(pos)+"     "+s.substring(pos+1).replace(""+s.charAt(pos),""));
+            String res = s.charAt(pos)+
+                    removeDuplicateLetters(
+                            s.substring(pos+1).replace(""+s.charAt(pos),
+                                    ""));
+            return res;
+        }
+    }
+
     public static void main(String[] args) {
 
-        String s = "{}[]";
-        System.out.println(isValid(s));
-        System.out.println(isValid2(s));
+//        String s = "{}[]";
+//        System.out.println(isValid(s));
+//        System.out.println(isValid2(s));
+        //acdb   abcd
+        System.out.println(removeDuplicateLetters("cbacdcbc"));
     }
 }

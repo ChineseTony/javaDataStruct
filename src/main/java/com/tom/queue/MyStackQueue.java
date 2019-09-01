@@ -39,7 +39,15 @@ public class MyStackQueue<T> implements MyQueue<T> {
     @Override
     public T getFront() {
         //暂时有问题
-        return null;
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        if (stack2.size() == 0){
+            throw new RuntimeException("Queue is empty");
+        }
+        return stack2.peek();
     }
 
     @Override
