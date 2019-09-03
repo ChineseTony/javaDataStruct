@@ -26,6 +26,7 @@ public class MinStack {
 
     public void push(int x) {
         stack.push(x);
+        //minStack 为空 或者 minStack 栈顶的值小于 x
         if (minStack.isEmpty() || minStack.peek() >= x){
             minStack.push(x);
         }
