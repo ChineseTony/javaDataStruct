@@ -5,6 +5,7 @@ package com.tom.sort;
  *
  * 快速排序主要思想 分而治之 核心方法partition
  */
+@SuppressWarnings("unchecked")
 public class QuickSort<S extends Comparable> implements Sort<S> {
 
 
@@ -26,15 +27,18 @@ public class QuickSort<S extends Comparable> implements Sort<S> {
     private int  partition(S[] t,int low,int high){
         S t1 = t[low];
         while (low < high){
+            //找到比t[low] 小的数
             while (t1.compareTo(t[high]) < 0 && low < high){
                 high--;
             }
+            // 交换位置
             swap(t,low,high);
             while (t1.compareTo(t[low]) >0 && low < high){
                 low++;
             }
             swap(t,low,high);
         }
+        //将t1插入到合适的位置
         t[low] = t1;
         return low;
     }
