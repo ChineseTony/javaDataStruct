@@ -71,4 +71,9 @@ public class BinarySearchTreeTest {
         assertEquals(tree.getLenght(),6);
         tree.inderBSF();
     }
+
+    @Test
+    public void getCommonParent(){
+        assertEquals(tree.getCommonParent(97,99),"a3");
+    }
 }

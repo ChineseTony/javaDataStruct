@@ -55,6 +55,31 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         return getMax(root);
     }
 
+    public Value getCommonParent(Key u,Key v){
+        return getCommonParent(root,u,v);
+    }
+
+
+    //求二分搜索树的最近公共祖先元素
+    private Value getCommonParent(Node root,Key u,Key v){
+        if (root == null){
+            return null;
+        }
+        while(root!=null){
+            Key k = root.key;
+            //p.q都大于root
+            if(u.compareTo(k) > 0 && v.compareTo(k)>0){
+                root=root.right;
+            }else if(u.compareTo(k) < 0 && v.compareTo(k)<0){
+                root=root.left;
+            }
+            else{
+                return root.value;
+            }
+        }
+        return null;
+    }
+
     public Value removeMin(){
         if (lenght == 0){
             throw new RuntimeException("tree is empty");
