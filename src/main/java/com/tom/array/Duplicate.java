@@ -26,7 +26,6 @@ public class Duplicate {
             while (arr[i] != i){
                 if (arr[i] == arr[arr[i]]){
                     //重复的数组
-                    System.out.println(arr[i]);
                     return true;
                 }
                 swap(arr,arr[i],i);
@@ -41,8 +40,51 @@ public class Duplicate {
         arr[j] = temp;
     }
 
+    // arr数组  所有的元素值都必须在[1,length-1]之间
+    public static int getDuplicate(int[] arr) {
+        if (arr == null || arr.length <= 0) {
+            return -1;
+        }
+        int length = arr.length;
+        int start = 1;
+        int end = length-1;
+        while (end >= start){
+            int mid = ((end-start)>>1) + start;
+            int count = countRange(arr,start,mid);
+            if (end == start){
+                if (count > 1){
+                    return start;
+                }else {
+                    break;
+                }
+            }
+            //重复元素在左边
+            if (count > (mid-start+1)){
+                end = mid;
+            }else {
+                start = mid+1;
+            }
+
+        }
+        return -1;
+    }
+
+    private static int countRange(int[] arr,int start,int end){
+        if (arr == null || arr.length <= 0) {
+            return 0;
+        }
+        int count = 0;
+        for (int i : arr) {
+            if (i >= start && i <= end){
+                count++;
+            }
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         int[] arr = new int[]{1, 2, 2, 3, 4};
         System.out.println(Duplicate.duplicate(arr));
+        System.out.println(Duplicate.getDuplicate(arr));
     }
 }
