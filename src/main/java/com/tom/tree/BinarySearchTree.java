@@ -387,6 +387,74 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         return node;
     }
 
+    public List<Node> findFarestLeaf(){
+        List<Node> path = new ArrayList<>();
+        List<Node> longestPath = findFarestLeaf(root, path);
+        return longestPath;
+    }
+
+    private List<Node> findFarestLeaf(Node root,List<Node> path){
+        if (root == null){
+            return path;
+        }
+        List<Node> curr = new ArrayList<>();
+        curr.addAll(path);
+        curr.add(root);
+        List<Node> left = findFarestLeaf(root.left, path);
+        List<Node> right = findFarestLeaf(root.right, path);
+        return left.size() > right.size() ? left : right;
+    }
+
+    public boolean iscousins(Key x,Key y){
+        return iscousins(this.root,x,y);
+    }
+
+    //判读 x和y是不是 堂兄弟
+    private boolean iscousins(Node root,Key x,Key y){
+        if (root == null){
+            return false;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            boolean xExist = false;
+            boolean yExist = false;
+            for (int i = 0; i < size; i++) {
+                Node cur = queue.poll();
+                assert cur != null;
+                if (x.equals(cur.key)){
+                    xExist = true;
+                }
+                if (y.equals(cur.key)){
+                    yExist = true;
+                }
+                //互为兄弟节点
+                if (cur.left != null && cur.right != null){
+                    if (cur.left.key.equals(x) && cur.right.key.equals(y)){
+                        return false;
+                    }
+                    if (cur.left.key.equals(y) && cur.right.key.equals(x)){
+                        return false;
+                    }
+                }
+                if (cur.left != null){
+                    queue.offer(cur.left);
+                }
+                if (cur.right != null){
+                    queue.offer(cur.right);
+                }
+//                节点在同一层 并且不是兄弟节点
+                if (xExist && yExist){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+
 
 
 
