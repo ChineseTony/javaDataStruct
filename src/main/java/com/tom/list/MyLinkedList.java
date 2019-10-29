@@ -59,6 +59,33 @@ public class MyLinkedList<E> {
         size++;
     }
 
+    public E findKToTail(int k){
+        return findKToTail(head,k);
+    }
+
+    //找倒数第k个节点 用双指针
+    private E findKToTail(Node head,int k){
+        if (head == null || k <= 0){
+            return null;
+        }
+        Node h=head;
+        Node p = null;
+        for (int i = 0; i < k-1; i++) {
+            if (h.next != null){
+                h = h.next;
+            }else {
+                return null;
+            }
+        }
+        p = head;
+        while (h.next != null){
+            h = h.next;
+            //同步往后移动
+            p = p.next;
+        }
+        return p.e;
+    }
+
     public E remove(int index){
         if (index < 0 || index >= size){
             throw new IllegalArgumentException("delete index error");
