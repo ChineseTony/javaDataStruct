@@ -132,6 +132,58 @@ public class BinarySearchTree<Key extends Comparable,Value> {
 
 
 
+    //
+    private Node pre=null;
+    //保存最后一个节点
+    private Node lastLeft=null;
+    /**
+     * 将二分搜索树转换为双向链表
+     * @param root
+     * @return
+     */
+    private Node convert(Node root) {
+        if(root==null){
+            return null;
+        }
+        convert(root.left);
+        //改变指针
+        root.left=pre;
+        if(pre!=null){
+            pre.right=root;
+        }
+        //保存之前的节点
+        pre=root;
+        lastLeft=lastLeft==null?root:lastLeft;
+        convert(root.right);
+        //返回值
+        return lastLeft;
+    }
+
+    public Node convertToList(){
+        if (root == null){
+            return null;
+        }
+        Node temp = convert(root);
+        while (temp != null && temp.left != null){
+            temp = temp.left;
+        }
+        //返回第一个节点
+        return temp;
+    }
+
+    //遍历转换之后的双向链表
+    public void travle(){
+        Node first = convertToList();
+        while (first!=null){
+            System.out.print(first.value+"--->");
+            first = first.right;
+        }
+        System.out.println();
+    }
+
+
+
+
 
     //中序遍历递归调用
     public void order(){

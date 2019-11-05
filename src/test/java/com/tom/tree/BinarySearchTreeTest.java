@@ -76,4 +76,11 @@ public class BinarySearchTreeTest {
     public void getCommonParent(){
         assertEquals(tree.getCommonParent(97,99),"a3");
     }
+
+    @Test
+    public void convertToList(){
+        //输出值 a0--->a1--->a5--->a6--->a3--->a4--->a2--->
+        tree.travle();
+
+    }
 }
