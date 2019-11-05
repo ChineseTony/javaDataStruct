@@ -98,6 +98,40 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         return max;
     }
 
+    //判断keys 是不是二分搜索树的后序遍历
+    public  boolean veryfiySquenceofBST(Key[] keys){
+        if (keys == null){
+            return false;
+        }
+        if (keys.length == 1){
+            return true;
+        }
+        return veryfiySquenceofBST(keys,0,keys.length-1);
+    }
+
+
+    // 判断后序遍历数组是不是有二分搜索树
+    public  boolean veryfiySquenceofBST(Key[] keys,int start,int end){
+        if(start >= end){
+            return true;
+        }
+        int i = start;
+        //招到比根节点大的数
+        while(keys[i].compareTo(keys[end]) < 0){
+            ++i;
+        }
+        //判断所有右子树是不是大于 根节点
+        for(int j=i;j<end;j++){
+            if(keys[j].compareTo(keys[end])<0){
+                return false;
+            }
+        }
+        //递归调用 左右子树
+        return veryfiySquenceofBST(keys,start,i-1) && veryfiySquenceofBST(keys,i,end-1);
+    }
+
+
+
 
     //中序遍历递归调用
     public void order(){
@@ -218,6 +252,81 @@ public class BinarySearchTree<Key extends Comparable,Value> {
 
     public void remove(Key key){
         root = remove(root,key);
+    }
+
+    //之字形遍历树
+    public void zTravle(){
+        zTravle(root);
+    }
+
+    private void zTravle(Node root){
+        if (root == null){
+            return;
+        }
+        Stack<Node>[] stacks = new Stack[2];
+        int cur = 0;
+        int next = 1;
+        stacks[cur].push(root);
+        while (!stacks[cur].isEmpty() || !stacks[next].isEmpty()){
+            Node tmp = stacks[cur].pop();
+            System.out.println(tmp.value);
+            if (cur == 0){
+                //偶数层是从右往左 根据栈的特性
+                if (tmp.left != null){
+                    stacks[next].push(tmp.left);
+                }
+                if (tmp.right != null){
+                    stacks[next].push(tmp.right);
+                }
+            }else {
+                if (tmp.right != null){
+                    stacks[next].push(tmp.right);
+                }
+                if (tmp.left != null){
+                    stacks[next].push(tmp.left);
+                }
+            }
+            //当前栈为空 互换
+            if (stacks[cur].isEmpty()){
+                cur = 1 - cur;
+                next = 1 - next;
+            }
+
+        }
+
+    }
+
+
+    //找到从根到叶子节点值为expectedSum 输出出来
+    public void findPath(int expectedSum){
+        if (root == null){
+            return;
+        }
+        int currentSum=0;
+        List<Integer> list = new ArrayList<>();
+        findPath(root,list,currentSum,expectedSum);
+    }
+
+    private void findPath(Node root,List path,int currentSum,int expectedSum){
+//        currentSum += root.value;
+        boolean isLeaf = root.left == null && root.right == null;
+        //是叶子节点 并且 根到叶子节点的值和expectedSum 相等
+        if (currentSum == expectedSum && isLeaf){
+//            打印
+            for (Object o:path) {
+                System.out.print(o+"\t");
+            }
+            System.out.println();
+        }
+        if (root.left != null){
+            findPath(root.left,path,currentSum,expectedSum);
+        }
+        if (root.right != null){
+            findPath(root.right,path,currentSum,expectedSum);
+        }
+        //回溯删除最后一个元素
+        path.remove(path.size()-1);
+
     }
 
 
@@ -452,6 +561,38 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         }
         return false;
 
+    }
+
+    //判断tree1是不是tree2的子结构
+    public boolean HasSubTree(Node tree1,Node tree2){
+        boolean result = false;
+        if (tree1 != null && tree2 != null){
+            if (tree1.value == tree2.value){
+                result = Tree1HavaTree2(tree1,tree2);
+            }
+            if (!result){
+                HasSubTree(tree1.left,tree2);
+            }
+            if (!result){
+                HasSubTree(tree2.left,tree2);
+            }
+        }
+        return result;
+    }
+
+
+    private boolean Tree1HavaTree2(Node root1,Node root2){
+        if (root2 == null){
+            return true;
+        }
+        if (root1 == null){
+            return false;
+        }
+        if (root1.value != root2.value){
+            return false;
+        }
+        return Tree1HavaTree2(root1.left,root2.left)
+                && Tree1HavaTree2(root2.right,root2.right);
     }
 
 

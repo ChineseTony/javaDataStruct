@@ -95,6 +95,7 @@ public class ListOperate {
         if (head == null || head.next == null){
             return head;
         }
+        //reveseList(head.next) 相当一个已经两两交换之后的节点
         ListNode p = reverseList(head.next);
         head.next.next = head;
         head.next = null;

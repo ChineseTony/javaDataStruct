@@ -54,7 +54,6 @@ public class MatcherUtil {
     }
 
     public static void main(String[] args) {
-        //暂时有问题 "",".*"
         String str ="abc";
         String pattern = "a.c";
         System.out.println(MatcherUtil.match(str,pattern));
