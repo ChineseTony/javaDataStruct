@@ -138,23 +138,24 @@ public class BinarySearchTree<Key extends Comparable,Value> {
     private Node lastLeft=null;
     /**
      * 将二分搜索树转换为双向链表
-     * @param root
+     * @param node
      * @return
      */
-    private Node convert(Node root) {
-        if(root==null){
+    private Node convert(Node node) {
+        if(node==null){
             return null;
         }
-        convert(root.left);
+        convert(node.left);
         //改变指针
-        root.left=pre;
+        node.left=pre;
         if(pre!=null){
-            pre.right=root;
+            pre.right=node;
         }
         //保存之前的节点
-        pre=root;
-        lastLeft=lastLeft==null?root:lastLeft;
-        convert(root.right);
+        pre=node;
+        //保存最后一个节点
+        lastLeft=lastLeft==null?node:lastLeft;
+        convert(node.right);
         //返回值
         return lastLeft;
     }
