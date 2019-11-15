@@ -357,14 +357,19 @@ public class BinarySearchTree<Key extends Comparable,Value> {
         }
         int currentSum=0;
         List<Integer> list = new ArrayList<>();
-        findPath(root,list,currentSum,expectedSum);
+        List<List<Integer>> lists = new ArrayList<>();
+        findPath(root,list,lists,currentSum,expectedSum);
     }
 
-    private void findPath(Node root,List path,int currentSum,int expectedSum){
+    private void findPath(Node root,List path,List<List<Integer>> lists
+            ,int currentSum,int expectedSum){
 //        currentSum += root.value;
         boolean isLeaf = root.left == null && root.right == null;
+        //将value添加到Node中
+        path.add(root.value);
         //是叶子节点 并且 根到叶子节点的值和expectedSum 相等
         if (currentSum == expectedSum && isLeaf){
+            lists.add(new ArrayList<>(path));
 //            打印
             for (Object o:path) {
                 System.out.print(o+"\t");
@@ -372,10 +377,10 @@ public class BinarySearchTree<Key extends Comparable,Value> {
             System.out.println();
         }
         if (root.left != null){
-            findPath(root.left,path,currentSum,expectedSum);
+            findPath(root.left,path,lists,currentSum,expectedSum);
         }
         if (root.right != null){
-            findPath(root.right,path,currentSum,expectedSum);
+            findPath(root.right,path,lists,currentSum,expectedSum);
         }
         //回溯删除最后一个元素
         path.remove(path.size()-1);

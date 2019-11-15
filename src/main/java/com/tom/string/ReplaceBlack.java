@@ -39,8 +39,35 @@ public class ReplaceBlack {
 
     }
 
+    //最长不重复子串的长度
+    public static int longestSubsting(String s){
+        int curLength=0;
+        int maxLength=0;
+        int[] position = new int[26];
+        for (int i = 0; i < 26; i++) {
+            position[i]=-1;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            int preIndex = position[s.charAt(i)-'a'];
+            if (preIndex <0 || i-preIndex > curLength){
+                curLength++;
+            }else {
+                if (curLength>maxLength){
+                    maxLength=curLength;
+                }
+                curLength=i-preIndex;
+            }
+            position[s.charAt(i)-'a']=i;
+        }
+        if (curLength > maxLength){
+            maxLength=curLength;
+        }
+        return maxLength;
+    }
+
     public static void main(String[] args) {
         String s = "I am Student.";
         System.out.println(ReplaceBlack.replaceBlack(s));
+        System.out.println(ReplaceBlack.longestSubsting("abcda"));
     }
 }
