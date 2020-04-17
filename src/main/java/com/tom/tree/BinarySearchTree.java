@@ -70,6 +70,7 @@ public class BinarySearchTree<Key extends Comparable,Value> {
             //p.q都大于root
             if(u.compareTo(k) > 0 && v.compareTo(k)>0){
                 root=root.right;
+                // u v 都小于 root
             }else if(u.compareTo(k) < 0 && v.compareTo(k)<0){
                 root=root.left;
             }

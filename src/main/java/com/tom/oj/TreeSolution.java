@@ -1,5 +1,6 @@
 package com.tom.oj;
 
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,31 @@ public class TreeSolution {
         }
         return t1.val == t2.val && isSymmetric2(t1.left,t2.right)
                 && isSymmetric2(t2.right,t1.left);
+    }
+
+
+    public int[] levelOrder(TreeNode root) {
+        if(root == null){
+            return new int[0];
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>(16);
+        List<Integer> list = new ArrayList<>(16);
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            TreeNode tmp = queue.poll();
+            list.add(tmp.val);
+            if (tmp.left != null){
+                queue.offer(tmp.left);
+            }
+            if (tmp.right != null){
+                queue.offer(tmp.right);
+            }
+        }
+        int[] result = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        return result;
     }
 
 
