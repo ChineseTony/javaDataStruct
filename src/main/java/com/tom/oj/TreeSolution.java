@@ -1,10 +1,8 @@
 package com.tom.oj;
 
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+
+import java.util.*;
 
 /**
  * @author WangTao
@@ -124,6 +122,44 @@ public class TreeSolution {
         return result;
     }
 
+
+    public List<List<Integer>> levelOrderBy(TreeNode root) {
+        List<List<Integer>> mylist = new ArrayList<>();
+        if(root == null){
+            return mylist;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            List<Integer> tmp = new ArrayList<>();
+            for(int i = queue.size(); i > 0; i--) {
+                TreeNode node = queue.poll();
+                tmp.add(node.val);
+                if(node.left != null) {
+                    queue.add(node.left);
+                }
+                if(node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+//            之字型打印
+            if(mylist.size() % 2 == 1) {
+                Collections.reverse(tmp);
+            }
+            mylist.add(tmp);
+        }
+        return mylist;
+    }
+
+    public TreeNode mirrorTree(TreeNode root) {
+        if(root == null) {
+            return null;
+        }
+        TreeNode tmp = root.left;
+        root.left = mirrorTree(root.right);
+        root.right = mirrorTree(tmp);
+        return root;
+    }
 
 
     public class TreeNode {
