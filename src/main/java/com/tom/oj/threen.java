@@ -9,6 +9,27 @@ import java.util.*;
 public class threen {
 
 
+    public static void merge(int[] A, int m, int[] B, int n) {
+        if(n <= 0){
+            return;
+        }
+        int index = m + n - 1;
+        int p = m - 1;
+        int q = n - 1;
+        while (p >= 0 && q >= 0){
+            if (A[p] >= B[q]){
+                A[index--] = A[p--];
+            }else {
+                A[index--] = B[q--];
+            }
+        }
+        while (q >= 0){
+            A[index--] = B[q--];
+        }
+
+    }
+
+
     public static List<Integer> getAll(int i){
         List<Integer> list = new ArrayList<>();
         while (i > 1){
@@ -24,7 +45,7 @@ public class threen {
 
 
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
+        /*Scanner s = new Scanner(System.in);
         int i = s.nextInt();
         int[] arr = new int[i];
         for (int j = 0; j < i; j++) {
@@ -54,7 +75,14 @@ public class threen {
                 System.out.print(" ");
             }
         }
-        s.close();
+        s.close();*/
+        int[] p = {4,0,0,0,0,0};
+        int[] q = {1,2,3,5,6};
+        merge(p,1,q,5);
+        for(int i:p){
+            System.out.println(i);
+        }
+
 
     }
 }

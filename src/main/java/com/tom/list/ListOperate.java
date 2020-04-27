@@ -41,6 +41,28 @@ public class ListOperate {
         return head;
     }
 
+    public ListNode removeDuplicateNodes(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        Set<Integer> set = new HashSet<>();
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode pre = dummyHead;
+        while (pre.next != null){
+            if (!set.contains(pre.next.val)){
+                set.add(pre.next.val);
+                pre = pre.next;
+            }else {
+                ListNode next = pre.next;
+                pre.next = next.next;
+                next = null;
+            }
+        }
+        return dummyHead.next;
+    }
+
+
     //没看懂
     public ListNode removeElements3(ListNode head, int val) {
         //删除开始节点值为val 的节点
@@ -701,6 +723,7 @@ public class ListOperate {
             int sum = n1 + n2 + carry;
             cur.next = new ListNode(sum%10);
             cur = cur.next;
+            //进位
             carry = sum / 10;
             if (p != null){
                 p = p.next;
