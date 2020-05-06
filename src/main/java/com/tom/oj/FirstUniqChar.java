@@ -1,7 +1,9 @@
 package com.tom.oj;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author WangTao
@@ -33,6 +35,23 @@ public class FirstUniqChar {
         return -1;
 
     }
+
+    public boolean isUnique(String astr) {
+        if (astr == null || astr.length() == 0){
+            return true;
+        }
+        char[] chars = astr.toCharArray();
+        Set<Character> set = new HashSet<>(16);
+        for (int i = 0; i < chars.length; i++) {
+            if (!set.contains(chars[i])){
+                set.add(chars[i]);
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static int firstUniqChar2(String s){
         Map<Character, Integer> count = new HashMap<>(26);
         int n = s.length();

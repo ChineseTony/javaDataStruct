@@ -40,6 +40,19 @@ public class CQueue<T> {
 
 
 
+    public T peek() {
+        if (!stack2.isEmpty()){
+            return stack2.peek();
+        }else {
+            while (!stack1.isEmpty()){
+                stack2.push(stack1.pop());
+            }
+            return stack2.peek();
+        }
+    }
+
+
+
     public static void main(String[] args) {
         CQueue<Integer> queue = new CQueue<>();
         for (int i = 0; i < 10; i++) {
