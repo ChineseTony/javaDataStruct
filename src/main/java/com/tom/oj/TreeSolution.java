@@ -2,6 +2,8 @@ package com.tom.oj;
 
 
 
+import com.tom.util.ListNode;
+
 import java.util.*;
 
 /**
@@ -118,6 +120,38 @@ public class TreeSolution {
         int[] result = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i);
+        }
+        return result;
+    }
+
+    public ListNode[] listOfDepth(TreeNode tree) {
+        if(tree == null){
+            return null;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        List<ListNode> listNodes = new ArrayList<>();
+        queue.offer(tree);
+        while (!queue.isEmpty()){
+            ListNode head = new ListNode(-1);
+            ListNode rear = head;
+            for(int i = queue.size(); i > 0; i--) {
+                TreeNode node = queue.poll();
+                ListNode tmp = new ListNode(node.val);
+                rear.next = tmp;
+                rear = rear.next;
+                if (node.left != null){
+                    queue.offer(node.left);
+                }
+                if (node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            listNodes.add(head.next);
+        }
+        int size = listNodes.size();
+        ListNode[] result = new ListNode[size];
+        for (int i = 0; i < size; i++) {
+            result[i] = listNodes.get(i);
         }
         return result;
     }
