@@ -1,16 +1,60 @@
 package com.tom.oj;
 
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
+
 
 /**
  * @author WangTao
  */
 public class Solu {
+
+
+
+    public int maxProduct(int[] nums) {
+       /* if(nums == null || nums.length == 0){
+            return -1;
+        }
+        int len = nums.length;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < len; i++) {
+            int tmp = nums[i];
+            if (tmp > max){
+                max = tmp;
+            }
+            for (int j = i+1; j < len; j++) {
+                tmp = tmp * nums[j];
+                if (tmp > max){
+                    max = tmp;
+                }
+            }
+
+        }
+        return max;*/
+
+        int n = nums.length;
+
+        int a = 1, b = 1;
+        int maxVal =  Integer.MIN_VALUE;
+
+        for (int i = 0; i < n; ++i) {
+            int aa = a * nums[i];
+            int bb = b * nums[i];
+
+            a = Math.min(nums[i], Math.min(aa, bb));
+            b = Math.max(nums[i], Math.max(aa, bb));
+
+            maxVal = Math.max(maxVal, b);
+        }
+        return maxVal;
+    }
+
+
+
+
+
 
 
     public int subtractProductAndSum(int n) {

@@ -371,6 +371,39 @@ public class ListOperate {
 
     }
 
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || k <= 1){
+            return head;
+        }
+
+        int length = 0;
+        ListNode cur = head;
+        while (cur != null){
+            cur = cur.next;
+            length++;
+        }
+        if(k > length){
+            return head;
+        }
+        ListNode result = new ListNode(-1);
+        result.next = head;
+        ListNode curr = head;
+        ListNode next;
+        ListNode prev = result;
+        for(int i = 0; i < length / k; i++) {
+            //翻转 k个链表
+            for(int j = 0; j < k - 1; j++) {
+                next = curr.next;
+                curr.next = next.next;
+                next.next = prev.next;
+                prev.next = next;
+            }
+            prev = curr;
+            curr = prev.next;
+        }
+        return result.next;
+    }
+
 
     //使用 快慢指针方法 判断链表是不是回文链表
     public boolean isPalindrome2(ListNode head) {
