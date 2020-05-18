@@ -1,9 +1,9 @@
 package com.tom.oj;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import sun.nio.cs.ext.MacArabic;
+
+import java.util.*;
 
 
 /**
@@ -52,6 +52,93 @@ public class Solu {
     }
 
 
+    public int[] replaceElements(int[] arr) {
+/*        if(arr == null || arr.length == 0){
+            return new int[0];
+        }
+        int len = arr.length;
+        int[] result = new int[len];
+        int index = 0;
+        for (int i = 0; i < len; i++) {
+            int max = Integer.MIN_VALUE;
+            for (int j = i+1; j < len ; j++) {
+                if(arr[j] > max){
+                    max = arr[j];
+                }
+            }
+            result[--index]= max;
+        }
+        result[index] = -1;
+        return result;*/
+        //从后往前遍历  max保存 左边最大的元素
+        int max = -1;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            int temp = arr[i];
+            arr[i] = max;
+            if (temp > max) {
+                max = temp;
+            }
+        }
+        return arr;
+
+    }
+
+
+
+    public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
+        int result = 0;
+        if(arr1 == null || arr1.length ==  0){
+            return result;
+        }
+        if(arr2 == null || arr2.length ==  0){
+            return result;
+        }
+        int len1 = arr1.length;
+        int len2 = arr2.length;
+        for (int i = 0; i < len1; i++) {
+            int tmp = arr1[i];
+            boolean flag = true;
+            for (int j = 0; j < len2; j++) {
+                if(Math.abs(tmp-arr2[j]) <= d){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                result++;
+            }
+        }
+        return result;
+    }
+
+
+    public int findLucky(int[] arr) {
+        if(arr == null || arr.length ==  0){
+            return -1;
+        }
+        Map<Integer,Integer> map = new HashMap<>();
+        int len = arr.length;
+        for (int i = 0; i < len; i++) {
+            if(!map.containsKey(arr[i])){
+                map.put(arr[i],1);
+            }else {
+                map.put(arr[i],map.get(arr[i])+1);
+            }
+        }
+        int result = -1;
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            int key = entry.getKey();
+            int val = entry.getValue();
+            if(key == val){
+                if (key > result){
+                    result = key;
+                }
+            }
+        }
+        return result;
+    }
+
+
 
 
 
@@ -67,6 +154,35 @@ public class Solu {
             n = n / 10;
         }
         return total - sum;
+
+    }
+
+    public static List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = left; i <= right;i++ ){
+            if (isZichuShu(i)){
+                result.add(i);
+            }
+        }
+        return result;
+
+    }
+
+    private static   boolean isZichuShu(int n) {
+        if(n < 10){
+            return true;
+        }
+        int tmp = n;
+        boolean flag = true;
+        while(n != 0){
+            int digit = n % 10;
+            if(digit == 0 || tmp % digit != 0){
+                flag = false;
+                break;
+            }
+            n = n / 10;
+        }
+        return flag;
 
     }
 
