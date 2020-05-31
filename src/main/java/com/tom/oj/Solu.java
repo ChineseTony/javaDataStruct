@@ -112,6 +112,150 @@ public class Solu {
     }
 
 
+    public static int[] smallerNumbersThanCurrent(int[] nums) {
+       /* if(nums == null || nums.length <= 0){
+            return new int[0];
+        }
+        int len = nums.length;
+        int[] result = new int[len];
+        int index = 0;
+        for (int i = 0; i < len; i++) {
+            int tmp = nums[i];
+            int count = 0;
+            for (int j = 0 ; j < len; j++) {
+                if(nums[j] < tmp && i != j){
+                    count++;
+                }
+            }
+            result[index++] = count;
+        }
+        return result;*/
+
+        int[] bucket = new int[101];
+        for(int i:nums) {
+            bucket[i]++;
+        }
+
+        //桶中间处理，积累前面的桶结果
+        for(int i=1;i<101;i++) {
+            bucket[i] += bucket[i - 1];
+        }
+
+        for(int i=0;i<nums.length;i++) {
+            nums[i] = nums[i] > 0 ? bucket[nums[i] - 1] : 0;
+        }
+
+        return nums;
+    }
+
+
+
+
+    public int lengthOfLongestSubstring(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+        int len = s.length();
+        Set<Character> set = new HashSet<>();
+        int left = 0,right = 0;
+        int result = 0;
+        while (left < len && right < len){
+            if (!set.contains(s.charAt(right))){
+                set.add(s.charAt(right));
+                right++;
+                result = Math.max(result,right-left);
+            }else {
+                set.remove(s.charAt(left));
+                left++;
+            }
+
+        }
+        return result;
+    }
+
+
+    public int lengthOfLongestSubstring2(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+        int len = s.length();
+        int[] chars = new int[256];
+        int left = 0;
+        int result = 0;
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(i);
+            left = Math.max(left,chars[c]);
+            result = Math.max(result,i-left+1);
+            chars[c] = i+1;
+        }
+
+        return result;
+    }
+
+
+
+    public boolean validPalindrome(String s) {
+        if(s ==null || s.length() <= 0){
+            return false;
+        }
+        int len = s.length();
+        if(len == 1){
+            return true;
+        }
+        int i =0,j=len-1;
+        while (i < j){
+            if(s.charAt(i) != s.charAt(j)){
+                return validString(s,i+1,j) || validString(s,i,j-1);
+            }
+            i++;
+            j--;
+        }
+        return true;
+
+    }
+
+
+    private boolean validString(String s,int i,int j){
+        while (i < j){
+            if(s.charAt(i) != s.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+
+
+    //滑动窗口最大值
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums == null || nums.length == 0){
+            return nums;
+        }
+        int len = nums.length;
+        int[] result = new int[len-k+1];
+        int j = 0;
+        //保存下标
+        Deque<Integer> queue = new ArrayDeque<>();
+        for (int i = 0; i < len; i++) {
+            //窗口超出k
+            if(!queue.isEmpty() &&  i - queue.peek() >= k){
+                queue.poll();
+            }
+            //删除窗口的最小值 不可能是最大值 所有移除
+            while(!queue.isEmpty() && nums[i] > nums[queue.peekLast()]) {
+                queue.pollLast();
+            }
+            queue.offer(i);
+            if(i >= k - 1) {
+                result[j++] = nums[queue.peek()];
+            }
+        }
+        return result;
+    }
+
+
+
     public int findLucky(int[] arr) {
         if(arr == null || arr.length ==  0){
             return -1;
@@ -398,11 +542,6 @@ public class Solu {
         return ans;
     }
 
-    public int maxSubArray(int[] nums) {
-
-        return -1;
-
-    }
 
     public static  int[][] findContinuousSequence(int target) {
         int[] arr = new int[target];
@@ -532,27 +671,318 @@ public class Solu {
         return sb.length() < s.length() ? sb.toString() : s;
     }
 
-    public static void main(String[] args) {
-//        String s ="aabccccca";
-//        System.out.println(compressString(s));
-//        int[][] arr = findContinuousSequence(9);
-//
-//
-//        for (int i = 0; i < arr.length; i++) {
-//            for (int j = 0; j < arr[i].length; j++) {
-//                System.out.print(arr[i][j]+"\t");
-//            }
-//            System.out.println();
+    public static int[][] transpose(int[][] A) {
+        if (A == null || A.length == 0) {
+            return A;
+        }
+        int R = A.length, C = A[0].length;
+        int[][] ans = new int[C][R];
+        for (int r = 0; r < R; ++r){
+            for (int c = 0; c < C; ++c) {
+                ans[c][r] = A[r][c];
+            }
+        }
+        return ans;
+    }
+
+    public int countNegatives(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+        int R = grid.length, C = grid[0].length;
+        int count = 0;
+        for (int r = 0; r < R; r++){
+            for (int c = 0; c < C; c++) {
+                if(grid[r][c] < 0){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public int countNegatives2(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+        int m = grid.length;
+        int count = 0;
+        for (int r = 0; r < m; r++){
+            int left = 0;
+            int n = grid[r].length;
+            int right = n - 1;
+            while (left <= right){
+                int mid = left +  (right -left) / 2;
+                if(grid[r][mid] < 0){
+                    //全部为负数
+                    if (mid == 0) {
+                        count += n;
+                        break;
+                    }
+                    if(grid[r][mid-1] >= 0){
+                        count += n-mid;
+                        break;
+                    }else {
+                        right = mid-1;
+                    }
+
+                }else{
+                    left = mid+1;
+                }
+            }
+        }
+        return count;
+    }
+
+
+    public boolean findNumberIn2DArray(int[][] matrix, int target) {
+        if(matrix == null || matrix.length == 0){
+            return false;
+        }
+        int i =0;
+        int j = matrix.length-1;
+        while (i < matrix[0].length && j >= 0){
+            if(matrix[j][i] > target){
+                j--;
+            }else if(matrix[j][i] < target){
+                i++;
+            }else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public static String decodeString(String s) {
+        if(s == null || s.length() ==0){
+            return s;
+        }
+        Deque<Character> stack = new ArrayDeque<>();
+        char[] chars = s.toCharArray();
+        int len = chars.length;
+        int i = 0;
+        while (i < len) {
+            if(chars[i] == ']'){
+                StringBuilder sb = new StringBuilder();
+                char c = stack.pop();
+                // [] 号里面的数字
+                while (c != '['){
+                    sb.append(c);
+                    c = stack.pop();
+                }
+                //循环的次数
+                StringBuilder number = new StringBuilder();
+                while (!stack.isEmpty() && Character.isDigit(stack.peek())){
+                    number.append(stack.pop());
+                }
+                int times = Integer.parseInt(number.reverse().toString());
+                while(times-- > 0){
+                    for (int j=sb.length()-1;j >= 0; j--){
+                        stack.push(sb.charAt(j));
+                    }
+                }
+            }else {
+                stack.push(chars[i]);
+            }
+            i++;
+        }
+        StringBuilder stringBUilder = new StringBuilder();
+        while (!stack.isEmpty()) {
+            stringBUilder.append(stack.pop());
+        }
+        return stringBUilder.reverse().toString();
+
+    }
+
+    public String removeOuterParentheses(String s) {
+        if(s == null || s.length() <= 0){
+            return s;
+        }
+        StringBuffer sb = new StringBuffer();
+        int len = s.length();
+        Deque<Character> stack = new ArrayDeque<>();
+        for (int i = 0; i < len; i++) {
+            if(s.charAt(i) == ')'){
+                stack.pop();
+            }
+            if (!stack.isEmpty()){
+                sb.append(s.charAt(i));
+            }
+            if (s.charAt(i) == '('){
+                stack.push('(');
+            }
+        }
+        return sb.toString();
+
+    }
+
+    public static int countCharacters2(String[] words, String chars) {
+        int result = 0;
+        char[] arr = new char[26];
+        for(char c : chars.toCharArray()){
+            arr[c-'a']++;
+        }
+        for (String tmp:words){
+            boolean flag = true;
+            char[] str = Arrays.copyOf(arr,arr.length);
+            for(Character c : tmp.toCharArray()){
+                if (str[c-'a'] <= 0){
+                    flag=false;
+                    break;
+                }
+                str[c-'a']--;
+
+            }
+            if (flag){
+                result +=tmp.length();
+            }
+        }
+        return result;
+
+    }
+
+    public static int countCharacters(String[] words, String chars) {
+        int result = 0;
+        Map<Character, Integer> map = new HashMap<> (chars.length());
+
+        for(char c:chars.toCharArray()){
+            map.put(c,map.getOrDefault(c,0)+1);
+        }
+        for (String tmp:words){
+            boolean flag = true;
+            for (char c : tmp.toCharArray()){
+                if(!map.containsKey(c) ){
+                    flag=false;
+                    break;
+                }else if(charCount(tmp,c) > map.get(c)){
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag){
+                result += tmp.length();
+            }
+        }
+        return result;
+    }
+
+    private static int charCount(String s,char c ){
+        int count = 0;
+        for (char  t : s.toCharArray()){
+            if (c == t){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int maxSubArray(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int len = nums.length;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < len; i++) {
+            int tmp = 0;
+            for (int j = i; j < len; j++) {
+                tmp += nums[j];
+                if (tmp > max){
+                    max = tmp;
+                }
+            }
+        }
+        return max;
+
+    }
+
+    public int maxSubArray2(int[] nums) {
+        //动态规划
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            if (sum <= 0) {
+                sum = num;
+            } else {
+                sum += num;
+            }
+            //更新
+            max = Math.max(max, sum);
+        }
+        return max;
+
+    }
+
+//    public int findNthDigit(int n) {
+////        前10个数
+//        if(n < 10){
+//            return n;
 //        }
 //
+//
+//    }
 
-        int[] arr={0,1,2,3,4};
-        int[] s={0,1,2,2,1};
-        int[] ar= createTargetArray(arr,s);
-        for (int tmp:ar){
-            System.out.print(tmp + "\t");
+    public static String minNumber(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return "0";
         }
+        String[] tmp = new String[nums.length];
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < nums.length; i++) {
+            tmp[i] = String.valueOf(nums[i]);
+        }
+//        字符串字典序列  0 1
+        Arrays.sort(tmp,(x,y) -> (x+y).compareTo(y+x));
+        for (String s : tmp){
+//            保留前置0
+            sb.append(s);
+        }
+        return sb.toString();
+    }
 
+    public static int strToInt(String str) {
+       if (str == null || str.length() == 0) {
+            return 0;
+       }
+       char[] chars = str.toCharArray();
+       int len = chars.length;
+       int i = 0;
+       while (i < len && chars[i] == ' ') {
+            i++;
+       }
+       //全部是空格
+       if (i == len) {
+           return 0;
+       }
+       boolean flag= true;
+       if(chars[i] == '-' || chars[i] == '+') {
+           if(chars[i] == '-'){
+               flag = false;
+           }
+           i++;
+       }
+       if (i >= len || !Character.isDigit(chars[i])) {
+               return 0;
+       }
+       long sum = 0L;
+       while (i < len && Character.isDigit(chars[i])) {
+           //求和操作
+           sum = sum * 10 +  (chars[i] - '0');
+           //判断溢出
+           if(flag == true && sum > Integer.MAX_VALUE){
+               return Integer.MAX_VALUE;
+           }else if (flag == false && -sum < Integer.MIN_VALUE){
+               return Integer.MIN_VALUE;
+           }
+           i++;
+       }
+       return flag ? (int)sum : (int) -sum;
+    }
 
+    public static void main(String[] args) {
+        System.out.println(strToInt("-2000000"));
     }
 }
