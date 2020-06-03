@@ -1,8 +1,6 @@
 package com.tom.oj;
 
 
-import sun.nio.cs.ext.MacArabic;
-
 import java.util.*;
 
 
@@ -980,6 +978,59 @@ public class Solu {
            i++;
        }
        return flag ? (int)sum : (int) -sum;
+    }
+
+    public int majorityElement(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return -1;
+        }
+//        int len = nums.length;
+//        Map<Integer,Integer> map = new HashMap<>(len);
+//        for(int i:nums){
+//            map.put(i,map.getOrDefault(i,0)+1);
+//        }
+//        int avg = len / 2;
+//        int result = -1;
+//        for(Map.Entry<Integer, Integer> entry:map.entrySet()){
+//            if(entry.getValue() > avg){
+//                result = entry.getKey();
+//            }
+//        }
+//        return result;
+        //投票法
+        int a = nums[0], count = 1;
+        for(int i = 1; i < nums.length; ++i){
+            if(a == nums[i]){
+                count++;
+            }else{
+                count--;
+            }
+            if(count < 0){
+                a = nums[i];
+                count = 1;
+            }
+        }
+        return a;
+
+    }
+
+    public String reverseWords(String s) {
+        if(s == null || s.length() == 0){
+            return s;
+        }
+        String tmp = s.trim();
+        if(tmp.length() == 0){
+            return tmp;
+        }
+        String[] strings = tmp.split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (int i=strings.length-1;i >=0;i--){
+            sb.append(strings[i]);
+            if(i != 0){
+                sb.append(" ");
+            }
+        }
+        return sb.toString();
     }
 
     public static void main(String[] args) {
