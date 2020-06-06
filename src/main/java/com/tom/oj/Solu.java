@@ -1033,7 +1033,189 @@ public class Solu {
         return sb.toString();
     }
 
+    public static int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+        int[] result = new int[len1];
+        int index = 0;
+        for (int i = 0; i < len1; i++) {
+
+            int tmp=0;
+            //先找到再nums2中的位置
+            while (nums1[i] != nums2[tmp]){
+                tmp++;
+            }
+            while (tmp < len2){
+//                找 tmp大于 nums1
+                if( nums2[tmp] > nums1[i]){
+                    result[index++] = nums2[tmp];
+                    break;
+                }
+                tmp++;
+            }
+            //如果没找到
+            if(tmp == len2){
+                result[index++] = -1;
+            }
+
+        }
+        return result;
+    }
+
+
+    public int[] productExceptSelf(int[] nums) {
+        // 1 0 2 3 0  除法不行
+        if(nums  == null || nums.length == 0){
+            return nums;
+        }
+        int len = nums.length;
+        int[] result = new int[len];
+        for (int i = 0; i < len; i++) {
+
+            int sum = 1;
+            for (int j = 0; j < nums.length; j++) {
+                if(i != j){
+                    sum *= nums[j];
+                }
+            }
+            result[i] = sum ;
+        }
+        return result;
+
+    }
+
+
+    public int[] productExceptSelf2(int[] nums) {
+        if(nums  == null || nums.length == 0){
+            return nums;
+        }
+        int left = 1;
+        int right = 1;
+        int len = nums.length;
+        int[] output = new int[len];
+        for(int i=0;i<len;i++){
+            //求左边元素乘积
+            output[i] = left;
+            left *= nums[i];
+        }
+        for(int j=len-1;j>=0;j--){
+            //求右边元素乘积
+            output[j] *= right;
+            right *= nums[j];
+        }
+        return output;
+    }
+
+
+
+    public static int[] spiralOrder(int[][] matrix) {
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0){
+            return new int[0];
+        }
+        int row = matrix.length;
+        int columns = matrix[0].length;
+        int[] result = new int[row * columns];
+        int index = 0;
+        int left = 0,right = columns-1;
+        int top=0,bottom = row - 1;
+        while (left <= right && top <= bottom){
+            for (int i = left; i <= right; i++) {
+                result[index++] = matrix[top][i];
+            }
+
+            for (int i = top+1; i <= bottom; i++) {
+                result[index++] = matrix[i][right];
+            }
+            if (left < right && top < bottom){
+                for (int i = right-1; i > left; i--) {
+                    result[index++] = matrix[bottom][i];
+                }
+                for (int i = bottom; i > top; i--) {
+                    result[index++] = matrix[i][left];
+                }
+
+            }
+            left++;
+            right--;
+            top++;
+            bottom--;
+        }
+        return result;
+
+    }
+
+    public int[] singleNumbers(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return nums;
+        }
+        Map<Integer, Integer> map = new HashMap<>(nums.length);
+        for (int i:nums){
+            map.put(i,map.getOrDefault(i,0)+1);
+        }
+        int[] result = new int[2];
+        int index =0;
+        for(Map.Entry<Integer,Integer> entry:map.entrySet()){
+            if (entry.getValue() == 1){
+                result[index++] = entry.getKey();
+            }
+        }
+        return result;
+
+    }
+
+    public int longestConsecutive(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int len = nums.length;
+        if(len == 1){
+            return 1;
+        }
+        Arrays.sort(nums);
+        int result = 1;
+        int max = 1;
+        for (int i = 1; i < len; i++) {
+            if(nums[i] - nums[i-1] == 1){
+                result++;
+            }else if(nums[i] - nums[i-1] == 0){
+                continue;
+            }else{
+                max = Math.max(result,max);
+                result = 1;
+            }
+        }
+        result = Math.max(result,max);
+        return result;
+
+    }
+
+    public static int[] plusone(int[] digits){
+        for (int i = digits.length-1; i >=0; i--) {
+            digits[i]++;
+            if(digits[i] % 10 != 0){
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        //进位+1 多一个数字  9999  ---> 10000
+        int[] newInt = new int[digits.length+1];
+        newInt[0] = 1;
+        return newInt;
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(strToInt("-2000000"));
+//        System.out.println(strToInt("-2000000"));
+//        int[][] result = new int[][] {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+//        int[] tmp = spiralOrder(result);
+//        for (int i = 0; i < tmp.length; i++) {
+//            System.out.print(tmp[i]+"\t");
+//        }
+//        System.out.println();
+        int[] t = new int[]{9};
+        int[] a=plusone(t);
+        for (int i = 0; i < a.length; i++) {
+            System.out.print(a[i]+"\t");
+        }
     }
 }

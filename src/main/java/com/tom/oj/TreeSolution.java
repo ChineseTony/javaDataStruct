@@ -11,6 +11,50 @@ import java.util.*;
  */
 public class TreeSolution {
 
+
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> list1 = getLeafNode(root1);
+        List<Integer> list2 = getLeafNode(root2);
+        int len1 = list1.size();
+        int len2 = list2.size();
+        if(len1 != len2 ){
+            return false;
+        }
+        for (int i = 0; i < len1; i++) {
+            if(list1.get(i) !=  list2.get(i)){
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+
+    private List<Integer> getLeafNode(TreeNode root){
+        List<Integer> result = new ArrayList<>();
+        getNode(root,result);
+        return result;
+
+    }
+
+    private void getNode(TreeNode root,List<Integer> tmp){
+        if(root == null){
+            return;
+        }
+        if(root.left != null){
+            getNode(root.left,tmp);
+        }
+        if(root.left == null && root.right == null){
+            tmp.add(root.val);
+        }
+        if(root.right != null){
+            getNode(root.right,tmp);
+        }
+    }
+
+
+
+
     public int minDepth(TreeNode root) {
 
         int depth = 0;
@@ -203,6 +247,60 @@ public class TreeSolution {
         }
         return mylist;
     }
+
+
+//    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+//
+//    }
+
+    private List<Integer> getAllLeafToRoot(TreeNode root,List<Integer> tmp){
+        if(root == null){
+            return tmp;
+        }
+        if(root.left != null){
+            getAllLeafToRoot(root.left,tmp);
+        }
+        if(root.left == null && root.right == null){
+          tmp.add(root.val);
+        }
+        if(root.left != null){
+            getAllLeafToRoot(root.left,tmp);
+        }
+        return tmp;
+    }
+
+    public boolean verifyPostorder(int[] postorder) {
+        if (postorder == null){
+            return false;
+        }
+        if (postorder.length == 1){
+            return true;
+        }
+        return veryfiySquenceofBST(postorder,0,postorder.length-1);
+    }
+
+    private boolean veryfiySquenceofBST(int[] arr,int start,int end){
+        if(start >= end){
+            return true;
+        }
+        int i = start;
+        //找到比根节点大的数 后序遍历的特性 最后一个值为根节点 结合 二分搜索树的特点
+        //左子树全部小于
+        while (arr[i] < arr[end]){
+            i++;
+        }
+        for (int j = i; j < end; j++) {
+            //右子树全部大于根节点
+            if(arr[j] < arr[end]){
+                return false;
+            }
+        }
+        //递归调用左右子树
+        return veryfiySquenceofBST(arr,start,i-1) && veryfiySquenceofBST(arr,i,end-1);
+
+    }
+
+
 
     public TreeNode mirrorTree(TreeNode root) {
         if(root == null) {
