@@ -241,8 +241,8 @@ public class ListOperate {
         //虚拟一个头结点
         ListNode tmp = new ListNode(-1);
         tmp.next = head;
-        ListNode pre = head;
-        ListNode cur = head.next;
+        ListNode pre = tmp;
+        ListNode cur = head;
         while (cur != null){
             //如果有相同值 删除
             if (pre.val == cur.val){
@@ -258,6 +258,39 @@ public class ListOperate {
                 //往后移动
                 pre = cur;
                 cur = pre.next;
+            }
+        }
+        return tmp.next;
+    }
+
+
+    /**
+     * 在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。
+     * 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates2(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        //虚拟一个头结点
+        ListNode tmp = new ListNode(-1);
+        tmp.next = head;
+        ListNode pre = tmp;
+        ListNode cur =pre.next;
+        while (cur != null && cur.next != null){
+            if(cur.next.val == cur.val){
+                int tmpVal = cur.val;
+                while (cur != null && cur.val == tmpVal){
+                    ListNode tmpNode = cur;
+                    pre.next = tmpNode.next;
+                    cur = tmpNode.next;
+                    tmpNode.next = null;
+                }
+            }else {
+                pre = cur;
+                cur = cur.next;
             }
         }
         return tmp.next;

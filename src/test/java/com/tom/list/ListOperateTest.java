@@ -153,17 +153,25 @@ public class ListOperateTest {
 
     @Test
     public void addTwoNumbers(){
-        int[] nums1 = new int[]{2,4,3};
-        int[] nums2 = new int[]{5,6,4};
+        int[] nums1 = new int[]{5,3};
+        int[] nums2 = new int[]{5,6,9};
         listOperate = new ListOperate();
         head = new ListNode(nums1);
         head2 = new ListNode(nums2);
         assertEquals(listOperate.addTwoNumbers(head,head2).toString(),
-                "7->0->8->NULL");
+                "0->0->0->1->NULL");
 
 
     }
 
+
+    @Test
+    public void deleteDuplicates2(){
+        int[] nums1 = new int[]{1,2,3,3,3,4,4,5,5};
+        listOperate = new ListOperate();
+        head = new ListNode(nums1);
+        System.out.println(listOperate.deleteDuplicates2(head).toString());
+    }
 
 
 

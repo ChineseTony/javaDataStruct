@@ -253,20 +253,23 @@ public class TreeSolution {
 //
 //    }
 
-    private List<Integer> getAllLeafToRoot(TreeNode root,List<Integer> tmp){
+    private void  getAllLeafToRoot(TreeNode root,List<Integer> tmp,
+                                   List<List<Integer>> all){
         if(root == null){
-            return tmp;
+            return ;
+        }
+        boolean isLeaf = root.left == null && root.right == null;
+        tmp.add(root.val);
+        if (isLeaf){
+            all.add(new ArrayList<>(tmp));
         }
         if(root.left != null){
-            getAllLeafToRoot(root.left,tmp);
-        }
-        if(root.left == null && root.right == null){
-          tmp.add(root.val);
+            getAllLeafToRoot(root.left,tmp,all);
         }
         if(root.left != null){
-            getAllLeafToRoot(root.left,tmp);
+            getAllLeafToRoot(root.left,tmp,all);
         }
-        return tmp;
+        tmp.remove(tmp.size()-1);
     }
 
     public boolean verifyPostorder(int[] postorder) {
