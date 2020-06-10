@@ -174,6 +174,15 @@ public class ListOperateTest {
     }
 
 
+    @Test
+    public void rotateRight(){
+        int[] nums1 = new int[]{1,2,3,4,5};
+        listOperate = new ListOperate();
+        head = new ListNode(nums1);
+        System.out.println(listOperate.rotateRight(head,1).toString());
+    }
+
+
 
 
 

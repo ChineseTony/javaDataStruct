@@ -648,11 +648,6 @@ public class ListOperate {
     }
 
 
-    //leetcode 1009
-    public int[] nextLargerNodes(ListNode head) {
-        int[] i = new int[10];
-        return i;
-    }
 
 
     //leetcode 867给定一个带有头结点 head 的非空单链表，返回链表的中间结点。
@@ -856,6 +851,133 @@ public class ListOperate {
         }
         arr[i-1].next = null;
         return arr[0];
+    }
+
+
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null || k<=0){
+            return head;
+        }
+        int len = 0;
+        ListNode tmp = head;
+        while (tmp != null){
+            len++;
+            tmp = tmp.next;
+        }
+        int right = k % len;
+        if(right == 0){
+            return head;
+        }else {
+            ListNode pre = new ListNode(-1);
+            pre.next= head;
+            int t = len - right;
+            while (t-- > 0){
+                pre = pre.next;
+            }
+            ListNode result = pre.next;
+            pre.next = null;
+            ListNode cur = result;
+            while (cur.next != null){
+                cur = cur.next;
+            }
+            cur.next = head;
+            return result;
+        }
+
+    }
+
+
+
+
+    public boolean isPalindrome(int x) {
+        String s = String.valueOf(x);
+        int left = 0;
+        int right = s.length()-1;
+        while (left < right){
+            if(s.charAt(left) != s.charAt(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+
+    public static boolean isPalindrome2(int x) {
+        if(x < 0){
+            return false;
+        }
+        int sum = 0;
+        int tmp = x;
+        while (tmp != 0){
+            sum = sum * 10 + tmp % 10;
+            tmp = tmp / 10;
+        }
+        return sum == x;
+    }
+
+
+    //leetcode 1009
+    public int[] nextLargerNodes(ListNode head) {
+        if(head == null){
+            return new int[0];
+        }
+        List<Integer> result = new ArrayList<>();
+        ListNode cur = head;
+        while(cur != null){
+            int tmp =0;
+            ListNode next = cur.next;
+            while(next != null){
+                if(next.val > cur.val){
+                    tmp = next.val;
+                    break;
+                }
+                next = next.next;
+            }
+            result.add(tmp);
+            cur = cur.next;
+        }
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+
+    //与原题不符合 需要修改代码逻辑
+    public int[] nextLargerNodes2(ListNode head) {
+        if(head == null){
+            return new int[0];
+        }
+        List<Integer> result = new ArrayList<>();
+        Deque<Integer> stack = new ArrayDeque<>();
+        ListNode cur = head;
+        while (cur != null){
+            if (stack.isEmpty() || cur.val < stack.peek()){
+                stack.push(cur.val);
+            }else {
+                while (!stack.isEmpty() && stack.peek() < cur.val){
+                    result.add(cur.val);
+                    stack.pop();
+                }
+                stack.push(cur.val);
+            }
+            cur = cur.next;
+        }
+        while (!stack.isEmpty()){
+            result.add(0);
+            stack.pop();
+        }
+
+        return result.stream().mapToInt(Integer::intValue).toArray();
+
+    }
+
+
+
+
+    public int[] sortArrayByParityII(int[] A) {
+
+        return A;
+
     }
 
 
