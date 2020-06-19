@@ -1010,6 +1010,42 @@ public class ListOperate {
         return head;
     }
 
+    //链表排序
+    public ListNode sortList(ListNode head) {
+        quicksortListNode(head,null);
+        return head;
+    }
+
+    private void quicksortListNode(ListNode head,ListNode end){
+        if(head  != end){
+            ListNode partition=getPartitionListNode(head,end);
+            quicksortListNode(head,partition);
+            quicksortListNode(partition.next,end);
+        }
+    }
+
+
+    //交换链表的数值 没有交换节点
+    private ListNode getPartitionListNode(ListNode head,ListNode end){
+        ListNode p1 = head,p2=head.next;
+        while (p2 != end){
+            if(p2.val < head.val){
+                p1 = p1.next;
+                int tmp = p1.val;
+                p1.val = p2.val;
+                p2.val = tmp;
+            }
+            p2 = p2.next;
+        }
+        if(p1 != head){
+            int tmp = p1.val;
+            p1.val = head.val;
+            head.val = tmp;
+        }
+        return p1;
+
+    }
+
 
 
 

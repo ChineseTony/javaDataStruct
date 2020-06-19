@@ -316,6 +316,48 @@ public class TreeSolution {
     }
 
 
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(root == null){
+            return result;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            List<Integer> tmp = new ArrayList<>();
+            for(int i = queue.size(); i > 0; i--) {
+                TreeNode node = queue.poll();
+                tmp.add(node.val);
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+            result.add(0,tmp);
+        }
+        return result;
+
+    }
+
+    public int sumRootToLeaf(TreeNode root) {
+        return sumLeaf(root,0);
+    }
+
+    private int sumLeaf(TreeNode node,int sum){
+        if(node == null){
+            return 0;
+        }
+        sum = sum * 2 + node.val;
+        //返回叶子节点 元素值
+        if(node.left == null && node.right == null){
+            return sum;
+        }
+        return sumLeaf(node.left,sum) + sumLeaf(node.right,sum);
+    }
+
+
     public class TreeNode {
       int val;
       TreeNode left;

@@ -182,6 +182,14 @@ public class ListOperateTest {
         System.out.println(listOperate.rotateRight(head,1).toString());
     }
 
+    @Test
+    public void sortList2(){
+        int[] nums1 = new int[]{-1,2,-5,4,5};
+        listOperate = new ListOperate();
+        head = new ListNode(nums1);
+        System.out.println(listOperate.sortList(head));
+    }
+
 
 
 

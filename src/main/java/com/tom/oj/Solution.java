@@ -189,6 +189,28 @@ public class Solution {
     }
 
 
+    public int maxScoreSightseeingPair(int[] A) {
+
+        return -1;
+
+    }
+
+
+    public int[] runningSum(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[0];
+        }
+        int len =nums.length;
+        int[] result = new int[len];
+        int tmp = 0;
+        for (int i = 0; i < len; i++) {
+            tmp += nums[i];
+            result[i] = tmp;
+        }
+        return result;
+    }
+
+
     public static boolean isToeplitzMatrix(int[][] matrix) {
         if (matrix == null || matrix[0] == null){
             return false;
