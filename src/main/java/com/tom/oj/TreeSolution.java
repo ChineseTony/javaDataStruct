@@ -357,6 +357,118 @@ public class TreeSolution {
         return sumLeaf(node.left,sum) + sumLeaf(node.right,sum);
     }
 
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null){
+            return result;
+        }
+        int currentSum=0;
+        List<Integer> list = new ArrayList<>();
+        getPath(root,result,list,currentSum,sum);
+        return result;
+    }
+
+    private void getPath(TreeNode root,List<List<Integer>> result,
+                         List<Integer> tmp,
+                         int currentSum,int expectSum){
+        boolean isLeaf = root.left == null && root.right == null;
+        currentSum += root.val;
+        tmp.add(root.val);
+        if (currentSum == expectSum && isLeaf){
+            result.add(new ArrayList<>(tmp));
+        }
+        if (root.left != null){
+            getPath(root.left,result,tmp,currentSum,expectSum);
+        }
+        if (root.right != null){
+            getPath(root.right,result,tmp,currentSum,expectSum);
+        }
+        //回溯删除最后一个元素
+        tmp.remove(tmp.size()-1);
+    }
+
+    private int ret = Integer.MIN_VALUE;
+
+
+    /**
+     对于任意一个节点, 如果最大和路径包含该节点, 那么只可能是两种情况:
+     1. 其左右子树中所构成的和路径值较大的那个加上该节点的值后向父节点回溯构成最大路径
+     2. 左右子树都在最大路径中, 加上该节点的值构成了最终的最大路径
+
+     1.只有当前节点
+     2.当前节点+左子树
+     3.当前节点+右子书
+     4.当前节点+左右子树
+     **/
+    public int maxPathSum(TreeNode root) {
+        getMax(root);
+        return ret;
+    }
+
+    private int getMax(TreeNode r) {
+        if(r == null) {
+            return 0;
+        }
+        //判断是否加入 左子树 如果大于0就加入该子树
+        int left = Math.max(0, getMax(r.left)); // 如果子树路径和为负则应当置0表示最大路径不包含子树
+        int right = Math.max(0, getMax(r.right));
+        // 判断在该节点包含左右子树的路径和是否大于当前最大路径和
+        ret = Math.max(ret, r.val + left + right);
+        return Math.max(left, right) + r.val;
+    }
+
+
+
+//    将有序数组转换为二叉搜索树
+    public TreeNode sortedArrayToBST(int[] nums) {
+
+        return sortArray(nums,0,nums.length-1);
+
+    }
+
+    private TreeNode sortArray(int[] nums,int left,int right){
+        if(left > right){
+            return null;
+        }
+        int mid = (right - left) / 2 + left;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = sortArray(nums,left,mid-1);
+        root.right = sortArray(nums,mid+1,right);
+        return root;
+    }
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> ret = new ArrayList<>();
+        List<Integer> tmp = new ArrayList<>();
+        treePath(root,ret,tmp);
+        return ret;
+    }
+
+    private void treePath(TreeNode root,List<String> reuslt,
+                          List<Integer>  tmp){
+        if(root == null){
+            return;
+        }
+        tmp.add(root.val);
+        if(root.left == null && root.right == null){
+            StringBuilder sb = new StringBuilder();
+            int len = tmp.size();
+            for (int i = 0; i < len; i++) {
+                sb.append(tmp.get(i));
+                if(i != len -1){
+                    sb.append("->");
+                }
+            }
+            reuslt.add(sb.toString());
+        }
+        if(root.left != null){
+            treePath(root.left,reuslt,tmp);
+        }
+        if(root.right != null){
+            treePath(root.right,reuslt,tmp);
+        }
+        tmp.remove(tmp.size()-1);
+    }
 
     public class TreeNode {
       int val;

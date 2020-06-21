@@ -352,14 +352,16 @@ public class BinarySearchTree<Key extends Comparable,Value> {
 
 
     //找到从根到叶子节点值为expectedSum 输出出来
-    public void findPath(int expectedSum){
+    public List<List<Integer>> findPath(int expectedSum){
+        List<List<Integer>> lists = new ArrayList<>();
         if (root == null){
-            return;
+            return lists;
         }
         int currentSum=0;
         List<Integer> list = new ArrayList<>();
-        List<List<Integer>> lists = new ArrayList<>();
+
         findPath(root,list,lists,currentSum,expectedSum);
+        return lists;
     }
 
     private void findPath(Node root,List path,List<List<Integer>> lists

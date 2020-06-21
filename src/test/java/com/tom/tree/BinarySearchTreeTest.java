@@ -2,6 +2,9 @@ package com.tom.tree;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -82,5 +85,24 @@ public class BinarySearchTreeTest {
         //输出值 a0--->a1--->a5--->a6--->a3--->a4--->a2--->
         tree.travle();
 
+    }
+
+    @Test
+    public void findPath(){
+        BinarySearchTree<Integer,Integer> tree1 = new BinarySearchTree<>();
+        tree1.insertBSF(5,5);
+        tree1.insertBSF(10,10);
+        tree1.insertBSF(4,4);
+
+        List<List<Integer>> list =tree1.findPath(9);
+        for(List<Integer> tmp:list){
+            tmp.forEach(System.out::println);
+        }
+
+    }
+
+    @Test
+    public void test(){
+        System.out.println(1.0/12);
     }
 }
