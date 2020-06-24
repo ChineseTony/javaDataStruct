@@ -65,9 +65,43 @@ public class ReplaceBlack {
         return maxLength;
     }
 
+    public static String addBinary(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        int count = 0;
+        int len1 = a.length();
+        int len2 = b.length();
+        int i = len1-1;
+        int j = len2 - 1;
+        while (i >= 0 &&  j >= 0){
+            sb.append((a.charAt(i) - '0' + b.charAt(j) - '0'  + count) % 2);
+            count = (a.charAt(i) - '0' + b.charAt(j) - '0' + count) / 2;
+            i--;
+            j--;
+        }
+        //
+        while (i >= 0){
+            int tmp = a.charAt(i) - '0';
+            sb.append((tmp + count) % 2);
+            count = (tmp  + count) / 2;
+            i--;
+        }
+        while (j >= 0){
+            int tmp = b.charAt(j) - '0';
+            sb.append((tmp + count) % 2);
+            count = (tmp + count) / 2;
+            j--;
+        }
+        if(count == 1){
+            sb.append("1");
+        }
+        return sb.reverse().toString();
+
+    }
+
     public static void main(String[] args) {
-        String s = "I am Student.";
-        System.out.println(ReplaceBlack.replaceBlack(s));
-        System.out.println(ReplaceBlack.longestSubsting("abcda"));
+//        String s = "I am Student.";
+//        System.out.println(ReplaceBlack.replaceBlack(s));
+//        System.out.println(ReplaceBlack.longestSubsting("abcda"));
+        System.out.println(addBinary("110010","10111"));
     }
 }

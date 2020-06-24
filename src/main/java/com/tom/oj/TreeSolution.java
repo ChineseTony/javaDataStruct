@@ -11,6 +11,28 @@ import java.util.*;
  */
 public class TreeSolution {
 
+    public  TreeNode pre = null;
+
+
+    public boolean isValidBST(TreeNode root) {
+        //中序遍历为有序序列
+        if(root == null){
+            return true;
+        }
+        if(!isValidBST(root.left)){
+            return false;
+        }
+        if (pre != null && pre.val >= root.val){
+            return false;
+        }
+        //更新索引
+        pre = root;
+        if(!isValidBST(root.right)){
+            return false;
+        }
+        return true;
+    }
+
 
     public boolean leafSimilar(TreeNode root1, TreeNode root2) {
         List<Integer> list1 = getLeafNode(root1);
