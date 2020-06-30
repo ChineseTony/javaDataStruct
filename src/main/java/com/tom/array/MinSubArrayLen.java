@@ -110,9 +110,71 @@ public class MinSubArrayLen {
     }
 
 
+    public static int findUnsortedSubarray1(int[] nums) {
+        if (nums == null || nums.length < 2){
+            return 0;
+        }
+        int len = nums.length;
+        int result = 0;
+        int left = 0;
+        int right = 0;
+        for (int i = 0; i < len - 1; i++) {
+            if (nums[i+1] < nums[i]){
+                left = i;
+                break;
+            }
+        }
+
+        for (int i = len-1; i > 0 ; i--) {
+            if (nums[i] < nums[i - 1]){
+                right = i;
+                break;
+            }
+        }
+
+        return left == right ? 0 : right - left + 1;
+    }
+
+
+
+    public static int reverse(int x) {
+        long sum = 0L;
+        while (x != 0){
+            sum = sum * 10 + x % 10;
+            if( sum > Integer.MAX_VALUE ||  sum < Integer.MIN_VALUE){
+                sum = 0;
+                break;
+            }
+            x /= 10;
+        }
+        return (int)sum;
+
+    }
+
+    public double average(int[] salary) {
+        int len = salary.length;
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        double sum = 0;
+        for (int tmp:salary){
+            sum += tmp;
+            if (tmp < min){
+                min = tmp;
+            }
+            if (tmp > max){
+                max = tmp;
+            }
+        }
+        return (sum - max - min ) / (len-2);
+
+    }
+
+
 
     public static void main(String[] args) {
-        int[] nums = new int[]{2, 6, 4, 8, 10, 9, 15};
+        int[] nums = new int[]{9, 6, 4, 8, 10, 9, 15};
         System.out.println(findUnsortedSubarray(nums));
+        System.out.println(findUnsortedSubarray1(nums));
+        System.out.println(reverse(-2147483648));
     }
 }
