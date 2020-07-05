@@ -52,6 +52,18 @@ public class TreeSolution {
     }
 
 
+    public int sumOfLeftLeaves(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int sum = 0;
+        if(root.left != null && root.left.left == null && root.left.right == null){
+            sum += root.left.val;
+        }
+        return sumOfLeftLeaves(root.right) + sumOfLeftLeaves(root.left) + sum;
+    }
+
+
     private List<Integer> getLeafNode(TreeNode root){
         List<Integer> result = new ArrayList<>();
         getNode(root,result);

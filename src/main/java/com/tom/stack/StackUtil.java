@@ -1,5 +1,7 @@
 package com.tom.stack;
+import	java.util.ArrayDeque;
 
+import java.util.Deque;
 import java.util.Stack;
 
 /**
@@ -75,8 +77,37 @@ public class StackUtil {
         return false;
     }
 
+
+
+
+    public static int longestValidParentheses(String s) {
+        if(s == null || s.length() ==0){
+            return 0;
+        }
+        int maxans = 0;
+        int length = s.length();
+        Deque<Integer> stack = new ArrayDeque<> ();
+        stack.push(-1);
+        for (int i = 0; i < length; i++) {
+            if (s.charAt(i) == '('){
+                stack.push(i);
+            }else {
+                stack.pop();
+                if (stack.isEmpty()) {
+                    stack.push(i);
+                } else {
+                    maxans = Math.max(maxans, i - stack.peek());
+                }
+            }
+
+        }
+        return maxans;
+
+    }
+
     public static void main(String[] args) {
-        System.out.println(StackUtil.isSequence("12345","43512"));
-        System.out.println(StackUtil.isSequence("12345","45321"));
+//        System.out.println(StackUtil.isSequence("12345","43512"));
+//        System.out.println(StackUtil.isSequence("12345","45321"));
+        System.out.println(longestValidParentheses("()(()"));
     }
 }
