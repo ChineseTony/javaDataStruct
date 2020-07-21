@@ -10,8 +10,10 @@ public class TryCatchFianlly {
     public static int demo5() {
         try {
             return printX();
-        }
-        finally {
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        } finally {
             System.out.println("finally trumps return... sort of");
         }
     }
@@ -30,5 +32,6 @@ public class TryCatchFianlly {
          */
         System.out.println(demo5());
     }
+
 
 }
