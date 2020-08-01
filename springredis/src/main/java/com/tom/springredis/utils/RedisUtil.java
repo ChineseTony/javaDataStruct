@@ -2,6 +2,11 @@ package com.tom.springredis.utils;
 
 
 
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnels;
+import com.tom.springredis.controller.RedisStudyController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +18,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Collections;
 
 @Component
 public class RedisUtil implements ApplicationContextAware {
+    private static final Logger log = LoggerFactory.getLogger(RedisUtil.class);
 
     private ApplicationContext applicationContext;
+
+//    private  static BloomFilter<String>  bloomFilter;
 
     private RedisUtil(){
 
@@ -38,6 +47,9 @@ public class RedisUtil implements ApplicationContextAware {
     @PostConstruct
     public void init(){
         redisTemplate =(RedisTemplate<String, String>) applicationContext.getBean("stringRedisTemplate");
+
+//        bloomFilter = BloomFilter.create(Funnels.stringFunnel(Charset.forName("utf-8")),
+//                10000, 0.01);
     }
 
 
@@ -54,7 +66,7 @@ public class RedisUtil implements ApplicationContextAware {
 
     public static boolean containsKey(String key){
         String value =  redisTemplate.opsForValue().get(key);
-        System.out.println("value===>"+value);
+        log.info("value===>{}",value);
         return !StringUtils.isEmpty(value);
     }
 
