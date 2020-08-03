@@ -12,18 +12,24 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.stereotype.Component;
 
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+
+/**
+ * @author wangtao
+ */
+
 @Aspect
-@Configuration
+@Component
 public class LimitInterceptor  {
 
     private static final Logger logger = LoggerFactory.getLogger(LimitInterceptor.class);
@@ -45,6 +51,7 @@ public class LimitInterceptor  {
         Limit limitAnnotation = method.getAnnotation(Limit.class);
         LimitType limitType = limitAnnotation.limitType();
         String name = limitAnnotation.name();
+        logger.info("aop执行---->名字为{}",name);
         String key;
         int limitPeriod = limitAnnotation.period();
         int limitCount = limitAnnotation.count();

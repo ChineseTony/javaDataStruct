@@ -1,19 +1,14 @@
 package com.tom;
 
 
+import com.tom.configuration.LimitAutoConfiguration;
 import com.tom.enums.LimitType;
-import com.tom.properties.LimitProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.NonNull;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 public class LimitConfigurationSelector implements ImportSelector {
@@ -32,13 +27,13 @@ public class LimitConfigurationSelector implements ImportSelector {
         String[] importClass;
         switch (type){
             case CUSTOMER:
-                importClass = new String[]{LimitProperties.class.getName()};
+                importClass = new String[]{LimitAutoConfiguration.class.getName()};
                 break;
             case IP:
-                importClass = new String[]{LimitProperties.class.getName()};
+                importClass = new String[]{LimitAutoConfiguration.class.getName()};
                 break;
             default:
-                importClass = new String[]{LimitProperties.class.getName()};
+                importClass = new String[]{LimitAutoConfiguration.class.getName()};
                 break;
         }
 //        String limitType = "";
