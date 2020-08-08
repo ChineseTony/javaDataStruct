@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script type="application/javascript">
+    var sse = EventSource("SSE");
+    see.onmessage = function (e) {
+        console.log("message",e.data)
+    };
+    see.addEventListener("me",function (e) {
+        console.log("message",e.data);
+        if (e.data == 3){
+            sse.close();
+        }
+    })
+</script>
+
+</body>
+</html>

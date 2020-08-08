@@ -1,0 +1,5 @@
+-XX:+PrintStringTableStatistics
+-XX:StringTableSize=10000  Number of buckets in the interned String table
+-XX:+PrintGC
+-XX:+PrintGCDetails
+-XX:AutoBoxCacheMax=1000
