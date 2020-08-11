@@ -15,6 +15,7 @@
         <module>myLimit</module>
         <module>webflux</module>
         <module>spistudy</module>
+        <module>auto-configure</module>
     </modules>
 
     <properties>
