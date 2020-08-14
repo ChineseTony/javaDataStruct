@@ -16,6 +16,7 @@
         <module>webflux</module>
         <module>spistudy</module>
         <module>auto-configure</module>
+        <module>nettystudy</module>
     </modules>
 
     <properties>

@@ -1,0 +1,43 @@
+package com.tom.echo;
+
+
+import com.tom.echo.handler.EchoClientHandler;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
+
+
+/**
+ * @author WangTao
+ */
+public class EchoClient {
+
+    public static final String MESSAGE  = "hello";
+
+    public static void main(String[] args) throws Exception{
+        EventLoopGroup group = new NioEventLoopGroup();
+        try {
+            // 创建 Bootstrap 对象
+            Bootstrap b = new Bootstrap();
+            b.group(group)
+                    .channel(NioSocketChannel.class)
+                    .option(ChannelOption.TCP_NODELAY, true)
+                    .handler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                public void initChannel(SocketChannel ch) throws Exception {
+                    ChannelPipeline p = ch.pipeline();
+                    p.addLast(new EchoClientHandler());
+                }
+            });
+
+            final ChannelFuture f = b.connect("localhost",8090);
+            f.addListener(future ->   System.out.println("连接完成"));
+            // 监听客户端关闭，并阻塞等待
+            f.channel().closeFuture().sync();
+        } finally {
+            group.shutdownGracefully();
+        }
+    }
+}
