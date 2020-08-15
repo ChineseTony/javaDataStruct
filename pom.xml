@@ -17,6 +17,7 @@
         <module>spistudy</module>
         <module>auto-configure</module>
         <module>nettystudy</module>
+        <module>myfirst-spring-boot-starter</module>
     </modules>
 
     <properties>
@@ -99,10 +100,16 @@
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-aop</artifactId>
+                <artifactId>spring-boot-starter</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
 
 
             <dependency>
@@ -110,16 +117,6 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
-
-
-
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-dependencies</artifactId>
-                    <version>${spring-boot.version}</version>
-                    <!--<type>pom</type>-->
-                    <!--<scope>import</scope>-->
-                </dependency>
 
                 <!--slf4j 打印日志 日志框架-->
                 <dependency>
@@ -218,10 +215,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>cn.hutool</groupId>
