@@ -25,22 +25,19 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) {
         ctx.writeAndFlush(firstMessage);
 
-
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-
         ByteBuf in = (ByteBuf) msg;
         System.out.println("服务器发送的消息---->"+in.toString(Charsets.UTF_8));
-
-
 
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
+        System.out.println("关闭channel");
+        ctx.close();
     }
 
 

@@ -6,6 +6,10 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 /**
  * @author WangTao
@@ -24,7 +28,7 @@ public class EchoServer {
                     // 设置 NioServerSocketChannel 的可选项
                     .option(ChannelOption.SO_BACKLOG, 100)
                     // 设置 NioServerSocketChannel 的处理器
-//                    .handler(new LoggingHandler(LogLevel.ERROR))
+                    .handler(new LoggingHandler(LogLevel.ERROR))
                     .childOption(ChannelOption.SO_SNDBUF, 5)
                     .childOption(ChannelOption.SO_LINGER, 100)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
