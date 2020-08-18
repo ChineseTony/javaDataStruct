@@ -36,8 +36,8 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-        System.out.println("关闭channel");
-        ctx.close();
+//        System.out.println("关闭channel");
+//        ctx.close();
     }
 
 

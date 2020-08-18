@@ -44,6 +44,12 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         Channel channel = ctx.channel();
         channelGroup.remove(channel);
         System.out.printf("下线1人，当前还有%d人\n",channelGroup.size());
+        channelGroup.forEach(v -> {
+            String writeMsg = String.format("下线1人，当前还有%d人\n",channelGroup.size());
+            ByteBuf tmp = Unpooled.buffer(writeMsg.getBytes().length);
+            tmp.writeBytes(writeMsg.getBytes());
+            v.writeAndFlush(tmp);
+        });
     }
 
     @Override
