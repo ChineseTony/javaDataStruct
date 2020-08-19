@@ -10,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 /**
@@ -27,8 +28,15 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf in = (ByteBuf) msg;
-        System.out.printf("客户端地址%s 接收到消息:%s \n",ctx.channel().remoteAddress(),in.toString(Charsets.UTF_8));
+        //防止内存泄漏 如果是SimpleChannelInboundHandler 会自动释放
+        try{
+            ByteBuf in = (ByteBuf) msg;
+            System.out.printf("客户端地址%s 接收到消息:%s \n",ctx.channel()
+                    .remoteAddress(),in.toString(Charsets.UTF_8));
+        }finally {
+            ReferenceCountUtil.release(msg);
+        }
+
 
     }
 

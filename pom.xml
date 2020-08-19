@@ -32,11 +32,25 @@
         <lettuce.version>5.3.2.RELEASE</lettuce.version>
         <mybatis.version>3.5.3</mybatis.version>
         <cglib.version>3.3.0</cglib.version>
+        <curator.version>2.12.0</curator.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+
+            <!--zookeeper -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>cglib</groupId>
