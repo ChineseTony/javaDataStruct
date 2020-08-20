@@ -6,17 +6,20 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author WangTao
  */
 public class EchoServer {
 
-    private static final int PORT = 8090;
+    public static final int PORT = 8099;
 
     public static void main(String[] args) throws Exception {
         ServerBootstrap b = new ServerBootstrap();
@@ -37,6 +40,9 @@ public class EchoServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception { // 设置连入服务端的 Client 的 SocketChannel 的处理器
                             ChannelPipeline p = ch.pipeline();
+                            p.addLast(new LineBasedFrameDecoder(2048));
+                            p.addLast(new StringEncoder(StandardCharsets.UTF_8));
+                            p.addLast(new StringDecoder(StandardCharsets.UTF_8));
                             p.addLast(new EchoServerHandler());
                         }
                     });

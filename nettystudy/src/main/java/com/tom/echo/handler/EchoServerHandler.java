@@ -30,9 +30,11 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         //防止内存泄漏 如果是SimpleChannelInboundHandler 会自动释放
         try{
-            ByteBuf in = (ByteBuf) msg;
-            System.out.printf("客户端地址%s 接收到消息:%s \n",ctx.channel()
-                    .remoteAddress(),in.toString(Charsets.UTF_8));
+            if (msg instanceof String){
+                System.out.printf("客户端地址%s 接收到消息:%s \n",ctx.channel()
+                        .remoteAddress(),msg);
+            }
+
         }finally {
             ReferenceCountUtil.release(msg);
         }
