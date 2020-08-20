@@ -33,11 +33,18 @@
         <mybatis.version>3.5.3</mybatis.version>
         <cglib.version>3.3.0</cglib.version>
         <curator.version>2.12.0</curator.version>
+        <protobuf.version>3.10.0</protobuf.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
 
             <!--zookeeper -->
             <dependency>

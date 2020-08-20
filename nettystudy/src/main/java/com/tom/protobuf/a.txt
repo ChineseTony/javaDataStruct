@@ -1,0 +1,5 @@
+
+下载protoc
+https://github.com/protocolbuffers/protobuf/releases
+把protoc 添加到环境变量path中
+protoc --java_out=/d/IdeaProjects/javaDataStruct/nettystudy/src/main/java/com/tom/protobuf User.proto

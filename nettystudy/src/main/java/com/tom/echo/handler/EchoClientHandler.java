@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.ReferenceCountUtil;
 
 
 /**
@@ -29,16 +30,15 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ByteBuf in = (ByteBuf) msg;
-        System.out.println("服务器发送的消息---->"+in.toString(Charsets.UTF_8));
+        try {
+            ByteBuf in = (ByteBuf) msg;
+            System.out.println("服务器发送的消息---->"+in.toString(Charsets.UTF_8));
+        }finally {
+            ReferenceCountUtil.release(msg);
+        }
 
     }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-//        System.out.println("关闭channel");
-//        ctx.close();
-    }
 
 
 

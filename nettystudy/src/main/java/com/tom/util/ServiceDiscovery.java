@@ -7,5 +7,11 @@ import java.net.InetSocketAddress;
  */
 public interface ServiceDiscovery {
 
+
+    /**
+     *
+     * @param rpcServiceName
+     * @return
+     */
     InetSocketAddress lookupService(String rpcServiceName);
 }
