@@ -2,6 +2,8 @@ package com.tom.protobuf;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.util.ByteProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 
@@ -9,6 +11,8 @@ import java.nio.charset.StandardCharsets;
  * @author WangTao
  */
 public class RedisUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 
     public static final String CHARSET = "UTF-8";
 
@@ -68,7 +72,7 @@ public class RedisUtil {
             // 重置读游标为\r\n之后的第一个字节
             buffer.readerIndex(lineEndIndex + 1);
             buffer.markReaderIndex();
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < size-1; i++) {
                 sb.append((char)bytes[i+1] - '0');
             }
@@ -106,7 +110,7 @@ public class RedisUtil {
 
     private static Long getLen(ByteBuf buf){
        int index = findLineEndIndex(buf);
-       if ((index > 0 && buf.getByte(index - 1) == '\r')){
+       if ((index > 0 && buf.getByte(index - 1) == DIRE)){
            //求出长度
            Long result = 0L;
            int lineStartIndex = buf.readerIndex();
@@ -116,11 +120,13 @@ public class RedisUtil {
            buf.readerIndex(lineStartIndex);
            buf.readBytes(bytes);
            buf.readerIndex(index + 1);
+           //重置读取长度
            buf.markReaderIndex();
 
            for (int i = 0; i < size-1; i++) {
-               result += (char)bytes[i+1] - '0';
+               result = result * 10 + (char)bytes[i+1] - '0' ;
            }
+           logger.info("定长长度是{}",result);
            return result;
        }else {
            return null;
