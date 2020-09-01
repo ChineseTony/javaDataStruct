@@ -1,11 +1,13 @@
 package com.tom.protobuf;
 
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import io.netty.util.ByteProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * @author WangTao
@@ -101,11 +103,45 @@ public class RedisUtil {
                 byte[] bytes = new byte[readLength];
                 buffer.readBytes(bytes);
                 // 重置读游标为\r\n之后的第一个字节
+                buffer.readerIndex(lineEndIndex + readLength + 3);
+                buffer.markReaderIndex();
                 return new String(bytes, StandardCharsets.UTF_8);
             }
 
         }
         return null;
+    }
+
+
+    public static List getRespArray(ByteBuf buffer) {
+
+        int lineEndIndex = findLineEndIndex(buffer);
+        if (lineEndIndex == -1) {
+            return null;
+        }
+        Long tmp = getLen(buffer);
+        if (null == tmp) {
+            return null;
+        }
+        int len =  tmp.intValue();
+        if (len == 0){
+            return Lists.newArrayList();
+        }else {
+            List<Object> result = Lists.newArrayListWithCapacity(len);
+            for (int i = 0; i < len; i++) {
+                //递归调用解析
+                byte first = buffer.getByte(buffer.readerIndex());
+                if (first== RedisUtil.SIMPLE || first == RedisUtil.MINUS_BYTE){
+                    result.add(RedisUtil.readLine(buffer));
+                }else if (first == COLON_BYTE){
+                    result.add(RedisUtil.getNumber(buffer));
+                }else if (first== DOLLAR_BYTE){
+                    result.add(RedisUtil.getFixedString(buffer));
+                }
+            }
+
+            return result;
+        }
     }
 
     private static Long getLen(ByteBuf buf){
@@ -114,17 +150,24 @@ public class RedisUtil {
            //求出长度
            Long result = 0L;
            int lineStartIndex = buf.readerIndex();
-           int size = index - lineStartIndex - 1;
+           int size = index - lineStartIndex -1;
            byte[] bytes = new byte[size];
 
            buf.readerIndex(lineStartIndex);
            buf.readBytes(bytes);
-           buf.readerIndex(index + 1);
+           buf.readerIndex(index+1);
            //重置读取长度
            buf.markReaderIndex();
-
+           boolean flag = false;
            for (int i = 0; i < size-1; i++) {
-               result = result * 10 + (char)bytes[i+1] - '0' ;
+               if (i == 0 && (char)bytes[i+1] == '-'){
+                   flag = true;
+               }else {
+                   result = result * 10 + (char)bytes[i+1] - '0' ;
+               }
+           }
+           if (flag){
+               result = -result;
            }
            logger.info("定长长度是{}",result);
            return result;

@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.tom.protobuf.RedisUtil.ASTERISK_BYTE;
-import static com.tom.protobuf.RedisUtil.COLON_BYTE;
-import static com.tom.protobuf.RedisUtil.DOLLAR_BYTE;
 
 
 /**
@@ -38,7 +35,9 @@ public class RedisHandler extends ChannelInboundHandlerAdapter {
 //    返回定长字符  get mystring
 //    private static final String MSG = "*2\r\n$3\r\nget\r\n$8\r\nmystring\r\n";
 
-    private static final String MSG = "*2\r\n$3\r\nget\r\n$6\r\nmykey1\r\n";
+//    private static final String MSG = "*2\r\n$3\r\nget\r\n$6\r\nmykey2\r\n";
+
+    private static final String MSG = "*4\r\n$6\r\nlrange\r\n$6\r\nmylist\r\n$1\r\n0\r\n$1\r\n4\r\n";
 
 
 
@@ -61,13 +60,16 @@ public class RedisHandler extends ChannelInboundHandlerAdapter {
                 //简单字符串
                 if (first== RedisUtil.SIMPLE || first == RedisUtil.MINUS_BYTE){
                     System.out.println(RedisUtil.readLine(in));
-                }else if (first == COLON_BYTE){
+                }else if (first == RedisUtil.COLON_BYTE){
                     System.out.println("返回整数值为"+RedisUtil.getNumber(in));
-                }else if (first== DOLLAR_BYTE){
+                }else if (first== RedisUtil.DOLLAR_BYTE){
                     System.out.println("定长类型"+RedisUtil.getFixedString(in));
-                }else if (first == ASTERISK_BYTE){
-                    System.out.println("数组类型");
-
+                }else if (first == RedisUtil.ASTERISK_BYTE){
+                    System.out.print("数组类型");
+                    List result = RedisUtil.getRespArray(in);
+                    for (Object o : result) {
+                        System.out.println("key-->"+o.toString());
+                    }
                 }
             }
         }finally {
