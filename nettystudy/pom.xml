@@ -31,6 +31,12 @@
             <groupId>io.seata</groupId>
             <artifactId>seata-all</artifactId>
         </dependency>
+
+        <!--msg 序列化工具 -->
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>msgpack</artifactId>
+        </dependency>
     </dependencies>
 
 
