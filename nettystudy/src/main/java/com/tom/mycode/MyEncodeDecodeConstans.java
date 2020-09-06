@@ -40,6 +40,9 @@ public class MyEncodeDecodeConstans {
     public static final String PONG = "pong";
 
 
+    public static final int MAX_FRAME_LENGTH = 8 * 1024 * 1024;
+
+
 
 
 

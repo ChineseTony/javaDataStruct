@@ -6,23 +6,56 @@ import com.tom.mycode.ObjectSerializer;
 import com.tom.mycode.RpcMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 /**
  * @author WangTao
  */
-public class RpcMessageDecoder  extends ByteToMessageDecoder {
+public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcMessageDecoder.class);
 
+
+    public RpcMessageDecoder() {
+        // default is 8M
+        this(MyEncodeDecodeConstans.MAX_FRAME_LENGTH);
+    }
+
+    public RpcMessageDecoder(int maxFrameLength) {
+        /*
+        int maxFrameLength,
+        int lengthFieldOffset,  magic code is 4B, and version is 1B, and then FullLength. so value is 5
+        int lengthFieldLength,  FullLength is int(4B). so values is 4
+        int lengthAdjustment,   FullLength include all data and read 9 bytes before, so the left length is (FullLength-7). so values is -7
+        int initialBytesToStrip we will check magic code and version self, so do not strip any bytes. so values is 0
+        */
+        super(maxFrameLength, 5, 4, -9, 0);
+    }
+
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out)
+    protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+        Object decoded = super.decode(ctx, in);
+        if (decoded instanceof ByteBuf) {
+            ByteBuf frame = (ByteBuf) decoded;
+            try {
+                return decodeFrame(frame);
+            } catch (Exception e) {
+                LOGGER.error("Decode frame error!", e);
+                throw e;
+            } finally {
+                frame.release();
+            }
+        }
+        return decoded;
+    }
+
+
+    private Object decodeFrame(ByteBuf in)
             throws Exception {
 //        读取前4个magic比对一下
         int len = MyEncodeDecodeConstans.MAGIC_NUMBER.length;
@@ -67,7 +100,8 @@ public class RpcMessageDecoder  extends ByteToMessageDecoder {
                 rpcMessage.setData(tmpValue);
             }
         }
-        out.add(rpcMessage);
+
+        return rpcMessage;
 
     }
 

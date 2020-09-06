@@ -28,20 +28,24 @@ public class MyCodecClientHandler extends ChannelInboundHandlerAdapter {
     private static final int COUNT = 3;
 
     public MyCodecClientHandler() {
-        rpcMessage = new RpcMessage();
-        rpcMessage.setRequestId(1234);
-        rpcMessage.setMessageType(MyEncodeDecodeConstans.MSGTYPE_RESQUEST);
-        rpcMessage.setData("study netty");
-        Map<String, String> map = new HashMap<>();
-        map.put("age","1");
-        map.put("name","tom");
-        rpcMessage.setParams(map);
 
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        ctx.writeAndFlush(rpcMessage);
+
+        for (int i = 0; i < 100; i++) {
+            rpcMessage = new RpcMessage();
+            rpcMessage.setRequestId(i);
+            rpcMessage.setMessageType(MyEncodeDecodeConstans.MSGTYPE_RESQUEST);
+            rpcMessage.setData("study netty"+i);
+            Map<String, String> map = new HashMap<>();
+            map.put("age",""+i);
+            map.put("name","tom"+i);
+            rpcMessage.setParams(map);
+            ctx.writeAndFlush(rpcMessage);
+        }
+
 
     }
 
