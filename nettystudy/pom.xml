@@ -37,6 +37,14 @@
             <groupId>org.msgpack</groupId>
             <artifactId>msgpack</artifactId>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-codec-redis -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-redis</artifactId>
+            <version>4.1.52.Final</version>
+        </dependency>
+
     </dependencies>
 
 

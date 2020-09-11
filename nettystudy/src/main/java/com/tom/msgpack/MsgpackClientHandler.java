@@ -34,10 +34,9 @@ public class MsgpackClientHandler extends ChannelInboundHandlerAdapter {
         for (int i = 0; i < times; i++) {
             User user = new User();
             user.setName("client"+i);
-            user.setPassword("abcd");
-            ctx.write(user);
+            user.setPassword("abcd-->"+i);
+            ctx.writeAndFlush(user);
         }
-        ctx.flush();
 
     }
 

@@ -38,7 +38,7 @@ public class MsgpackServerHandler  extends ChannelInboundHandlerAdapter {
         for (int i = 0; i < times; i++) {
             User user = new User();
             user.setName("server"+i);
-            user.setPassword("12345");
+            user.setPassword("12345--->"+i);
             ctx.write(user);
         }
         ctx.flush();
