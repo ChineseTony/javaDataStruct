@@ -66,7 +66,7 @@ public class FalseShare implements Runnable{
     }
     public final static class VolatileLong {
 //        4101067752
-//      jdk1.8 以上 @Contended  -XX:-RestrictContended=false 使得jdk外部类使用
+//      jdk1.8 以上 @Contended  -XX:-RestrictContended=false 使得jdk外部类使用 –XX: EnableContented
         public volatile long value = 0L;
         // 注释此行，结果区别很大
         public long p1, p2, p3, p4, p5, p6;
