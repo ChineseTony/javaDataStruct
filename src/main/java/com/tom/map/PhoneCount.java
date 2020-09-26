@@ -6,9 +6,7 @@ import java.util.*;
 /**
  * @author WangTao
  *
- * 1
- * abcd abed
- * abed 1 2
+
  */
 public class PhoneCount {
 
