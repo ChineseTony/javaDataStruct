@@ -1,12 +1,13 @@
 package com.tom.tree;
 
 
-import java.util.Scanner;
 
 /**
  * @author WangTao
+ *
+ * @linke https://blog.csdn.net/hm108106/article/details/72736075
  */
-public class MyAvlTree<K extends Comparable,V> {
+public class MyAvlTree<Key extends Comparable,Value> {
 
     private Node root;
 
@@ -18,13 +19,13 @@ public class MyAvlTree<K extends Comparable,V> {
         size = 0;
     }
 
-    public void add(K key, V value){
+    public void add(Key key, Value value){
         root = insert(root,key, value);
     }
 
 
 
-    private Node  insert(Node node,K key,V value){
+    private Node  insert(Node node,Key key,Value value){
         if (node == null){
             node = new Node(key,value);
             size++;
@@ -34,9 +35,9 @@ public class MyAvlTree<K extends Comparable,V> {
                 //判断情况是否需要左旋 右旋
                 if (getHeigth(node.left) - getHeigth(node.right) == 2){
                     if(key.compareTo(node.left.key) < 0){
-                        node=SingleLeftRotation(node);//左单旋
+                        node=singleLeftRotation(node);//左单旋
                     }else if(key.compareTo(node.left.key) > 0){
-                        node=DoubleLeftRightRotation(node);
+                        node=doubleLeftRightRotation(node);
                     }
                 }
 
@@ -44,16 +45,16 @@ public class MyAvlTree<K extends Comparable,V> {
                 node.right  = insert(node.right,key,value);
                 if (getHeigth(node.left) - getHeigth(node.right) == -2){
                     if(key.compareTo(node.right.key) > 0){
-                        node=SingleRightRotation(node);//右单旋
+                        node=singleRightRotation(node);//右单旋
                     }else if(key.compareTo(node.right.key) < 0){
-                        node=DoubleRightLeftRotation(node);
+                        node=doubleRightLeftRotation(node);
                     }
                 }
             }else {
                 node.value = value;
             }
         }
-        //更新高度
+        //更新平衡因子
         node.height = Math.max(getHeigth(node.left),getHeigth(node.right)) +1;
         return node;
     }
@@ -63,7 +64,12 @@ public class MyAvlTree<K extends Comparable,V> {
         return size;
     }
 
-    public V getRootValue(){
+    public boolean isEmpty(){
+        return  root == null;
+    }
+
+
+    public Value getRootValue(){
         if (root == null){
             return null;
         }else {
@@ -73,7 +79,7 @@ public class MyAvlTree<K extends Comparable,V> {
 
 
     //左旋
-    private Node SingleLeftRotation(Node node){
+    private Node singleLeftRotation(Node node){
         Node tmp = node.left;
         node.left = tmp.right;
         tmp.right = node;
@@ -84,7 +90,7 @@ public class MyAvlTree<K extends Comparable,V> {
 
 
     //右旋
-    private Node SingleRightRotation(Node node){
+    private Node singleRightRotation(Node node){
         Node tmpRight = node.right;
         node.right = tmpRight.left;
         tmpRight.left = node;
@@ -95,15 +101,15 @@ public class MyAvlTree<K extends Comparable,V> {
     }
 
 
-    private Node DoubleLeftRightRotation(Node node){
-        node.left=SingleRightRotation(node.left);
-        return SingleLeftRotation(node);
+    private Node doubleLeftRightRotation(Node node){
+        node.left=singleRightRotation(node.left);
+        return singleLeftRotation(node);
     }
 
 
-    private Node DoubleRightLeftRotation(Node node){
-        node.right=SingleLeftRotation(node.right);
-        return SingleRightRotation(node);
+    private Node doubleRightLeftRotation(Node node){
+        node.right=singleLeftRotation(node.right);
+        return singleRightRotation(node);
     }
 
 
@@ -137,16 +143,52 @@ public class MyAvlTree<K extends Comparable,V> {
     }
 
 
+//    todo delete node by key
+//
+//    public void delete(Key key){
+//        root  =  delete(root,key);
+//    }
+//
+//
+//    private Node delete(Node node,Key key){
+//
+//        if (key.compareTo(node.key) < 0){
+//            node.left =  delete(node.left,key);
+//            return node;
+//        }else if (key.compareTo(node.key) > 0) {
+//            node.right =  delete(node.right,key);
+//            return node;
+//        }else {
+////            找到 值为key的节点 删除改节点
+//            //删除叶子节点
+//            if (node.left == null && node.right == null){
+//               node = null;
+//               return node;
+//            }
+//
+//            if (node.left == null){
+//
+//            }
+//            if (node.right == null){
+//
+//            }
+//
+//            return null;
+//        }
+//
+//    }
+
+
 
 
     private class Node {
-        public K key;
-        public V value;
+        public Key key;
+        public Value value;
         public int height;
         public Node left;
         public Node right;
 
-        public Node(K key, V value){
+        public Node(Key key, Value value){
             this.key = key;
             this.value = value;
             this.left = null;

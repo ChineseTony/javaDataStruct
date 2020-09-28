@@ -1,7 +1,6 @@
 package com.tom.tree;
 
 import java.util.Scanner;
-import java.util.TreeMap;
 
 /**
  * @author WangTao
@@ -10,16 +9,15 @@ import java.util.TreeMap;
 public class AVLPtaTree {
 
     public static void main(String[] args) {
-        MyAvlTree<Integer,Integer> tree = new MyAvlTree<>();
+        MyAvlTree<Integer,String> tree = new MyAvlTree<>();
 
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         while (n-- >0){
-            int tmp = scanner.nextInt();
-            tree.add(tmp,tmp);
+            int key = scanner.nextInt();
+            String value = scanner.next();
+            tree.add(key,value);
         }
-        System.out.println(tree.getRootValue());
-        System.out.println(tree.getSize());
         tree.inorderTravle();
     }
 }
