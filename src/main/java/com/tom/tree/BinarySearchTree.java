@@ -47,6 +47,41 @@ public class BinarySearchTree<Key extends Comparable,Value> {
     }
 
 
+      public class TreeNode {
+          int val;
+          TreeNode left;
+          TreeNode right;
+          TreeNode() {}
+          TreeNode(int val) { this.val = val; }
+          TreeNode(int val, TreeNode left, TreeNode right) {
+              this.val = val;
+              this.left = left;
+              this.right = right;
+          }
+      }
+
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null){
+            return result;
+        }
+        travel(result,root);
+        return result;
+
+    }
+
+    private void travel(List<Integer> tmp,TreeNode root){
+        if (root != null){
+            travel(tmp,root.left);
+            travel(tmp,root.right);
+            tmp.add(root.val);
+        }
+    }
+
+
+
+
 
     public Value getMax(){
         if (lenght == 0){
