@@ -17,6 +17,7 @@ import static com.tom.mycode.MyEncodeDecodeConstans.TOTAL_LENGTH;
 
 /**
  * @author WangTao
+ * @link https://blog.csdn.net/u010853261/article/details/55803933
  */
 public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
 
