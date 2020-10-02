@@ -35,8 +35,8 @@ import static com.tom.mycode.MyEncodeDecodeConstans.MAGIC_NUMBER;
  *  * |                                        ... ...                                                     |
  *  * +----------------------------------------------------------------------------------------------------+
  *
- *  自定义编码器  4b  魔法数  1B version 版本  4 full length 4 head length 2B  messageType 消息类型 1B
- *  requestId 1B  HeadMap map类型 可选  body objct类型数据
+ *  自定义编码器  4b  魔法数  1B version 版本  4B full length 4B head length 2B  2B messageType 消息类型 1B
+ *  requestId  4B HeadMap map类型 可选  body objct类型数据
  *
  */
 public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {

@@ -18,6 +18,7 @@ public class MyEncodeDecodeConstans {
 
     //版本信息
     public static final byte VERSION = 1;
+    public static final byte TOTAL_LENGTH = 16;
 
     //请求
     public static final byte MSGTYPE_RESQUEST = 1;

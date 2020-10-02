@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.Map;
 
+import static com.tom.mycode.MyEncodeDecodeConstans.TOTAL_LENGTH;
+
 /**
  * @author WangTao
  */
@@ -42,14 +44,17 @@ public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
         Object decoded = super.decode(ctx, in);
         if (decoded instanceof ByteBuf) {
             ByteBuf frame = (ByteBuf) decoded;
-            try {
-                return decodeFrame(frame);
-            } catch (Exception e) {
-                LOGGER.error("Decode frame error!", e);
-                throw e;
-            } finally {
-                frame.release();
+            if (frame.readableBytes() >= TOTAL_LENGTH){
+                try {
+                    return decodeFrame(frame);
+                } catch (Exception e) {
+                    LOGGER.error("Decode frame error!", e);
+                    throw e;
+                } finally {
+                    frame.release();
+                }
             }
+
         }
         return decoded;
     }
