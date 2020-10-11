@@ -30,7 +30,7 @@ public class ABCChian {
                 }else if (o1.size() < o2.size()){
                     return -1;
                 }else {
-                    //todo 解析长度相对的
+                    //todo 解析长度相等的
                    return 0;
                 }
             }
