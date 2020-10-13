@@ -2,10 +2,7 @@ package com.tom.stack;
 
 
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -73,11 +70,113 @@ public class EvalRPN {
 
     }
 
+
+    public static boolean checkPerfectNumber(int num) {
+        if(num == 1) {
+            return false;
+        }
+        int sum = 1;
+        for(int i = 2, max = num/2; i < max; i++){
+            if(num % i == 0){
+                sum += i + num/i;
+                max = num/i;
+            }
+        }
+        return sum == num;
+    }
+
+
+    public static String reformat(String s) {
+        if (s == null || s.length() == 0){
+            return s;
+        }
+        Deque<Character> charDeque = new ArrayDeque<>();
+        Deque<Character> numberDeque = new ArrayDeque<>();
+        for (char c:s.toCharArray()){
+            if (c >= '0' && c <= '9'){
+                numberDeque.offer(c);
+            }else {
+                charDeque.offer(c);
+            }
+        }
+        int charLength = charDeque.size();
+        int numberLength = numberDeque.size();
+        if (Math.abs(charLength-numberLength) > 1){
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        if (charLength > numberLength){
+            int tmp = numberLength;
+            while (tmp > 0){
+                sb.append(charDeque.poll()).append(numberDeque.poll());
+                tmp --;
+            }
+            sb.append(charDeque.poll());
+        }else if (numberLength > charLength){
+            int tmp = charLength;
+            while (tmp > 0){
+                sb.append(numberDeque.poll()).append(charDeque.poll());
+                tmp --;
+            }
+            sb.append(numberDeque.poll());
+        }else{
+            int tmp = charLength;
+            while (tmp > 0){
+                sb.append(numberDeque.poll()).append(charDeque.poll());
+                tmp --;
+            }
+        }
+
+        return sb.toString();
+    }
+
+
+    public static String reformat2(String s) {
+        if (s == null || s.length() == 0){
+            return s;
+        }
+        int charLen = 0;
+        int numberLen = 0;
+        for (char c:s.toCharArray()){
+            if (c >= '0' && c <= '9'){
+                numberLen++;
+            }else {
+                charLen++;
+            }
+        }
+        if (Math.abs(numberLen-charLen) > 1){
+            return "";
+        }
+        if (numberLen > charLen){
+            numberLen = 0;
+            charLen = 1;
+        }else {
+            charLen =0;
+            numberLen = 1;
+        }
+        char[] chars = new char[s.length()];
+        for (char c:s.toCharArray()){
+            if (c >= '0' && c <= '9'){
+                chars[numberLen] = c;
+                numberLen += 2;
+            }else {
+                chars[charLen] = c;
+                charLen += 2;
+            }
+        }
+        return new String(chars);
+    }
+
     public static void main(String[] args) {
         String[] tmp = new String[]{
                 "10"
         };
         System.out.println(evalRPN(tmp));
+
+        System.out.println(checkPerfectNumber(100000000));
+
+//        "covid2019"
+        System.out.println(reformat("a0b1c2"));
 
     }
 }
