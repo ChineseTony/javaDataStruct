@@ -504,6 +504,37 @@ public class TreeSolution {
         tmp.remove(tmp.size()-1);
     }
 
+
+    private TreeNode prev;
+    private TreeNode s;
+    private TreeNode t;
+
+    //@link https://leetcode-cn.com/problems/recover-binary-search-tree/
+    public void recoverTree(TreeNode root) {
+        recover(root);
+        swap(s,t);
+    }
+
+    private void recover(TreeNode root){
+        if(root == null){
+            return ;
+        }
+        recover(root.left);
+        if(prev != null && root.val < prev.val){
+            s = (s == null) ? prev : s;
+            t = root;
+        }
+        //暂存
+        prev = root;
+        recover(root.right);
+    }
+
+    private void swap(TreeNode t1,TreeNode t2){
+        int tmp = t1.val;
+        t1.val = t2.val;
+        t2.val = tmp;
+    }
+
     public class TreeNode {
       int val;
       TreeNode left;
