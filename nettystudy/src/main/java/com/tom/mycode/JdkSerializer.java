@@ -1,5 +1,7 @@
 package com.tom.mycode;
 
+import com.tom.mycode.serializer.Serializer;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -8,21 +10,17 @@ import java.io.ObjectOutputStream;
 /**
  * @author WangTao
  */
-public class ObjectSerializer {
+public class JdkSerializer implements Serializer {
 
-    private ObjectSerializer(){
 
-    }
-
-    public static Object ByteToObject(byte[] bytes){
+    @Override
+    public  <T> T deserialize(byte[] bytes,Class<T> clazz){
         Object obj = null;
         try {
             //bytearray to object
             ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
             ObjectInputStream oi = new ObjectInputStream(bi);
-
             obj = oi.readObject();
-
             bi.close();
             oi.close();
         }
@@ -30,19 +28,19 @@ public class ObjectSerializer {
             System.out.println("translation"+e.getMessage());
             e.printStackTrace();
         }
-        return obj;
+        return (T)obj;
     }
 
-    public static byte[] ObjectToByte(Object obj) {
+
+
+    @Override
+    public  byte[] serialize(Object obj) {
         byte[] bytes = null;
         try {
-            //object to bytearray
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
             ObjectOutputStream oo = new ObjectOutputStream(bo);
             oo.writeObject(obj);
-
             bytes = bo.toByteArray();
-
             bo.close();
             oo.close();
         }

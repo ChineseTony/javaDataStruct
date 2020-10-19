@@ -1,9 +1,6 @@
 package com.tom.mycode.codec;
 
-import com.tom.mycode.MyEncodeDecodeConstans;
-import com.tom.mycode.MyHeadMapSerializer;
-import com.tom.mycode.ObjectSerializer;
-import com.tom.mycode.RpcMessage;
+import com.tom.mycode.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -73,7 +70,7 @@ public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {
             if (messageType != MyEncodeDecodeConstans.MSGTYPE_HEARTBEAT_REQUEST
                     && messageType != MyEncodeDecodeConstans.MSGTYPE_HEARTBEAT_RESPONSE) {
                     //对象序列化
-                    bodyBytes = ObjectSerializer.ObjectToByte(rpcMessage.getData());
+                    bodyBytes = SerializerFactory.serialize(rpcMessage.getData());
                     fullLength += bodyBytes.length;
             }
             if (bodyBytes != null){

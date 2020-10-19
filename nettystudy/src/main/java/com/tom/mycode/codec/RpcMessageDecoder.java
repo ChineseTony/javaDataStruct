@@ -1,9 +1,6 @@
 package com.tom.mycode.codec;
 
-import com.tom.mycode.MyEncodeDecodeConstans;
-import com.tom.mycode.MyHeadMapSerializer;
-import com.tom.mycode.ObjectSerializer;
-import com.tom.mycode.RpcMessage;
+import com.tom.mycode.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -102,7 +99,7 @@ public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
             if (bodyLength > 0) {
                 byte[] bs = new byte[bodyLength];
                 in.readBytes(bs);
-                Object tmpValue = ObjectSerializer.ByteToObject(bs);
+                Object tmpValue = SerializerFactory.deserialize(bs,Object.class);
                 rpcMessage.setData(tmpValue);
             }
         }
