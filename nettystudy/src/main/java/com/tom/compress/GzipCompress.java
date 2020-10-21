@@ -32,6 +32,16 @@ public class GzipCompress  implements Compress{
         if (bytes == null) {
             throw new NullPointerException("bytes is null");
         }
+        if (bytes.length < 2){
+            throw new RuntimeException("not has gzip magic");
+        }
+        //check gzip magic
+        int b0 = bytes[0];
+        int b1 = bytes[1];
+        int b = (b1 & 0xFF) << 8 | b0;
+        if (b != GZIPInputStream.GZIP_MAGIC){
+            throw new RuntimeException("not gzip compress");
+        }
         try(ByteArrayOutputStream out = new ByteArrayOutputStream();
                  GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(bytes))){
             byte[] buffer = new byte[BUFFER_SIZE];
@@ -43,5 +53,11 @@ public class GzipCompress  implements Compress{
         } catch (IOException e) {
             throw new RuntimeException("gzip compress error", e);
         }
+    }
+
+    public static void main(String[] args) {
+        String s = "I am a student";
+        byte[] bytes = GzipUtil.compress(s.getBytes());
+        System.out.println(new String(GzipUtil.decompress(bytes)));
     }
 }

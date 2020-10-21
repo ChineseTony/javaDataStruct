@@ -39,9 +39,9 @@ public class HttpServer {
                         }
                     });
             ChannelFuture  channelFuture= serverBootstrap.bind(port).sync()
-                    .addListener(v ->{
-                        System.out.println("启动端口:"+port);
-                    });
+                    .addListener(v ->
+                        System.out.println("启动端口:"+port)
+                    );
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
