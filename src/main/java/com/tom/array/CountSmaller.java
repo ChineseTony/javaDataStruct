@@ -40,6 +40,21 @@ public class CountSmaller {
         return  result;
     }
 
+
+    public int[] runningSum(int[] nums) {
+        if (nums == null || nums.length == 0){
+            return new int[0];
+        }
+        int sum = 0;
+        int len = nums.length;
+        int[] result = new int[len];
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            result[i] = sum;
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         int[] arr = new int[]{5,2,6,1};
         List<Integer> result = countSmaller(arr);

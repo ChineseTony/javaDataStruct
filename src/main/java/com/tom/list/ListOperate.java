@@ -1046,6 +1046,41 @@ public class ListOperate {
 
     }
 
+    public void deleteNode(ListNode node) {
+        if (node == null){
+            return;
+        }
+        ListNode next = node.next;
+        node.val = next.val;
+        node.next = node.next.next;
+        next = null;
+    }
+
+
+    public int kthToLast(ListNode head, int k) {
+        if (head == null || k < 0){
+            return -1;
+        }
+        ListNode dumpy = new ListNode(-1);
+        dumpy.next = head;
+        ListNode pre = dumpy;
+        ListNode cur = dumpy;
+        while (cur != null && k-- > 0){
+            cur = cur.next;
+        }
+        if (cur == null){
+            return -1;
+        }else {
+            while (cur != null){
+                cur = cur.next;
+                pre = pre.next;
+            }
+
+            return pre.val;
+        }
+
+    }
+
 
 
 
