@@ -109,6 +109,11 @@ public class MystrStr {
         return maxAverage / k;
     }
 
+
+//    public boolean buddyStrings(String A, String B) {
+//
+//    }
+
     public static void main(String[] args) {
         System.out.println(repeatedSubstringPattern("abaababaab"));
         System.out.println(reverseVowels("hello"));
