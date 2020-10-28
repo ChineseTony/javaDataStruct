@@ -1,5 +1,7 @@
 package com.tom.string;
 
+import sun.nio.cs.ext.MacHebrew;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -82,11 +84,7 @@ public class CommonChars {
             }else {
                 char cur = s.charAt(i);
                 char next = stack.peekLast();
-                if (Character.isLowerCase(cur) && Character.isUpperCase(next)
-                        && cur == next+32){
-                    stack.pollLast();
-                }else if (Character.isUpperCase(s.charAt(i))
-                        && Character.isLowerCase(next)  && cur+32 == next ){
+                if (Math.abs(cur-next) == 32){
                     stack.pollLast();
                 }else {
                     stack.offer(cur);
