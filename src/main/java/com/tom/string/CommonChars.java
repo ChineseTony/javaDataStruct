@@ -1,6 +1,8 @@
 package com.tom.string;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -39,9 +41,71 @@ public class CommonChars {
     }
 
 
+    /**
+     * @link https://leetcode-cn.com/problems/replace-all-s-to-avoid-consecutive-repeating-characters/
+     * @param s
+     * @return
+     *
+     * ??yw?ipkj?
+     *
+     * acywaipkja
+     */
+    public String modifyString(String s) {
+        if (s == null || s.length() == 0){
+            return s;
+        }
+        int len = s.length();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < len; i++) {
+
+        }
+        return sb.toString();
+
+    }
+
+
+    /**
+     * "abBAcC"  输出 ""
+     * @param s
+     * @return
+     */
+    public static String makeGood(String s) {
+        if (s == null || s.length() == 0){
+            return s;
+        }
+        int len = s.length();
+        StringBuilder sb = new StringBuilder();
+        Deque<Character> stack = new ArrayDeque<>();
+        for (int i = 0; i < len; i++) {
+            if (stack.isEmpty()){
+                stack.offer(s.charAt(i));
+            }else {
+                char cur = s.charAt(i);
+                char next = stack.peekLast();
+                if (Character.isLowerCase(cur) && Character.isUpperCase(next)
+                        && cur == next+32){
+                    stack.pollLast();
+                }else if (Character.isUpperCase(s.charAt(i))
+                        && Character.isLowerCase(next)  && cur+32 == next ){
+                    stack.pollLast();
+                }else {
+                    stack.offer(cur);
+                }
+            }
+        }
+        while (!stack.isEmpty()){
+            sb.append(stack.poll());
+        }
+       return sb.toString();
+
+    }
+
+
     public static void main(String[] args) {
         String[] arr = new String[]{"bella","label","roller"};
         commonChars(arr).forEach(v -> System.out.print(v + "\t"));
+        System.out.println(makeGood("leEeetcode"));
+        System.out.println(makeGood("abBAcC"));
 
     }
 }
