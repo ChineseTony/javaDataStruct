@@ -287,6 +287,23 @@ public class TreeSolution {
 //
 //    }
 
+
+    public int sumNumbers(TreeNode root) {
+        List<List<Integer>> all = new ArrayList<>();
+        List<Integer> tmp = new ArrayList<>();
+        getAllLeafToRoot(root,tmp,all);
+        int sum = 0;
+        System.out.println(all);
+        for (List<Integer> list:all){
+            int tmpVal = 0;
+            for(int t:list){
+                tmpVal = tmpVal * 10 + t;
+            }
+            sum += tmpVal;
+        }
+        return sum;
+    }
+
     private void  getAllLeafToRoot(TreeNode root,List<Integer> tmp,
                                    List<List<Integer>> all){
         if(root == null){
@@ -300,11 +317,29 @@ public class TreeSolution {
         if(root.left != null){
             getAllLeafToRoot(root.left,tmp,all);
         }
-        if(root.left != null){
-            getAllLeafToRoot(root.left,tmp,all);
+        if(root.right != null){
+            getAllLeafToRoot(root.right,tmp,all);
         }
         tmp.remove(tmp.size()-1);
     }
+
+
+    public int sumNumbers2(TreeNode root) {
+        return dfs(root, 0);
+    }
+
+    public int dfs(TreeNode root, int prevSum) {
+        if (root == null) {
+            return 0;
+        }
+        int sum = prevSum * 10 + root.val;
+        if (root.left == null && root.right == null) {
+            return sum;
+        } else {
+            return dfs(root.left, sum) + dfs(root.right, sum);
+        }
+    }
+
 
     public boolean verifyPostorder(int[] postorder) {
         if (postorder == null){
