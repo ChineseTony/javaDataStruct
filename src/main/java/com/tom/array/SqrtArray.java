@@ -1,6 +1,8 @@
 package com.tom.array;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 977. 有序数组的平方r
@@ -66,6 +68,94 @@ public class SqrtArray {
     }
 
 
+    public int[] getNoZeroIntegers(int n) {
+        int[] result = new int[2];
+
+        for (int i = 1; i < n; i++) {
+            int b = n - i;
+            if (containsZero(i) && containsZero(b)){
+                result[0] = i;
+                result[1] = b;
+                return result;
+            }
+        }
+        return result;
+    }
+
+    private boolean containsZero(int i){
+        while (i != 0){
+            int t = i % 10;
+            if (t == 0){
+                return false;
+            }
+
+            i = i / 10;
+        }
+        return true;
+    }
+
+    /**
+     * 输入：arr = [91,4,64,78], pieces = [[78],[4,64],[91]]
+     * 输出：true
+     * 解释：依次连接 [91]、[4,64] 和 [78]
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/check-array-formation-through-concatenation
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * @param arr
+     * @param pieces
+     * @return
+     */
+    public static boolean canFormArray(int[] arr, int[][] pieces) {
+        int len = arr.length;
+        int i = 0;
+        while (i < len){
+            int tmp = arr[i];
+            //在二维数组中找
+            int j;
+            boolean flag = true;
+            for (j = 0; j < pieces.length; j++) {
+                //找到 pieces的值
+                if (pieces[j][0] == tmp){
+                    int pieceLen = pieces[j].length;
+                    for (int k = 0; k < pieceLen; k++) {
+                        if (pieces[j][k] != arr[i]){
+                            return false;
+                        }
+                        i++;
+                    }
+                    flag = false;
+                }
+            }
+            if (flag){
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public static boolean canFormArray2(int[] arr, int[][] pieces) {
+        Map<Integer, int[]> map = new HashMap<>();
+        for (int[] piece : pieces) {
+            map.put(piece[0], piece);
+        }
+        for (int i = 0; i < arr.length;) {
+            if (!map.containsKey(arr[i])) {
+                return false;
+            }
+            int[] array = map.get(arr[i]);
+            for (int j = 0; j < array.length; j++, i++) {
+                if (arr[i] != array[j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
     public static void main(String[] args) {
         int[] A = new int[]{-4,-1,0,3,10};
         int[] B = sortedSquares2(A);
@@ -73,5 +163,8 @@ public class SqrtArray {
             System.out.print(i+" ");
         }
         System.out.println();
+        int[] arr = new int[]{1,2};
+        int[][] pieces = new int[][]{{1},{3}};
+        System.out.println(canFormArray(arr,pieces));
     }
 }
