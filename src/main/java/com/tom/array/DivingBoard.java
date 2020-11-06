@@ -23,12 +23,31 @@ public class DivingBoard {
 
     }
 
+
+    /**
+     * @link https://leetcode-cn.com/problems/water-bottles/
+     * @param numBottles
+     * @param numExchange
+     * @return
+     */
+    public static int numWaterBottles(int numBottles, int numExchange) {
+        int result = numBottles;
+        int t = numBottles / numExchange;
+        while (t != 0){
+            t = numBottles / numExchange;
+            result += t;
+            numBottles = t + numBottles % numExchange;
+        }
+        return result;
+
+    }
+
     public static void main(String[] args) {
         int[] tmp = divingBoard(1,1,10);
         for(int i:tmp){
             System.out.print(i + "\t");
         }
         System.out.println();
-
+        System.out.println(numWaterBottles(9,3));
     }
 }
