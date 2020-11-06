@@ -1,8 +1,6 @@
 package com.tom.array;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 977. 有序数组的平方r
@@ -156,6 +154,68 @@ public class SqrtArray {
 
     }
 
+
+    public static int[] sortByBits(int[] arr) {
+        Map<Integer,Integer> map = new HashMap<>();
+        int len = arr.length;
+        List<Integer> list = new ArrayList<>(len);
+        for (int i = 0; i < len; i++) {
+            map.put(arr[i],countOne(arr[i]));
+            list.add(arr[i]);
+        }
+        list.sort((o1, o2) -> {
+            if (!map.get(o1).equals(map.get(o2))) {
+                return map.get(o1) - map.get(o2);
+            } else {
+                return o1 - o2;
+            }
+        });
+        for (int i = 0; i < len; ++i) {
+            arr[i] = list.get(i);
+        }
+        return arr;
+    }
+
+    private static int countOne(int a){
+        int result = 0;
+        while (a != 0){
+            result = result +a % 2;
+            a = a / 2;
+        }
+        return result;
+    }
+
+
+    /**
+     * @link https://leetcode-cn.com/problems/partition-array-into-three-parts-with-equal-sum/
+     * @param arr
+     * @return
+     */
+    public static boolean canThreePartsEqualSum(int[] arr) {
+        if (arr == null || arr.length < 3){
+            return false;
+        }
+        int sum = 0;
+        int len = arr.length;
+        for (int i = 0; i < len; i++) {
+            sum += arr[i];
+        }
+        if (sum % 3 != 0){
+            return false;
+        }
+        int tmp = sum  / 3;
+        sum = 0;
+        int count =0;
+        for (int i = 0; i < len; i++) {
+            sum += arr[i];
+            if (sum == tmp){
+                count++;
+                sum = 0;
+            }
+        }
+        return count >= 3;
+    }
+
     public static void main(String[] args) {
         int[] A = new int[]{-4,-1,0,3,10};
         int[] B = sortedSquares2(A);
@@ -166,5 +226,11 @@ public class SqrtArray {
         int[] arr = new int[]{1,2};
         int[][] pieces = new int[][]{{1},{3}};
         System.out.println(canFormArray(arr,pieces));
+
+        int[] tmp = new int[]{0,1,2,3,4,5,6,7,8};
+        System.out.println(Arrays.toString(sortByBits(tmp)));
+
+        tmp = new int[]{10,-10,10,-10,10,-10,10,-10};
+        System.out.println(canThreePartsEqualSum(tmp));
     }
 }

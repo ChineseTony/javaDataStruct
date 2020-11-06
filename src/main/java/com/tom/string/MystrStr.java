@@ -1,9 +1,6 @@
 package com.tom.string;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author WangTao
@@ -109,6 +106,35 @@ public class MystrStr {
         return maxAverage / k;
     }
 
+
+    /**
+     * https://leetcode-cn.com/problems/largest-substring-between-two-equal-characters/
+     * @param s
+     * @return
+     *
+     * 输入：s = "cabbac"
+     * 输出：4
+     * 解释：最优的子字符串是 "abba" ，其他的非最优解包括 "bb" 和 "" 。
+     */
+    public int maxLengthBetweenEqualCharacters(String s) {
+        //Map<char,int>
+        if (s == null || s.length() == 0){
+            return 0;
+        }
+        int len = s.length();
+        Map<Character,Integer> map = new HashMap<>();
+        int result = -1;
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(i);
+            if (!map.containsKey(c)){
+                map.put(c,i);
+            }else {
+                result = Math.max(result,i - map.get(c) -1);
+            }
+        }
+
+        return result;
+    }
 
 //    public boolean buddyStrings(String A, String B) {
 //
