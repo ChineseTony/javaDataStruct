@@ -34,12 +34,12 @@ public class TopKFrequent {
         }
         //java优先队列默认是最小堆
         PriorityQueue<Freq> queue = new PriorityQueue<>();
-        for (int key:map.keySet()){
+        for (Map.Entry<Integer,Integer> entry:map.entrySet()){
             if (queue.size() < k){
-                queue.offer(new Freq(key,map.get(key)));
-            }else if (map.get(key) > queue.peek().times){
+                queue.offer(new Freq(entry.getKey(),entry.getValue()));
+            }else if (entry.getValue() > queue.peek().times){
                 queue.poll();
-                queue.offer(new Freq(key,map.get(key)));
+                queue.offer(new Freq(entry.getKey(),entry.getValue()));
             }
         }
         List<Integer> list = new ArrayList<>(queue.size());

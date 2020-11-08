@@ -38,6 +38,7 @@ class MyClassLoader extends ClassLoader{
         try {
             byte[] b = new byte[inputStream.available()];
             inputStream.read(b);
+            inputStream.close();
             return defineClass(name, b, 0, b.length);
         } catch (IOException e) {
             throw new ClassNotFoundException();
