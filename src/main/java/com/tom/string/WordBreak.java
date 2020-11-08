@@ -3,6 +3,7 @@ package com.tom.string;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class WordBreak {
 
@@ -57,6 +58,38 @@ public class WordBreak {
 
     }
 
+
+    public static boolean checkValidString(String s) {
+        if(s == null || s.length() == 0){
+            return  true;
+        }
+        int len = s.length();
+        Stack<Integer> left = new Stack<>();
+        Stack<Integer> star= new Stack<>();
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(i);
+            if (c == '('){
+                left.push(i);
+            }else if (c == ')'){
+                if (!left.isEmpty()){
+                    left.pop();
+                }else if (!star.isEmpty()){
+                    star.pop();
+                }else {
+                    return false;
+                }
+            }else if (c == '*'){
+                star.push(i);
+            }
+        }
+        while (!left.isEmpty() && !star.isEmpty()){
+            if (left.pop() > star.pop()){
+                return false;
+            }
+        }
+        return left.isEmpty();
+    }
+
     public static void main(String[] args) {
         String s ="cars";
         String[] arr = new String[]{"car", "ca", "rs"};
@@ -64,5 +97,6 @@ public class WordBreak {
         System.out.println(wordBreak(s,lists));
 
         System.out.println(detectCapitalUse("FlaG"));
+        System.out.println(checkValidString("(***"));
     }
 }
