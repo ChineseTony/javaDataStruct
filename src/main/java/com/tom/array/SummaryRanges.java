@@ -66,7 +66,7 @@ public class SummaryRanges {
 
     }
 
-    public int lastRemaining2(int n, int m) {
+    public static int lastRemaining2(int n, int m) {
         ArrayList<Integer> list = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
             list.add(i);
@@ -93,6 +93,6 @@ public class SummaryRanges {
         List<String> tmp = summaryRanges2(nums);
         tmp.forEach(System.out::println);
 
-        System.out.println(lastRemaining(5,3));
+        System.out.println(lastRemaining2(5,3));
     }
 }
