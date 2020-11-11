@@ -88,6 +88,22 @@ public class SummaryRanges {
         return f;
     }
 
+
+    public int dominantIndex(int[] nums) {
+        int maxIndex = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] > nums[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            if (maxIndex != i && nums[maxIndex] < 2 * nums[i]) {
+                return -1;
+            }
+        }
+        return maxIndex;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{0,2,3,4,6,8,9,12};
         List<String> tmp = summaryRanges2(nums);
