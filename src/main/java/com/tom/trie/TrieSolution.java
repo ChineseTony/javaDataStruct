@@ -11,6 +11,7 @@ public class TrieSolution {
     /**
      * @link https://leetcode-cn.com/problems/longest-word-in-dictionary/
      * @param words
+     * //        "eyj" // TODO: 2020/11/14 // FIXME: 2020/11/14
      * @return
      */
     public static String longestWord(String[] words) {
@@ -43,7 +44,8 @@ public class TrieSolution {
         String[] words = new String[]{
                 "ogz","eyj","e","ey","hmn","v","hm","ogznkb","ogzn","hmnm","eyjuo","vuq","ogznk","og","eyjuoi","d"
         };
-//        "eyj" // TODO: 2020/11/14 // FIXME: 2020/11/14
+
         System.out.println(longestWord(words));
+        System.out.println(longestWord2(words));
     }
 }

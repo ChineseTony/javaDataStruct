@@ -228,7 +228,7 @@ public class Trie {
     }
 
     private void getLastWord(Node node,List<String> tmp,String s ){
-        if (node == null || (node != root && !node.isWord)){
+        if (node == null ){
             return ;
         }else if (node.next.size() == 0){
             tmp.add(s);
