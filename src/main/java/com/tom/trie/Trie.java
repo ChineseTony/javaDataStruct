@@ -1,5 +1,8 @@
 package com.tom.trie;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -194,6 +197,48 @@ public class Trie {
         }
     }
 
+
+
+    public String longestWord(String[] words) {
+        Trie trie = new Trie();
+        for (String s:words){
+            trie.add(s);
+        }
+
+
+        return "";
+    }
+
+    public List<String> getLastWord(){
+        List<String> tmp = new ArrayList<>();
+        getLastWord(root,tmp, "");
+        tmp.sort( (s1,s2) -> {
+            int length1 = s1.length();
+            int length2 = s2.length();
+            if (length1 > length2){
+                return -1;
+            }else if (length1 < length2){
+                return 1;
+            }else {
+                return s1.compareTo(s2);
+            }
+
+        });
+        return tmp;
+    }
+
+    private void getLastWord(Node node,List<String> tmp,String s ){
+        if (node == null || (node != root && !node.isWord)){
+            return ;
+        }else if (node.next.size() == 0){
+            tmp.add(s);
+        }else {
+            Node tmpNode = node;
+            for (Map.Entry<Character,Node> entry:tmpNode.next.entrySet()){
+                getLastWord(entry.getValue(),tmp,s + entry.getKey());
+            }
+        }
+    }
 
 
     private class Node{
