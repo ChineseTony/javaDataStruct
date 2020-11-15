@@ -85,6 +85,26 @@ public class MaxValueArray {
 
     }
 
+
+    /**
+     *
+     * @param n
+     * @return
+     */
+    public boolean isPowerOfThree(int n) {
+        int count = 0;
+        double result = 1;
+        while (result < n){
+            result = Math.pow(3,count);
+            count++;
+        }
+        return  result ==n;
+    }
+
+    public boolean isPowerOfThree2(int n) {
+        return Integer.toString(n, 3).matches("^10*$");
+    }
+
     public static void main(String[] args) {
         int[][] arr = new int[2][4];
         int count=0;
