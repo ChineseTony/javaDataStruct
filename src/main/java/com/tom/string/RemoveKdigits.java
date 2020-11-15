@@ -2,6 +2,9 @@ package com.tom.string;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class RemoveKdigits {
 
@@ -71,8 +74,46 @@ public class RemoveKdigits {
 
     }
 
+
+    /**
+     * @link https://leetcode-cn.com/problems/positions-of-large-groups/
+     * @param s
+     * @return
+     */
+    public static List<List<Integer>> largeGroupPositions(String s) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (s == null || s.length() == 0){
+            return  result;
+        }
+        int len = s.length();
+        int i = 0;
+        while (i < len){
+            int j = i+1;
+            char tmp = s.charAt(i);
+            while (j < len && s.charAt(j) == tmp){
+                j++;
+            }
+            if (j - i  >= 3){
+                List<Integer>  list = new ArrayList<>();
+                list.add(i);
+                list.add(j-1);
+                result.add(list);
+                i = j;
+            }else {
+                i++;
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
-        System.out.println(removeKdigits("10",2));
-        System.out.println(removeKdigits2("10",2));
+        System.out.println(removeKdigits("102340189234",4));
+        System.out.println(removeKdigits2("102340189234",4));
+
+        String tmp =  "abcdddeeeeaabbbcd";
+//       [[3,5],[6,9],[12,14]]
+        largeGroupPositions(tmp).forEach(
+                System.out::println
+        );
     }
 }
