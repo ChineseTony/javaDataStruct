@@ -283,9 +283,7 @@ public class TreeSolution {
     }
 
 
-//    public List<List<Integer>> pathSum(TreeNode root, int sum) {
-//
-//    }
+
 
 
     public int sumNumbers(TreeNode root) {
@@ -424,6 +422,27 @@ public class TreeSolution {
             return sum;
         }
         return sumLeaf(node.left,sum) + sumLeaf(node.right,sum);
+    }
+
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if(root == null){
+            return false;
+        }
+        return getPath(root,0,sum);
+
+    }
+
+    private boolean getPath(TreeNode node,int currentSum,int expectSum){
+        if (node == null) {
+            return false;
+        }
+        boolean isLeaf = node.left == null && node.right == null;
+        currentSum += node.val;
+        if (currentSum == expectSum && isLeaf){
+            return true;
+        }
+        return   getPath(node.left,currentSum,expectSum)
+        || getPath(node.right,currentSum,expectSum);
     }
 
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
