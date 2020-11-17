@@ -102,6 +102,28 @@ public class WordPattern {
 
     }
 
+
+    public static int maxPower(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+        int len = s.length();
+        int i=0;
+        int result = 0;
+        int count = 1;
+        while (i < len){
+            if (i < len-1 && s.charAt(i) != s.charAt(i+1)){
+                result = Math.max(result,count);
+                count = 1;
+            }else if (i != len-1){
+                count++;
+            }
+            i++;
+        }
+        result = Math.max(result,count);
+        return result;
+    }
+
     public static void main(String[] args) {
         String pattern  = "abba";
         String str = "dog cat cat fish";
@@ -111,6 +133,8 @@ public class WordPattern {
         String sentence  = "i love eating burger";
         String searchWord = "burg";
         System.out.println(isPrefixOfWord(sentence,searchWord));
+
+        System.out.println(maxPower("t"));
 
     }
 }
