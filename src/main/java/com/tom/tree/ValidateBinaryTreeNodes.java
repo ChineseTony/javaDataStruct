@@ -14,7 +14,7 @@ public class ValidateBinaryTreeNodes {
      * @return
      */
     public static boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
-        Queue<Integer> queue = new ArrayDeque<>();
+    /*    Queue<Integer> queue = new ArrayDeque<>();
         Set<Integer> vised = new HashSet<>();
         int count = 0,t = 0;
         queue.offer(0);
@@ -33,7 +33,8 @@ public class ValidateBinaryTreeNodes {
                 queue.offer(rightChild[t]);
             }
         }
-        return count == n;
+        return count == n;*/
+        return true;
     }
 
     public static void main(String[] args) {
