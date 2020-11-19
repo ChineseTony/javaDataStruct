@@ -38,6 +38,51 @@ public class PrintLuxinArray {
         }
     }
 
+
+
+    public void moveZeroes(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return;
+        }
+        int len = nums.length;
+        int[] tmp = new int[len];
+        int count = 0;
+        for (int i = 0; i < len; i++) {
+            if (nums[i] != 0){
+                tmp[count++] = nums[i];
+            }
+        }
+        while (count < len){
+            tmp[count++] = 0;
+        }
+        for (int i = 0; i < len; i++) {
+            nums[i] = tmp[i];
+        }
+
+    }
+
+    public static void moveZeroes2(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return;
+        }
+        int len = nums.length;
+        int j = 0;
+        int i = 0;
+        while (i < len){
+            if (nums[i] == 0){
+                j = i +1;
+                while (j < len && nums[j] == 0){
+                    j++;
+                }
+                if (j != len){
+                    nums[i] = nums[j];
+                    nums[j] = 0;
+                }
+            }
+            i++;
+        }
+    }
+
     public static void main(String[] args) {
         int[][] arr = new int[][]{
 //                {9,8,7,6,5},
@@ -49,5 +94,12 @@ public class PrintLuxinArray {
                 {58,60,76}
         };
         printArray(arr);
+
+        int[] tmp = new int[]{0,1,0,3,12};
+        moveZeroes2(tmp);
+        for (int i = 0; i < tmp.length; i++) {
+            System.out.print(tmp[i] + "\t");
+        }
+
     }
 }
