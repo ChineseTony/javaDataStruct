@@ -199,15 +199,6 @@ public class Trie {
 
 
 
-    public String longestWord(String[] words) {
-        Trie trie = new Trie();
-        for (String s:words){
-            trie.add(s);
-        }
-
-
-        return "";
-    }
 
     public List<String> getLastWord(){
         List<String> tmp = new ArrayList<>();

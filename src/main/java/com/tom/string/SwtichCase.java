@@ -1,6 +1,6 @@
 package com.tom.string;
 
-import javax.naming.ldap.HasControls;
+import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,8 +15,11 @@ public class SwtichCase {
 //        method(null);
 
         String a = "abc";
-        String b = "bac";
+        String b = "abc";
         System.out.println(buddyStrings(a,b));
+        System.out.println(getCommon(a,b));
+        String[] strings = new String[]{"flower","flow","flight"};
+        System.out.println(longestCommonPrefix(strings));
     }
 
     /**
@@ -35,6 +38,46 @@ public class SwtichCase {
                 System.out.println("it's default");
                 break;
         }
+    }
+
+
+    /**
+     * @link https://leetcode-cn.com/problems/longest-common-prefix/
+     * @param strs
+     * @return
+     */
+    public static String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0){
+            return "";
+        }
+        int len = strs.length;
+        if (len == 1){
+            return strs[0];
+        }
+        String s = getCommon(strs[0],strs[1]);
+        for (int i = 2; i < len; i++) {
+            s = getCommon(s,strs[i]);
+        }
+        return s;
+    }
+
+    private static String getCommon(String a,String b){
+        if (StringUtils.isEmpty(a) || StringUtils.isEmpty(b)){
+            return "";
+        }
+        int len1 = a.length();
+        int len2 = b.length();
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < len1 && i < len2){
+            if (a.charAt(i) == b.charAt(i)) {
+                sb.append(a.charAt(i));
+            }else {
+                break;
+            }
+            i++;
+        }
+        return sb.toString();
     }
 
 
@@ -101,6 +144,5 @@ public class SwtichCase {
             }
         }
         return false;
-
     }
 }
