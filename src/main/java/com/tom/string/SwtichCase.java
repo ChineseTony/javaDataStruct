@@ -18,6 +18,11 @@ public class SwtichCase {
         System.out.println(getCommon(a,b));
         String[] strings = new String[]{"flower","flow","flight"};
         System.out.println(longestCommonPrefix(strings));
+
+
+        Arrays.stream(uncommonFromSentences(
+                "d b zu d t","udb zu ap"))
+                .forEach(System.out::println);
     }
 
     /**
@@ -174,4 +179,29 @@ public class SwtichCase {
         }
         return sb1.toString().equals(sb2.toString());
     }
+
+
+    public static String[] uncommonFromSentences(String a, String b) {
+        String s1[]=a.split(" ");
+        String s2[]=b.split(" ");
+        Map<String,Integer> map=new HashMap<>();
+        List<String> list=new ArrayList<>();
+        for(String s:s1){
+            map.put(s,map.containsKey(s)?map.get(s)+1:1);
+        }
+        for(String s:s2){
+            map.put(s,map.containsKey(s)?map.get(s)+1:1);
+        }
+        for(String key:map.keySet()){
+            if(map.get(key)==1){
+                list.add(key);
+            }
+        }
+        String []res=new String[list.size()];
+        for(int i=0;i<res.length;i++){
+            res[i]=list.get(i);
+        }
+        return res;
+    }
+
 }
