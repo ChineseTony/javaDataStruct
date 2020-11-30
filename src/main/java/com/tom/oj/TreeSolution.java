@@ -607,6 +607,33 @@ public class TreeSolution {
     }
 
 
+    public TreeNode increasingBST(TreeNode root) {
+        List<Integer> node = new ArrayList<>();
+        getAllTreeNode(root,node);
+        TreeNode result = new TreeNode(-1);
+        TreeNode last = result;
+        int len = node.size();
+        for (int i = 0; i < len ; i++) {
+            TreeNode tmp = new TreeNode(node.get(i));
+            last.right = tmp;
+            last = last.right;
+        }
+        return result.right;
+    }
+
+    private void  getAllTreeNode(TreeNode node,List<Integer> list){
+        if (node != null){
+            if (node.left != null) {
+                getAllTreeNode(node.left, list);
+            }
+            list.add(node.val);
+            if (node.right != null) {
+                getAllTreeNode(node.right, list);
+            }
+        }
+    }
+
+
 
     public class TreeNode {
       int val;
