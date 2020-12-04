@@ -24,9 +24,8 @@ public class GetAllCProject {
 
     private static String readHtml(String url){
         StringBuffer sb = new StringBuffer();
-        String temp=""; //创建临时字符串用于保存每一次读的一行数据，然后html调用append方法写入temp;
         String html = HttpUtil.get(url);
-        Document doc= Jsoup.parse(html); //通过Jsoup解析页面,生成一个document对象;
+        Document doc= Jsoup.parse(html);
         Elements elements=doc.getElementsByClass("f3 text-gray text-normal lh-condensed");
         for (Element ele: elements) {
             Elements tmp = ele.getElementsByTag("a");
