@@ -1,9 +1,5 @@
 package com.tom.hash;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f8b8f553db894cf2c8d7c274ed18446dfbee6168
 import java.util.HashMap;
 import java.util.Map;
 

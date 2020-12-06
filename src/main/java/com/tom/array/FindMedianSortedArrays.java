@@ -26,13 +26,15 @@ public class FindMedianSortedArrays {
     }
 
 
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+    //todo fix bug
+    //@link https://leetcode-cn.com/problems/median-of-two-sorted-arrays/
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int len1 = nums1.length;
         int len2 = nums2.length;
         if ((len1 + len2) % 2 == 0){
             return -1;
         }else {
-            int mid = (len1 + len2) /2 + 1;
+            int mid = (len1 + len2) / 2 ;
             int index = 0;
             int i = 0;
             int j = 0;
@@ -57,7 +59,7 @@ public class FindMedianSortedArrays {
                 }
                 return nums2[i];
             }else {
-                return -1;
+                return Math.min(nums1[i],nums2[j]);
             }
         }
 
@@ -79,5 +81,12 @@ public class FindMedianSortedArrays {
         }else {
             return (tmp[len / 2] + tmp[len / 2 - 1] ) / 2.0;
         }
+    }
+
+    public static void main(String[] args) {
+//        1,2,3,4,5,7,9
+        int[] nums1 = new int[]{1,3,7,9};
+        int[] nums2 = new int[]{2,4,5,6,8};
+        System.out.println(findMedianSortedArrays(nums1,nums2));
     }
 }
