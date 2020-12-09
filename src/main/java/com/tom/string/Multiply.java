@@ -114,7 +114,7 @@ public class Multiply {
     }
 
 
-    public String multiply2(String num1, String num2) {
+    public static String multiply2(String num1, String num2) {
         /**
          num1的第i位(高位从0开始)和num2的第j位相乘的结果在乘积中的位置是[i+j, i+j+1]
          例: 123 * 45,  123的第1位 2 和45的第0位 4 乘积 08 存放在结果的第[1, 2]位中
@@ -165,7 +165,7 @@ public class Multiply {
         System.out.println(multiply(num1,num2));
         num1 = "45";
         System.out.println(multiply(num1,num2));
-        System.out.println(123 * 45);
+        System.out.println(multiply2(num1,num2));
 
     }
 }

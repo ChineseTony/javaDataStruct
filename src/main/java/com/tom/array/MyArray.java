@@ -5,6 +5,7 @@ package com.tom.array;
 /**
  * @author WangTao
  */
+@SuppressWarnings("unchecked")
 public class MyArray<T> {
 
     private T[] data;
