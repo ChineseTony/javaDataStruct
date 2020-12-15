@@ -1,5 +1,8 @@
 package com.tom.array;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MonotoneIncreasingDigits {
 
     private MonotoneIncreasingDigits(){
@@ -49,6 +52,32 @@ public class MonotoneIncreasingDigits {
         int len = s.length();
         for (int i = 0; i < len-1; i++) {
             if (s.charAt(i) > s.charAt(i+1)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public int countConsistentStrings(String allowed, String[] words) {
+        int count = 0;
+        for (String word:words){
+            if (hasSameChar(allowed,word)){
+                count++;
+            }
+        }
+        return count;
+
+
+    }
+
+    private static boolean hasSameChar(String s,String t){
+        Set<Character> set = new HashSet<>();
+        for (char c:s.toCharArray()){
+            set.add(c);
+        }
+        for (char c:t.toCharArray()){
+            if (!set.contains(c)){
                 return false;
             }
         }

@@ -18,6 +18,7 @@
         <module>auto-configure</module>
         <module>nettystudy</module>
         <module>myfirst-spring-boot-starter</module>
+        <module>mybatisStudy</module>
     </modules>
 
     <properties>
@@ -47,11 +48,19 @@
         <!-- 编译时的编码 -->
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <hutool.version>5.5.1</hutool.version>
+        <mysql.version>5.1.44</mysql.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
