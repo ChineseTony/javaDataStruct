@@ -21,8 +21,13 @@
     </select>
 
 
+<!--    二级缓存-->
+<!--    <cache type="LRU"/>-->
+
     <select id="getUserById" parameterType="Integer"
-            resultType="com.tom.mybatisstudy.entity.User">
+            resultType="com.tom.mybatisstudy.entity.User"
+    useCache="true" >
+-- userCache 开启二级缓存
         select id,name,age,score from user where id = #{id}
     </select>
 

@@ -19,6 +19,7 @@
         <module>nettystudy</module>
         <module>myfirst-spring-boot-starter</module>
         <module>mybatisStudy</module>
+        <module>rocketmq-study</module>
     </modules>
 
     <properties>
