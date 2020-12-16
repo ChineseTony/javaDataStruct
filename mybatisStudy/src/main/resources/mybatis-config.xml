@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <!-- 引入外部资源文件 -->
-    <properties resource="test.properties"/>
+    <properties resource="db.properties"/>
     <!-- 设置驼峰匹配 -->
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
@@ -13,6 +13,13 @@
     <typeAliases>
         <package name="com.tom.mybatisstudy"/>
     </typeAliases>
+    <!-- 添加自定义插件-->
+    <plugins>
+        <plugin interceptor="com.tom.mybatisstudy.plugin.ShowSlowSqlInterceptor">
+            <property name="limitTime" value="0"/>
+        </plugin>
+    </plugins>
+
     <!-- 配置环境：可以配置多个环境，default：配置某一个环境的唯一标识，表示默认使用哪个环境 -->
     <environments default="development">
         <environment id="development">
