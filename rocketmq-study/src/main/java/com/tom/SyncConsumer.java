@@ -10,10 +10,10 @@ import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 public class SyncConsumer {
 
     public static void main(String[] args) throws Exception {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer();
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("consumer");
         consumer.setNamesrvAddr("127.0.0.1:9876");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-        consumer.subscribe("tom","*");
+        consumer.subscribe("topicTest","*");
         consumer.registerMessageListener(
                 (MessageListenerConcurrently) (msgs, context) -> {
             System.out.println("messages--->"+msgs);
