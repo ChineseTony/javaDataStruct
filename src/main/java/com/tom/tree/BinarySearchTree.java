@@ -285,21 +285,26 @@ public class BinarySearchTree<Key extends Comparable,Value> {
             p.value = min.value;
             pParent = minParent;
             p = min;
+        }else {
+            // 删除的是根节点
+            if (pParent == null){
+                value = p.value;
+                if (p.left != null){
+                    root = p.left;
+                }else {
+                    root = p.right;
+                }
+                p = null;
+            }else if(pParent.left == p) {
+                pParent.left = p.left;
+                value = p.value;
+                p.left = null;
+            }else{
+                pParent.right = p.right;
+                value = p.value;
+                p.right = null;
+            }
         }
-        value = p.value;
-
-        // 删除的是根节点
-        if (pParent == null){
-            root = null;
-        }
-        else if(pParent.left == p) {
-            pParent.left = p.left;
-            p.left = null;
-        }else{
-            pParent.right = p.right;
-            p.right = null;
-        }
-
         lenght--;
         return value;
     }

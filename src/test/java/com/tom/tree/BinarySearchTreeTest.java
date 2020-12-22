@@ -70,7 +70,7 @@ public class BinarySearchTreeTest {
     public void delete(){
         tree.inderBSF();
         System.out.println("======");
-        assertEquals(tree.delete(90),"a1");
+        assertEquals(tree.delete(80),"a0");
         assertEquals(tree.getLenght(),6);
         tree.inderBSF();
     }
