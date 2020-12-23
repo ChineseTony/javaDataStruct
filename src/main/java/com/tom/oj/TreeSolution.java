@@ -2,6 +2,7 @@ package com.tom.oj;
 
 
 
+import com.tom.Test;
 import com.tom.util.ListNode;
 
 import java.util.*;
@@ -631,6 +632,37 @@ public class TreeSolution {
                 getAllTreeNode(node.right, list);
             }
         }
+    }
+
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null){
+            return result;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        int count = 1;
+        while (!queue.isEmpty()){
+            List<Integer> list = new ArrayList<>();
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                TreeNode tmp = queue.poll();
+                list.add(tmp.val);
+                if (tmp.left != null){
+                    queue.offer(tmp.left);
+                }
+                if (tmp.right != null){
+                    queue.offer(tmp.right);
+                }
+            }
+            if (count % 2 == 0){
+                Collections.reverse(list);
+            }
+            count++;
+            result.add(list);
+        }
+        return result;
     }
 
 
