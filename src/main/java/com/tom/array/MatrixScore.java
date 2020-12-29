@@ -39,4 +39,28 @@ public class MatrixScore {
         }
         return res;
     }
+
+
+    public static int[] numberOfLines(int[] widths, String s) {
+        int lines = 1, width = 0;
+        for (char c : s.toCharArray()) {
+            int w = widths[c - 'a'];
+            width += w;
+            if (width > 100) {
+                lines++;
+                width = w;
+            }
+        }
+
+        return new int[]{lines, width};
+    }
+
+    public static void main(String[] args) {
+        int[] widths = new int[]{4,10,10,10,10,10,10,10
+                ,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10};
+        String s = "bbbcccdddaaa";
+        for (int i : numberOfLines(widths, s)) {
+            System.out.println(i);
+        }
+    }
 }
