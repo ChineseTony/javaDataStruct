@@ -43,6 +43,21 @@ public class MaximumUnits {
 
     }
 
+    public List<Boolean> prefixesDivBy5(int[] a) {
+        List<Boolean> result = new ArrayList<>();
+        if(a == null | a.length == 0){
+            return result;
+        }
+        int len = a.length;
+        int prefix = 0;
+        for(int i=0;i<len;i++){
+            prefix = ((prefix << 1) + a[i]) % 5;
+            result.add(prefix == 0);
+        }
+        return result;
+
+    }
+
 
     public static void main(String[] args) {
         int[][] arr = new int[][]{{1,3},{5,5},{2,5},{4,2},{4,1},{3,1},{2,2},{1,3},{2,5},{3,2}};
