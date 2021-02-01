@@ -45,7 +45,7 @@ public class MaximumUnits {
 
     public List<Boolean> prefixesDivBy5(int[] a) {
         List<Boolean> result = new ArrayList<>();
-        if(a == null | a.length == 0){
+        if(a == null || a.length == 0){
             return result;
         }
         int len = a.length;
