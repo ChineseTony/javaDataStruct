@@ -28,47 +28,11 @@ public class Main {
             arrs[i] = String.valueOf(arr[i]);
         }
         Arrays.sort(arrs, (s1,s2) -> {
-            if(s1.charAt(0) < s2.charAt(0)){
-                return -1;
-            }else if(s1.charAt(0) > s2.charAt(0)){
-                return 1;
-            }else{
-//                首字母相同 判断后序字符
-                int len1 = s1.length();
-                int len2 = s2.length();
-                if(len1 == len2){
-                    for (int i = 0; i < len1; i++) {
-                        if(s1.charAt(i) < s2.charAt(i)){
-                            return -1;
-                        }else if(s1.charAt(i) > s2.charAt(i)){
-                            return 1;
-                        }
-                    }
-                    return 0;
-                }else if(len1 > len2){
-                    //34 3
-                    for (int i = 0; i < len2; i++) {
-                        if(s1.charAt(i) < s2.charAt(i)){
-                            return -1;
-                        }else if(s1.charAt(i) > s2.charAt(i)) {
-                            return 1;
-                        }
-                    }
-                    return -1;
-                }else {
-                    // 33 34
-                    for (int i = 0; i < len1; i++) {
-                        if(s1.charAt(i) < s2.charAt(i)){
-                            return 1;
-                        }else  if(s1.charAt(i) > s2.charAt(i)){
-                            return -1;
-                        }
-                    }
-                    return 1;
-                }
-            }
+            int a = Integer.parseInt("" + s1 + s2);
+            int b = Integer.parseInt("" + s2 + s1);
+            return Integer.compare(a,b);
+
         });
-        System.out.println(arrs);
         StringBuilder stringBuffer = new StringBuilder();
         for (int i = 0; i < len; i++) {
             stringBuffer.append(arrs[i]);
