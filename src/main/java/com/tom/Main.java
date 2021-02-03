@@ -55,13 +55,13 @@ public class Main {
             }
         }
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < numbers.length; i++) {
-            str.append(numbers[i]);
+        for (int number : numbers) {
+            str.append(number);
         }
         return str.toString();
     }
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         int[] arr = new int[]{3,30,34,5,9};
         String s = getMin(arr);
         System.out.println(s);
