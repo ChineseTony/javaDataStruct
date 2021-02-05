@@ -10,15 +10,15 @@ public class ReorganizeString {
     }
 
 
-    public static String reorganizeString(String S) {
-        if (S.length() < 2) {
-            return S;
+    public static String reorganizeString(String str) {
+        if (str.length() < 2) {
+            return str;
         }
         int[] counts = new int[26];
         int maxCount = 0;
-        int length = S.length();
+        int length = str.length();
         for (int i = 0; i < length; i++) {
-            char c = S.charAt(i);
+            char c = str.charAt(i);
             counts[c - 'a']++;
             maxCount = Math.max(maxCount, counts[c - 'a']);
         }
