@@ -121,6 +121,54 @@ public class MaxProfit {
 
     }
 
+
+    /**
+     * @link https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
+     */
+
+    public int maxProfit5(int[] prices) {
+        if(prices == null || prices.length <= 0 ){
+            return 0;
+        }
+        int ans = 0;
+        int n = prices.length;
+        for (int i = 1; i < n; ++i) {
+            ans += Math.max(0, prices[i] - prices[i - 1]);
+        }
+        return ans;
+    }
+
+
+    /**
+     * @link https://leetcode-cn.com/problems/non-decreasing-array/
+     * @param nums
+     * @return
+     */
+    public boolean checkPossibility(int[] nums) {
+        if (nums == null || nums.length == 0){
+            return true;
+        }
+        int result = 0;
+        int len = nums.length;
+        for (int i = 0; i < len -1; i++) {
+            int x = nums[i], y = nums[i + 1];
+            if (x > y) {
+                result++;
+                if (result > 1) {
+                    return false;
+                }
+                //  y小于num[i-1] 更新 num[i-1] 数值
+                if (i > 0 && y < nums[i - 1]) {
+                    nums[i + 1] = x;
+                }
+            }
+
+        }
+
+        return true;
+    }
+
+
     public static void main(String[] args) {
         int[] prices = new int[]{1, 3, 2, 8, 4, 9};
         System.out.println(maxProfit(prices,2));
