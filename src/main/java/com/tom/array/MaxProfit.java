@@ -4,6 +4,7 @@ package com.tom.array;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Arrays;
 
 /**
  * @author wangtao
@@ -26,7 +27,13 @@ public class MaxProfit {
         return sell;
     }
 
-// @link https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
+
+    /**
+     *
+     * @link https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
+     * @param prices
+     * @return
+     */
     public static int maxProfit(int[] prices) {
         int len = prices.length;
         int result = 0;
@@ -86,11 +93,42 @@ public class MaxProfit {
     }
 
 
+    /**
+     * @link https://leetcode-cn.com/problems/maximum-points-you-can-obtain-from-cards/
+     * @param cardPoints
+     * @param k
+     * @return
+     */
+    public static int maxScore(int[] cardPoints, int k) {
+        if(cardPoints == null || cardPoints.length <= 0 || k <= 0){
+            return 0;
+        }
+        int n = cardPoints.length;
+        // 滑动窗口大小为 n-k
+        int windowSize = n - k;
+        // 选前 n-k 个作为初始值
+        int sum = 0;
+        for (int i = 0; i < windowSize; ++i) {
+            sum += cardPoints[i];
+        }
+        int minSum = sum;
+        for (int i = windowSize; i < n; ++i) {
+            // 滑动窗口每向右移动一格，增加从右侧进入窗口的元素值，并减少从左侧离开窗口的元素值
+            sum += cardPoints[i] - cardPoints[i - windowSize];
+            minSum = Math.min(minSum, sum);
+        }
+        return Arrays.stream(cardPoints).sum() - minSum;
+
+    }
+
     public static void main(String[] args) {
         int[] prices = new int[]{1, 3, 2, 8, 4, 9};
         System.out.println(maxProfit(prices,2));
-        int[] prices2 = new int[]{7,1,5,3,6,4};
+        int[] prices2 = new int[]{7, 1, 5, 3, 6, 4};
         System.out.println(maxProfit2(prices2));
+
+        int[] tmp = new int[]{11, 49, 100, 20, 86, 29, 72};
+        System.out.println(maxScore(tmp, 4));
     }
 
 
