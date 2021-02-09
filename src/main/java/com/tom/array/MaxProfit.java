@@ -2,9 +2,11 @@ package com.tom.array;
 
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Arrays;
+import java.util.Set;
 
 /**
  * @author wangtao
@@ -168,6 +170,34 @@ public class MaxProfit {
         return true;
     }
 
+
+    private static final Set<Character> set =
+            new HashSet<>(
+                    Arrays.asList('a','e','i','o','u','A','E','I','O','U'));
+
+    public boolean halvesAreAlike(String s) {
+        if (s == null || s.length() <= 0 ){
+            return false;
+        }
+        int len = s.length();
+        int left = 0;
+        int right = len-1;
+        int leftCount = 0;
+        int rightCount = 0;
+        while (left < right){
+            if (set.contains(s.charAt(left))){
+                leftCount ++;
+            }
+            if (set.contains(s.charAt(right))){
+                rightCount ++;
+            }
+            left++;
+            right--;
+
+        }
+        return leftCount == rightCount;
+
+    }
 
     public static void main(String[] args) {
         int[] prices = new int[]{1, 3, 2, 8, 4, 9};

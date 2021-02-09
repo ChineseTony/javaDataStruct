@@ -2,6 +2,9 @@ package com.tom.array;
 
 
 import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.HashSet;
 
 import java.util.Map;
 
@@ -47,5 +50,21 @@ public class FindSpecialInteger {
             }
         }
         return sum;
+    }
+
+
+    public int thirdMax(int[] nums) {
+        Arrays.sort(nums);
+        int len = nums.length;
+        int result = nums[len-1];
+        Set<Integer> set = new HashSet<>();
+
+        for(int i = len-1;i>=0;i--){
+            set.add(nums[i]);
+            if (set.size() == 3){
+                return nums[i];
+            }
+        }
+        return result;
     }
 }
