@@ -101,6 +101,57 @@ public class CheckInclusion {
     }
 
 
+
+    public List<Integer> findDisappearedNumbers2(int[] nums) {
+        List<Integer> results = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[Math.abs(nums[i]) - 1] > 0) {
+                nums[Math.abs(nums[i]) - 1] = - nums[Math.abs(nums[i]) - 1];
+            }
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                results.add(i + 1);
+            }
+        }
+        return results;
+    }
+
+
+    public int numIdenticalPairs(int[] nums) {
+        int result = 0;
+        if(nums == null || nums.length <= 0){
+            return result;
+        }
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            int tmp = 0;
+            for (int j = i + 1; j < len; j++) {
+                if (nums[i] == nums[j]){
+                    tmp ++ ;
+                }
+            }
+            result += tmp;
+        }
+        return  result;
+
+    }
+
+    public int numIdenticalPairs2(int[] nums) {
+        int[] temp = new int[101];
+        for(int i:nums){
+            ++temp[i];
+        }
+        int count=0;
+        for(int i:temp){
+            if(i != 0){
+                count+=(i*(i-1)/2);
+            }
+        }
+        return count;
+    }
+
+
     public static void main(String[] args) {
         String s = "abc";
         permutation(s);
