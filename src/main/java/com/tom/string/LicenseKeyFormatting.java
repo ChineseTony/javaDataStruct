@@ -109,6 +109,25 @@ public class LicenseKeyFormatting {
         return count;
     }
 
+
+    public static int minDeletionSize(String[] strs) {
+        int count = 0;
+        char[][] chars = new char[strs.length][strs[0].length()];
+        for (int i = 0; i < strs.length; i++) {
+            chars[i] = strs[i].toCharArray();
+        }
+        for (int i = 0; i < chars[0].length; i++) {
+            for (int j = 0; j < chars.length - 1; j++) {
+                if (chars[j][i] > chars[j + 1][i]) {
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+    
+
     public static void main(String[] args) {
 //        String s = "2-5g-3-J";
         String s = "5F3Z-2e-9-w";
@@ -123,5 +142,10 @@ public class LicenseKeyFormatting {
         System.out.println(Arrays.toString(result[1]));
 
         System.out.println(maxScore("011101"));
+
+        String[] strings = new String[]{"c","d"};
+
+        System.out.println(minDeletionSize(strings));
+
     }
 }
