@@ -17,13 +17,12 @@ public class LicenseKeyFormatting {
         }
         String[] strings = s.split("-");
         System.out.println(Arrays.toString(strings));
-        int tmpLen = 0;
         StringBuilder sb = new StringBuilder();
         for (String tmp:strings){
-            tmpLen += tmp.length();
             sb.append(tmp.toUpperCase());
         }
         StringBuilder result = new StringBuilder();
+        int tmpLen = sb.length();
         int t = tmpLen % k ;
         int count = tmpLen / k ;
         if (t != 0){
@@ -41,11 +40,88 @@ public class LicenseKeyFormatting {
         return result.toString();
     }
 
+
+
+    public static int[][] matrixReshape(int[][] nums, int r, int c) {
+        int row = nums.length;
+        int col = nums[0].length;
+        if (row * col != r * c) {
+            return nums;
+        }
+        int[][] ans = new int[r][c];
+        int n = row * col;
+        for (int i = 0; i < n; i++) {
+            ans[i / c][i % c] = nums[i / col][i % col];
+        }
+        return ans;
+    }
+
+    public int maxScore2(String s) {
+        int res = 0, cnt1 = 0, cnt0 = 0;
+        //cnt1统计右边1的个数，同理cnt0左边0的个数
+        for(int i = 0; i < s.length(); i++){
+            cnt1 += s.charAt(i)-'0';
+            //先统计1的个数
+        }
+
+        //由于左右区域的数至少为1，所以i不能等于len-1
+        //点i分为左右两个区域
+        for(int i = 0; i < s.length()-1; i++){
+            if(s.charAt(i) == '0') {
+                cnt0++;      //遇到01就统计，动态更新左右区域01个数
+            } else {
+                cnt1--;
+            }
+            res = Math.max(res, cnt0+cnt1);
+        }
+        return res;
+    }
+
+
+    public static int maxScore(String s) {
+        if (s == null || s.length() <= 0){
+            return 0;
+        }
+        int result = 0;
+        int len = s.length();
+        int index = 1;
+        for (int i = index; i < len; i++) {
+            String left = s.substring(0,i);
+            String right = s.substring(i);
+            int tmpValue = countChar(left,'0')
+                    +countChar(right,'1');
+            result = Math.max(result,tmpValue);
+        }
+        return result;
+
+    }
+
+    private static int countChar(String s,char c){
+        if (s == null || s.length() <= 0){
+            return 0;
+        }
+        int count = 0;
+        for (char tmp:s.toCharArray()){
+            if (tmp == c){
+                count++;
+            }
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
 //        String s = "2-5g-3-J";
         String s = "5F3Z-2e-9-w";
         int k = 4;
         System.out.println(licenseKeyFormatting(s,k));
 
+
+        int[][] nums = {{1, 2},{3, 4}};
+        int r = 2, c = 2;
+        int[][] result = matrixReshape(nums,r,c);
+        System.out.println(Arrays.toString(result[0]));
+        System.out.println(Arrays.toString(result[1]));
+
+        System.out.println(maxScore("011101"));
     }
 }
