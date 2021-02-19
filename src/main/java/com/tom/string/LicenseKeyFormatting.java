@@ -2,7 +2,11 @@ package com.tom.string;
 
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -126,7 +130,53 @@ public class LicenseKeyFormatting {
         }
         return count;
     }
-    
+
+
+    public static boolean kLengthApart(int[] nums, int k) {
+        List<Integer> result = new ArrayList<>();
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            if (nums[i] == 1){
+                result.add(i);
+            }
+        }
+        int listLen = result.size();
+        for (int i = 0; i < listLen - 1; i++) {
+            if (result.get(i+1) - result.get(i) <= k){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public int countLargestGroup(int n) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int maxValue = 0;
+        for (int i = 1; i <= n; i++) {
+            int key = countNumber(i);
+            map.put(key,map.getOrDefault(key,0) + 1);
+            maxValue = Math.max(maxValue,map.get(key));
+        }
+        int count = 0;
+        for (Map.Entry<Integer,Integer> entry:map.entrySet()){
+            if (entry.getValue() == maxValue){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static int countNumber(int number){
+        int result = 0;
+        while (number != 0){
+            result += number % 10;
+            number = number / 10;
+
+        }
+        return result;
+    }
+
 
     public static void main(String[] args) {
 //        String s = "2-5g-3-J";
