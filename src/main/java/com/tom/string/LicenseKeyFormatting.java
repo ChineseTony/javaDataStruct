@@ -178,6 +178,72 @@ public class LicenseKeyFormatting {
     }
 
 
+
+    public int findShortestSubArray(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>(16);
+        int max = 0;
+        for (int i : nums){
+            map.put(i,map.getOrDefault(i,0) + 1);
+            max = Math.max(max,map.get(i));
+        }
+        List<Integer> result = new ArrayList<>();
+        for (Map.Entry<Integer,Integer> entry:map.entrySet()){
+            if (entry.getValue() == max){
+                result.add(entry.getKey());
+            }
+        }
+        int retValue = Integer.MAX_VALUE;
+        int len = nums.length;
+        for (int i = 0; i < result.size(); i++) {
+            int tmpValue = result.get(i);
+            int left = 0;
+            int right = len -1;
+            for (int j = 0; j < len; j++) {
+                if (tmpValue == nums[j]){
+                    left = j;
+                    break;
+                }
+            }
+            for (int j = right; j >= 0; j--) {
+                if (tmpValue == nums[j]){
+                    right = j;
+                    break;
+                }
+            }
+            retValue = Math.min(retValue,right-left+1);
+        }
+        return retValue;
+    }
+
+
+
+    public int findShortestSubArray2(int[] nums) {
+        Map<Integer, int[]> map = new HashMap<>(16);
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if (map.containsKey(nums[i])) {
+                map.get(nums[i])[0]++;
+                map.get(nums[i])[2] = i;
+            } else {
+                map.put(nums[i], new int[]{1, i, i});
+            }
+        }
+        int maxNum = 0, minLen = 0;
+        for (Map.Entry<Integer, int[]> entry : map.entrySet()) {
+            int[] arr = entry.getValue();
+            if (maxNum < arr[0]) {
+                maxNum = arr[0];
+                minLen = arr[2] - arr[1] + 1;
+            } else if (maxNum == arr[0]) {
+                if (minLen > arr[2] - arr[1] + 1) {
+                    minLen = arr[2] - arr[1] + 1;
+                }
+            }
+        }
+        return minLen;
+    }
+
+
     public static void main(String[] args) {
 //        String s = "2-5g-3-J";
         String s = "5F3Z-2e-9-w";
