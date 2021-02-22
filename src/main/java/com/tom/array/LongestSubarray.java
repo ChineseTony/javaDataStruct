@@ -81,9 +81,9 @@ public class LongestSubarray {
 
 
     public static void main(String[] args) {
-//        int[] nums = new int[]{8,2,4,7};
-//        int limit = 4;
-//        System.out.println(longestSubarray(nums, limit));
+        int[] nums = new int[]{8,2,4,7};
+        int limit = 4;
+        System.out.println(longestSubarray(nums, limit));
 
         int[][] arrs = new int[][]{{1,2,3,4}, {5, 1, 2, 3
         },{9,5,1,2}};
