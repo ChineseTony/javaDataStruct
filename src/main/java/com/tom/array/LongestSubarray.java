@@ -55,9 +55,40 @@ public class LongestSubarray {
 
 
 
+    public int largestAltitude(int[] gain) {
+        int result = 0;
+        int tmp = 0;
+        for (int i :gain) {
+            tmp += i;
+            result = Math.max(tmp,result);
+        }
+        return result;
+    }
+
+
+    public static boolean isToeplitzMatrix(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] != matrix[i - 1][j - 1]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
+
     public static void main(String[] args) {
-        int[] nums = new int[]{8,2,4,7};
-        int limit = 4;
-        System.out.println(longestSubarray(nums, limit));
+//        int[] nums = new int[]{8,2,4,7};
+//        int limit = 4;
+//        System.out.println(longestSubarray(nums, limit));
+
+        int[][] arrs = new int[][]{{1,2,3,4}, {5, 1, 2, 3
+        },{9,5,1,2}};
+
+        System.out.println(isToeplitzMatrix(arrs));
+
     }
 }
