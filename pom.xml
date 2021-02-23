@@ -20,6 +20,7 @@
         <module>myfirst-spring-boot-starter</module>
         <module>mybatisStudy</module>
         <module>rocketmq-study</module>
+        <module>sentineStudy</module>
     </modules>
 
     <properties>
@@ -50,11 +51,18 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <hutool.version>5.5.1</hutool.version>
         <mysql.version>5.1.44</mysql.version>
+        <sentinel.version>1.8.1</sentinel.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-core</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
 
 
             <dependency>
