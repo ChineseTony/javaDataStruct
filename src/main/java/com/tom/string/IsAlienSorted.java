@@ -1,6 +1,10 @@
 package com.tom.string;
 
 
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
+
 /**
  * @author tom
  */
@@ -61,6 +65,61 @@ public class IsAlienSorted {
             }
         }
         return new String(chars);
+    }
+
+
+    public int[] nextGreaterElements(int[] nums) {
+        int len = nums.length;
+        int index = 0;
+        int[] result = new int[len];
+        for (int i = 0; i < len; i++) {
+            int tmp = nums[i];
+            int j = i;
+            boolean flag = false;
+            while (j < len){
+                if (nums[j] > tmp){
+                    result[index++] = nums[j];
+                    flag = true;
+                    break;
+                }
+                j++;
+            }
+            if (!flag){
+                for (int k = 0; k < i; k++) {
+                    if (nums[k] > tmp){
+                        result[index++] = nums[k];
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag){
+                    result[index++] = -1;
+                }
+
+            }
+
+        }
+        return result;
+    }
+
+
+    /**
+     * 单调栈
+     * @param nums
+     * @return
+     */
+    public int[] nextGreaterElements2(int[] nums) {
+        int n = nums.length;
+        int[] ret = new int[n];
+        Arrays.fill(ret, -1);
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < n * 2 - 1; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[i % n]) {
+                ret[stack.pop()] = nums[i % n];
+            }
+            stack.push(i % n);
+        }
+        return ret;
     }
 
     public static void main(String[] args) {
