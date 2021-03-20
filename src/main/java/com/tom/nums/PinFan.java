@@ -1,6 +1,7 @@
 package com.tom.nums;
 
 
+import java.util.ArrayDeque;
 
 /**
  * @author WangTao
@@ -42,7 +43,49 @@ public class PinFan {
 
     }
 
+    /**
+     * tokens = ["2","1","+","3","*"]
+     *
+     * @param tokens
+     * @return
+     */
+    public int evalRPN(String[] tokens) {
+        ArrayDeque<String> stack = new ArrayDeque<>();
+        for (String token : tokens) {
+            if (!isSymole(token)){
+                stack.push(token);
+            }else {
+                int a = Integer.parseInt(stack.pop());
+                int b = Integer.parseInt(stack.pop());
+                int tmp = 0;
+                if ("+".equals(token)) {
+                    tmp = a + b;
+                }else  if ("-".equals(token)) {
+                    tmp = b - a;
+                }else  if ("*".equals(token)) {
+                    tmp = a * b;
+                }else {
+                    tmp = b / a;
+                }
+                stack.push(String.valueOf(tmp));
+            }
+        }
+        return Integer.parseInt(stack.pop());
+    }
+
+    private boolean isSymole(String s){
+        return "+".equals(s) ||
+                "-".equals(s) ||
+                "/".equals(s) ||
+                "*".equals(s);
+    }
+
     public static void main(String[] args) {
         System.out.println(xorOperation(4,3));
+
+        String[] tokens=new String[]{
+                "4","13","5","/","+"
+        };
+        System.out.println(new PinFan().evalRPN(tokens));
     }
 }
