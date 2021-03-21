@@ -7,6 +7,7 @@ package com.tom.tree;
  *
  * @linke https://blog.csdn.net/hm108106/article/details/72736075
  */
+@SuppressWarnings("unchecked")
 public class MyAvlTree<Key extends Comparable,Value> {
 
     private Node root;
