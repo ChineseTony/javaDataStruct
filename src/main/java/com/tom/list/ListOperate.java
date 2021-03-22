@@ -1082,6 +1082,30 @@ public class ListOperate {
     }
 
 
+    public ListNode mergeInBetween(ListNode list1, int a,
+                                   int b, ListNode list2) {
+        ListNode dummpy = new ListNode(-1);
+        dummpy.next = list1;
+        ListNode pre = dummpy;
+        ListNode last = list1;
+        while (a-- > 0){
+            pre = pre.next;
+        }
+        while (b-- > 0){
+            last = last.next;
+        }
+        ListNode p = list2;
+        while (p.next != null){
+            p = p.next;
+        }
+        pre.next = list2;
+        p.next = last.next;
+        last.next = null;
+
+        return dummpy.next;
+    }
+
+
 
 
 

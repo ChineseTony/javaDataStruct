@@ -15,6 +15,28 @@ public class TreeSolution {
     public  TreeNode pre = null;
 
 
+    private int curVal=0;
+    private int curMaxDepth = -1;
+//    中序遍历
+//    @link https://leetcode-cn.com/problems/find-bottom-left-tree-value/
+    public int findBottomLeftValue(TreeNode root) {
+        help(root,0);
+        return curVal;
+    }
+
+    private void help(TreeNode root,int depth){
+        if(root==null){
+            return;
+        }
+        if(depth>curMaxDepth){
+            curMaxDepth=depth;
+            curVal=root.val;
+        }
+        help(root.left,depth+1);
+        help(root.right,depth+1);
+    }
+
+
     public boolean isValidBST(TreeNode root) {
         //中序遍历为有序序列
         if(root == null){
@@ -44,7 +66,7 @@ public class TreeSolution {
             return false;
         }
         for (int i = 0; i < len1; i++) {
-            if(list1.get(i) !=  list2.get(i)){
+            if(!list1.get(i).equals(list2.get(i))){
                 return false;
             }
         }
