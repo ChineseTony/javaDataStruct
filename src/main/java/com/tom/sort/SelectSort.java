@@ -4,7 +4,7 @@ package com.tom.sort;
  * @author WangTao
  * 选择排序
  */
-public class SelectSort<S extends Comparable> implements Sort<S>{
+public class SelectSort<S extends Comparable<S>> implements Sort<S>{
 
 
     @Override

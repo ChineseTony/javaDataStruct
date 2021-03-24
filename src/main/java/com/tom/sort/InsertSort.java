@@ -4,7 +4,7 @@ package com.tom.sort;
  * @author WangTao
  * 插入排序
  */
-public class InsertSort<S extends Comparable> implements Sort<S> {
+public class InsertSort<S extends Comparable<S>> implements Sort<S> {
 
     @Override
     public void sort(S[] t) {

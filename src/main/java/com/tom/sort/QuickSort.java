@@ -6,7 +6,7 @@ package com.tom.sort;
  * 快速排序主要思想 分而治之 核心方法partition
  */
 @SuppressWarnings("unchecked")
-public class QuickSort<S extends Comparable> implements Sort<S> {
+public class QuickSort<S extends Comparable<S>> implements Sort<S> {
 
 
     @Override

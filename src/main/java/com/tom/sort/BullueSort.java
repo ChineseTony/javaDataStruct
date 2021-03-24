@@ -3,7 +3,7 @@ package com.tom.sort;
 /**
  * @author WangTao
  */
-public class BullueSort<S extends Comparable> implements Sort<S> {
+public class BullueSort<S extends Comparable<S>> implements Sort<S> {
 
 
     @Override

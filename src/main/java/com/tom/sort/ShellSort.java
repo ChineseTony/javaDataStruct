@@ -4,7 +4,7 @@ package com.tom.sort;
  * @author WangTao
  * 希尔排序
  */
-public class ShellSort<S extends Comparable> implements Sort<S> {
+public class ShellSort<S extends Comparable<S>> implements Sort<S> {
 
 
     @Override

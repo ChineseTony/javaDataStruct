@@ -7,7 +7,8 @@ package com.tom.sort;
  *
  * 归并排序主要思想 分而治之 核心方法归并函数
  */
-public class MergeSort <S extends Comparable> implements Sort<S> {
+@SuppressWarnings("unchecked")
+public class MergeSort <S extends Comparable<S>> implements Sort<S> {
 
     @Override
     public void sort(S[] t) {
