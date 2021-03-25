@@ -1106,6 +1106,29 @@ public class ListOperate {
     }
 
 
+    public ListNode swapNodes(ListNode head, int k) {
+        ListNode dummpy = new ListNode(-1);
+        dummpy.next = head;
+        ListNode kth = dummpy;
+        ListNode nextKth = dummpy;
+        ListNode pre = dummpy;
+        while (k-- > 0 && kth != null){
+            kth = kth.next;
+            nextKth = nextKth.next;
+        }
+        while (nextKth != null){
+            pre = pre.next;
+            nextKth = nextKth.next;
+        }
+        if (pre != null && kth != null){
+            int tmpVal =  pre.val ;
+            pre.val = kth.val;
+            kth.val = tmpVal;
+        }
+        return dummpy.next;
+    }
+
+
 
 
 
