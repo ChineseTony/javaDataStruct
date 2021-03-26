@@ -2,9 +2,8 @@ package com.tom.oj;
 
 
 
-import com.tom.Test;
-import com.tom.util.ListNode;
 
+import com.tom.util.ListNode;
 import java.util.*;
 
 /**
@@ -685,6 +684,40 @@ public class TreeSolution {
             result.add(list);
         }
         return result;
+    }
+
+
+
+
+    public int maxLevelSum(TreeNode root){
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (root == null){
+            return 0;
+        }
+        int index = 1;
+        int tmp = 1;
+        int min = Integer.MIN_VALUE;
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            int sum = 0;
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                TreeNode tmpNode = queue.poll();
+                if (tmpNode.left != null){
+                    queue.offer(tmpNode.left);
+                }
+                if (tmpNode.right != null){
+                    queue.offer(tmpNode.right);
+                }
+                sum += tmpNode.val;
+            }
+            if (sum > min){
+                min = sum;
+                tmp = index;
+            }
+            index ++;
+        }
+        return tmp;
     }
 
 
