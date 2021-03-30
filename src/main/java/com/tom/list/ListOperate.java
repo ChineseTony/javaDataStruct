@@ -1129,6 +1129,11 @@ public class ListOperate {
     }
 
 
+    public static ListNode orderByAbsValue(ListNode head){
+
+        return head;
+    }
+
 
 
 
