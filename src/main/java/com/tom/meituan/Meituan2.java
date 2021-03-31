@@ -37,7 +37,30 @@ public class Meituan2 {
         int c1 = scanner.nextInt();
         int c2 = scanner.nextInt();
         String tmp = scanner.next();
-//        统计没有技能 FFF大于3的情况，插入数据中计算 MP
+        int min_cost = Math.min(c1,c2);
+
+        int left,right=0;
+        //默认窗口大小为 0
+        int count = 0;
+        //窗口中 F 的数量
+        int ret = 0;
+        for (int i = 0; i < tmp.length(); ++i) {
+            char r = tmp.charAt(i);
+            right++;
+            if (r == 'F'){
+                count ++;
+            }else{//不连续了
+                left = right;
+                count = 0;
+            }
+            //需要使用技能  统计没有技能 FFF大于3的情况，插入数据中计算 MP
+            if (count >=3){
+                ret++;
+                left = right;
+                count = 0;
+            }
+        }
+        System.out.println(ret * min_cost);
 
     }
 }
