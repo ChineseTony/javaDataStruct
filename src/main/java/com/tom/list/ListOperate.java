@@ -1135,6 +1135,29 @@ public class ListOperate {
     }
 
 
+    public static ListNode remove(ListNode head){
+        ListNode dummpy = new ListNode(-1);
+        dummpy.next = head;
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode pre = dummpy;
+        while (pre.next != null){
+            ListNode cur = pre.next;
+            while (cur.next != null && cur.next.val
+            == cur.val ){
+                cur = cur.next;
+            }
+            if (cur != pre){
+                pre.next = cur.next;
+            }else {
+                pre = pre.next;
+            }
+        }
+        return dummpy.next;
+    }
+
+
 
 
 }
