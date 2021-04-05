@@ -720,6 +720,34 @@ public class TreeSolution {
         return tmp;
     }
 
+    public int deepestLeavesSum(TreeNode root) {
+        if (root == null){
+            return 0;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        int sum = 0;
+        while (!queue.isEmpty()){
+            sum = 0;
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                TreeNode tmpNode = queue.poll();
+                assert tmpNode != null;
+                System.out.print(tmpNode.val + "--->");
+                if (tmpNode.left != null){
+                    queue.offer(tmpNode.left);
+                }
+                if (tmpNode.right != null){
+                    queue.offer(tmpNode.right);
+                }
+                sum += tmpNode.val;
+            }
+            System.out.println();
+        }
+        return sum;
+
+    }
+
 
 
     public class TreeNode {
