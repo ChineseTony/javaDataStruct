@@ -4,6 +4,8 @@ package com.tom.oj;
 
 
 import com.tom.util.ListNode;
+
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /**
@@ -746,6 +748,31 @@ public class TreeSolution {
         }
         return sum;
 
+    }
+
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if(root == null){
+            return result;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            int tmpValue =Integer.MIN_VALUE;
+            for (int i = 0; i < size; i++) {
+                TreeNode tmp = queue.poll();
+                tmpValue = Math.max(tmpValue,tmp.val);
+                if (tmp.left != null){
+                    queue.offer(tmp.left);
+                }
+                if (tmp.right != null){
+                    queue.offer(tmp.right);
+                }
+            }
+            result.add(tmpValue);
+        }
+        return result;
     }
 
 
