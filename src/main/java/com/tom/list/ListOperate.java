@@ -1,6 +1,7 @@
 package com.tom.list;
 
 
+import com.tom.oj.TreeSolution.TreeNode;
 import com.tom.util.ListNode;
 
 import java.util.*;
@@ -1158,6 +1159,113 @@ public class ListOperate {
     }
 
 
+    public ListNode removeZeroSumSublists(ListNode head) {
+        if (head == null ){
+            return head;
+        }
+        ListNode dummpy = new ListNode(-1);
+        dummpy.next = head;
+        ListNode pre = dummpy;
+        while (pre != null){
+            int sum = 0;
+            ListNode p = pre.next;
+            while (p != null){
+                sum += p.val;
+                if (sum == 0){
+                    pre.next = p.next;
+                    break;
+                }else {
+                    p = p.next;
+                }
+            }
+            if (p == null){
+                pre = pre.next;
+            }
+        }
+        return dummpy.next;
+
+    }
+    public ListNode detectCycle(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode slow = head, fast = head;
+        while (fast != null) {
+            slow = slow.next;
+            if (fast.next != null) {
+                fast = fast.next.next;
+            } else {
+                return null;
+            }
+            if (fast == slow) {
+                ListNode ptr = head;
+                while (ptr != slow) {
+                    ptr = ptr.next;
+                    slow = slow.next;
+                }
+                return ptr;
+            }
+        }
+        return null;
+    }
 
 
+    public void reorderList(ListNode head) {
+        ListNode dummpy = new ListNode(-1);
+        dummpy.next = head;
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode nextHead = slow.next;
+        slow.next = null;
+        //slow 为中间节点
+        ListNode tmp = reverse(nextHead);
+        //合并2个链表
+        ListNode pre = head;
+        while (pre != null && tmp != null){
+            ListNode nextPre = pre.next;
+            ListNode next = tmp.next;
+            pre.next = tmp;
+            tmp.next = nextPre;
+            pre =nextPre;
+            tmp = next;
+        }
+    }
+
+
+    private ListNode reverse(ListNode head){
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode pre = null,cur = head;
+        while (cur != null){
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+    public boolean isSubPath(ListNode head, TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        return dfs(head, root) || isSubPath(head, root.left)
+                || isSubPath(head, root.right);
+    }
+
+    private boolean dfs(ListNode head, TreeNode root){
+        if(head == null){
+            return true;
+        }
+        if(root == null){
+            return false;
+        }
+        if(root.val != head.val){
+            return false;
+        }
+        return dfs(head.next,root.left) || dfs(head.next,root.right);
+    }
 }
