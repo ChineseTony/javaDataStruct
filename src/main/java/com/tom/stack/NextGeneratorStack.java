@@ -3,6 +3,8 @@ package com.tom.stack;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NextGeneratorStack {
 
@@ -68,6 +70,49 @@ public class NextGeneratorStack {
     }
 
 
+    public int[] xorQueries(int[] arr, int[][] queries) {
+        //计算前缀异或值
+        int[] prefixXOR = new int[arr.length+1];
+        for(int i=0;i<arr.length;i++){
+            prefixXOR[i+1] = (prefixXOR[i]^arr[i]);
+        }
+
+        int[] output = new int[queries.length];
+        //计算给定区间异或值
+        for(int i=0;i<queries.length;i++){
+            int start = queries[i][0];
+            int end = queries[i][1]+1;
+            output[i] = (prefixXOR[start]^prefixXOR[end]);
+        }
+        return output;
+    }
+
+    public int subArray(int[] arr,int k){
+        int len = arr.length;
+        Map<Integer,Integer> map = new HashMap<>(len);
+        map.put(0,1);
+        int result = 0;
+        int preSum = 0;
+        for (int i = 0; i < len; i++) {
+            preSum += arr[i];
+            int tmp = preSum - k;
+            if (map.containsKey(tmp)) {
+                result += map.get(tmp);
+            }
+            map.put(preSum,map.getOrDefault(preSum,0)+1);
+        }
+        return result;
+    }
+
+    public int minMoves2(int[] nums) {
+        Arrays.sort(nums);
+        int sum = 0;
+        for (int num : nums) {
+            sum += Math.abs(nums[nums.length / 2] - num);
+        }
+        return sum;
+
+    }
 
     public static void main(String[] args) {
         int[] arr = new int[]{1,-3,4,9,0};
