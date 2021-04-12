@@ -37,6 +37,19 @@ public class SelectN {
         }
     }
 
+
+    public int findMaximumXOR(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            for(int j=i;j <len;j++){
+                max = Math.max(max,nums[i] ^ nums[j]);
+            }
+        }
+        return max;
+    }
+
+
     public static void main(String[] args) {
         List<List<Integer>> result =
                 select(5,2);
