@@ -25,7 +25,7 @@ public class SelectN {
     }
 
     private static void dfs(int m,int start,int n,List<Integer> list){
-        //结束调节
+        //结束条件
         if (n == list.size()){
             result.add(new ArrayList<>(list));
             return;
