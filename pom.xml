@@ -33,7 +33,7 @@
         <sf4j.version>1.7.21</sf4j.version>
         <http.version>4.5.9</http.version>
         <lettuce.version>5.3.2.RELEASE</lettuce.version>
-        <mybatis.version>3.5.3</mybatis.version>
+        <mybatis.version>3.5.6</mybatis.version>
         <cglib.version>3.3.0</cglib.version>
         <curator.version>2.12.0</curator.version>
         <protobuf.version>3.10.0</protobuf.version>
