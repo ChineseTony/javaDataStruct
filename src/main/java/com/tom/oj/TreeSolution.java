@@ -5,7 +5,7 @@ package com.tom.oj;
 
 import com.tom.util.ListNode;
 
-import javax.swing.tree.TreeNode;
+
 import java.util.*;
 
 /**
@@ -773,6 +773,62 @@ public class TreeSolution {
             result.add(tmpValue);
         }
         return result;
+    }
+
+    public int sumEvenGrandparent(TreeNode root) {
+        int sum = 0;
+        if (root == null){
+            return sum;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            TreeNode tmp = queue.poll();
+            if (tmp.val % 2 == 0){
+                if (tmp.left != null ){
+                    if (tmp.left.right != null){
+                        sum += tmp.left.right.val;
+                    }
+                    if (tmp.left.left != null){
+                        sum += tmp.left.left.val;
+                    }
+                }
+                if (tmp.right != null ){
+                    if (tmp.right.right != null){
+                        sum += tmp.right.right.val;
+                    }
+                    if (tmp.right.left != null){
+                        sum += tmp.right.left.val;
+                    }
+                }
+            }
+            if (tmp.left != null){
+                queue.offer(tmp.left);
+            }
+            if (tmp.right != null){
+                queue.offer(tmp.right);
+            }
+        }
+        return sum;
+    }
+
+
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        List<Integer> result1 = new ArrayList<>();
+        List<Integer> result2 = new ArrayList<>();
+        travel(root1,result1);
+        travel(root2,result2);
+        result1.addAll(result2);
+        Collections.sort(result1);
+        return result1;
+    }
+
+    private void travel(TreeNode t,List<Integer> tmp){
+        if (t != null){
+            travel(t.left,tmp);
+            tmp.add(t.val);
+            travel(t.right,tmp);
+        }
     }
 
 
