@@ -6,6 +6,7 @@ package com.tom.oj;
 import com.tom.util.ListNode;
 
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /**
@@ -831,7 +832,47 @@ public class TreeSolution {
         }
     }
 
+    private int count ;
+    private int ans;
+    public int kthSmallest(TreeNode root, int k) {
+         kthSmall(root,k);
+         return ans;
+    }
 
+    private void kthSmall(TreeNode root,int k){
+        if (root != null){
+            kthSmall(root.left,k);
+            count++;
+            if (count == k){
+                ans = root.val;
+            }
+            kthSmall(root.right,k);
+        }
+    }
+
+
+    public boolean isCompleteTree(TreeNode root) {
+        if (root == null){
+            return true;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        boolean reachedEnd = false;
+        while(!q.isEmpty()){
+            TreeNode cur = q.poll();
+            if(reachedEnd && cur != null){
+                return false;
+            }
+            //当前层次只有一个null 节点
+            if(cur == null){
+                reachedEnd = true;
+                continue;
+            }
+            q.offer(cur.left);
+            q.offer(cur.right);
+        }
+        return true;
+    }
 
     public class TreeNode {
       public int val;
