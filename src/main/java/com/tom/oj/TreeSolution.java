@@ -874,6 +874,41 @@ public class TreeSolution {
         return true;
     }
 
+
+
+    public int[] findFrequentTreeSum(TreeNode root) {
+        if (root == null){
+            return new int[]{0};
+        }
+        sumTreeNode(root);
+        List<Integer> result = new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry:map.entrySet()){
+            if (entry.getValue() == max){
+                result.add(entry.getKey());
+            }
+        }
+        int len = result.size();
+        int[] arr = new int[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = result.get(i);
+        }
+        return arr;
+    }
+
+    private static Map<Integer,Integer> map = new HashMap<>();
+    private static int max = 0;
+    private static int  sumTreeNode(TreeNode root){
+        if (root != null){
+            int sum = root.val + sumTreeNode(root.left)+
+                    sumTreeNode(root.right);
+            map.put(sum,map.getOrDefault(sum,0)+1);
+            max = Math.max(max,map.get(sum));
+            return sum;
+        }else {
+            return 0;
+        }
+    }
+
     public class TreeNode {
       public int val;
       public TreeNode left;
