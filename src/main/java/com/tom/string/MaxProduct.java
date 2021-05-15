@@ -55,6 +55,17 @@ public class MaxProduct {
         arr[j]= tmp;
     }
 
+    public static int xorOperation(int n, int start) {
+        int tmp = 0;
+        int count = 0;
+        while(count++ < n){
+            tmp = tmp ^ start;
+            start += 2;
+        }
+        return tmp;
+
+    }
+
     public static void main(String[] args) {
         String[] strings = new String[]{
                 "abcw","baz","foo","bar","xtfn","abcdef"

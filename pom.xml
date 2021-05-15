@@ -21,6 +21,7 @@
         <module>mybatisStudy</module>
         <module>rocketmq-study</module>
         <module>sentineStudy</module>
+        <module>myagent</module>
     </modules>
 
     <properties>
