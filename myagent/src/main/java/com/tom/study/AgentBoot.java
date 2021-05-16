@@ -182,4 +182,8 @@ public class AgentBoot {
             Metric.printGCInfo();
         },0, 5000, TimeUnit.MILLISECONDS);
     }
+
+    public static void agentmain(String agentArgs){
+
+    }
 }
