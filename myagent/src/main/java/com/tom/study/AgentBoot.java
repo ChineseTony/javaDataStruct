@@ -3,12 +3,19 @@ package com.tom.study;
 import cn.hutool.core.thread.NamedThreadFactory;
 
 
+import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.agent.builder.ResettableClassFileTransformer;
+import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.jar.asm.ClassReader;
 import net.bytebuddy.jar.asm.ClassVisitor;
 import net.bytebuddy.jar.asm.ClassWriter;
 import net.bytebuddy.jar.asm.MethodVisitor;
 import net.bytebuddy.jar.asm.Opcodes;
 import net.bytebuddy.jar.asm.commons.AdviceAdapter;
+import net.bytebuddy.matcher.ElementMatchers;
+import net.bytebuddy.utility.JavaModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +41,22 @@ public class AgentBoot {
 
     public static void premain(String agentArgs, Instrumentation inst) {
         logger.info("this is an perform monitor agent.");
+        AgentBuilder.Transformer transformer = (builder, typeDescription, classLoader) -> {
+            return builder
+                    .method(ElementMatchers.any()) // 拦截任意方法
+                    .intercept(MethodDelegation.to(MethodCostTime.class)); // 委托
+        };
+        AgentBuilder.Listener listener = new MyAgentBuilderListener();
+        new AgentBuilder.Default()
+                // 指定需要拦截的类
+                .type(ElementMatchers.nameStartsWith("com.tom.study.agent"))
+                .transform(transformer)
+                .with(listener)
+                .installOn(inst);
+    }
+
+
+    private static void printArgs(Instrumentation inst){
         ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
                 new NamedThreadFactory("jvm-agrs",true));
         executorService.scheduleAtFixedRate(Metric::printJvmAgrs, 0,
@@ -47,11 +70,33 @@ public class AgentBoot {
             }
             logger.info("class name:{}",clazz.getName());
         }
-
     }
 
     public static void premain(String agentArgs) {
 
+    }
+
+
+    public static class MyAgentBuilderListener implements AgentBuilder.Listener{
+        @Override
+        public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, DynamicType dynamicType) {
+
+        }
+
+        @Override
+        public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module) {
+
+        }
+
+        @Override
+        public void onError(String typeName, ClassLoader classLoader, JavaModule module, Throwable throwable) {
+
+        }
+
+        @Override
+        public void onComplete(String typeName, ClassLoader classLoader, JavaModule module) {
+
+        }
     }
 
     public static class MyClassFileTransformer implements ClassFileTransformer{
@@ -60,9 +105,8 @@ public class AgentBoot {
                                 Class<?> classBeingRedefined,
                                 ProtectionDomain protectionDomain,
                                 byte[] classfileBuffer) throws IllegalClassFormatException {
-            // Lcom/tom/classparse/agent/AgentStudy
             String fullName = className.replace("/",".");
-            if (!"com.tom.classparse.agent.AgentStudy".equals(fullName)){
+            if (!"com.tom.study.agent.AgentStudy".equals(fullName)){
                 return classfileBuffer;
             }
             ClassReader cr = new ClassReader(classfileBuffer);
@@ -70,7 +114,6 @@ public class AgentBoot {
             ClassVisitor cv = new MyClassVisitor(cw);
             cr.accept(cv, ClassReader.EXPAND_FRAMES);
             return cw.toByteArray();
-
         }
     }
 
@@ -84,55 +127,18 @@ public class AgentBoot {
         @Override
         public MethodVisitor visitMethod(int access, String name, String descriptor,
                                          String signature, String[] exceptions) {
-
-            //构造函数直接返回
-            if (!"test".equals(name)){
-                return null;
-            }
             MethodVisitor mv = cv.visitMethod(access, name,
                     descriptor, signature, exceptions);
-
+            //构造函数直接返回
+            if (INIT.equals(name)){
+                return mv;
+            }
             return new MyMethodVisitor(mv, access, name, descriptor);
         }
 
 
     }
 
-//    public static class MyMethodVisitor extends MethodVisitor {
-//        public MyMethodVisitor(MethodVisitor mv) {
-//            super(Opcodes.ASM5, mv);
-//        }
-//
-//        //此方法在目标方法调用之前调用，所以前置操作可以在这处理
-//        @Override
-//        public void visitCode() {
-//            mv.visitCode();
-//            mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System",
-//                    "out", "Ljava/io/PrintStream;");
-//            mv.visitLdcInsn("method start"+this.mv);
-//            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream",
-//                    "println", "(Ljava/lang/String;)V", false);
-//        }
-//
-//        @Override
-//        public void visitInsn(int opcode) {
-//            if (opcode == Opcodes.IRETURN) {
-//                mv.visitFieldInsn(Opcodes.GETSTATIC,
-//                        "java/lang/System", "out", "Ljava/io/PrintStream;");
-//                mv.visitLdcInsn("method end");
-//                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-//                        "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
-//            }
-//            super.visitInsn(opcode);
-//        }
-//
-//
-//
-//        @Override
-//        public void visitMaxs(int maxStack, int maxLocals) {
-//            super.visitMaxs(maxStack + 1, maxLocals);
-//        }
-//    }
 
     public static class MyMethodVisitor extends AdviceAdapter {
         private String methodName = "";
@@ -144,7 +150,6 @@ public class AgentBoot {
 
         @Override
         public void onMethodEnter() {
-
             mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System",
                     "out", "Ljava/io/PrintStream;");
             mv.visitLdcInsn("method start"+this.methodName);
@@ -156,7 +161,7 @@ public class AgentBoot {
 
         @Override
         public void onMethodExit(int opcode) {
-            super.onMethodExit(opcode);
+           super.onMethodExit(opcode);
            mv.visitFieldInsn(Opcodes.GETSTATIC,
                         "java/lang/System", "out", "Ljava/io/PrintStream;");
            mv.visitLdcInsn("method end");

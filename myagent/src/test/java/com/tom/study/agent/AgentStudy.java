@@ -1,7 +1,6 @@
-package com.tom.classparse.agent;
+package com.tom.study.agent;
 
 import cn.hutool.core.thread.NamedThreadFactory;
-
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -35,6 +34,11 @@ public class AgentStudy {
     }
 
     private  void test(int a){
+        try {
+            Thread.sleep((long) (Math.random() * 500));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println(a);
     }
 }
