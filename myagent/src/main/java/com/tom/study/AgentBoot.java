@@ -37,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 public class AgentBoot {
     private static final Logger logger = LoggerFactory.getLogger(AgentBoot.class);
 
+    private static final String WS_SERVER = "com.tom.study.WsServer";
+
     private static final String INIT = "<init>";
 
     public static void premain(String agentArgs, Instrumentation inst) {
@@ -181,7 +183,32 @@ public class AgentBoot {
             Metric.printMemoryInfo();
             Metric.printGCInfo();
         },0, 5000, TimeUnit.MILLISECONDS);
+
+        try {
+            Class aClass = AgentBoot.class.getClassLoader().loadClass(WS_SERVER);
+            if (aClass != null){
+                Object o = null;
+                try {
+                    o = aClass.newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                if (o instanceof WsServer){
+                    WsServer w = (WsServer) o;
+                    w.setInstrumentation(inst);
+                    w.startServer();
+                }
+            }
+        } catch (ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+
+
     }
+
+
 
     public static void agentmain(String agentArgs){
 
