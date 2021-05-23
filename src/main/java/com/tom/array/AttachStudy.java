@@ -24,7 +24,7 @@ public class AttachStudy {
             if (vmd.displayName().equals("com.tom.array.AttachTest")){
                 System.out.println(vmd.id()+"---->"+vmd.displayName());
                 VirtualMachine attach = VirtualMachine.attach(vmd.id());
-                attach.loadAgent("/Users/tom/ideaprojects/javaDataStruct/myagent/target/my-agent.jar");
+                attach.loadAgent("/Users/tom/ideaprojects/javaDataStruct/myagent/target/my-agent-jar-with-dependencies.jar");
             }
         }
 

@@ -18,6 +18,7 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
 import java.lang.instrument.Instrumentation;
+import java.util.Map;
 
 /**
  * @author wangtao
@@ -25,27 +26,38 @@ import java.lang.instrument.Instrumentation;
  */
 public class WsServer {
 
+    private static WsServer wsServer;
 
     private EventLoopGroup mainGroup;
 
     private Instrumentation instrumentation;
 
     private EventLoopGroup work;
+    private ClassLoader classLoader;
     private ServerBootstrap bootstrap;
 
-    public WsServer(){
+
+    private WsServer(){
+
+    }
+
+    public WsServer(Instrumentation instrumentation, ClassLoader classLoader) {
         mainGroup = new NioEventLoopGroup(1);
         work = new NioEventLoopGroup();
         bootstrap = new ServerBootstrap();
-    }
-
-    public void setInstrumentation(Instrumentation instrumentation) {
         this.instrumentation = instrumentation;
+        this.classLoader = classLoader;
+    }
+
+    public synchronized static WsServer getInstance(Instrumentation instrumentation, ClassLoader classLoader){
+        if (wsServer == null) {
+            wsServer = new WsServer(instrumentation, classLoader);
+        }
+        return wsServer;
     }
 
 
-
-    public void startServer(){
+    public  void startServer(){
         ChannelFuture channelFuture= null;
         try {
             bootstrap.group(mainGroup,work)
@@ -59,7 +71,7 @@ public class WsServer {
                             pipeline.addLast(new LoggingHandler(LogLevel.INFO));
                             pipeline.addLast(new HttpObjectAggregator(1024 * 12));
                             pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
-                            pipeline.addLast(new WsServerHandler(instrumentation));
+                            pipeline.addLast(new WsServerHandler(instrumentation,classLoader));
                         }
                     });
             channelFuture = bootstrap.bind(8888).sync()

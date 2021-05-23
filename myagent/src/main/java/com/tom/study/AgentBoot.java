@@ -4,7 +4,6 @@ import cn.hutool.core.thread.NamedThreadFactory;
 
 
 import net.bytebuddy.agent.builder.AgentBuilder;
-import net.bytebuddy.agent.builder.ResettableClassFileTransformer;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -19,9 +18,13 @@ import net.bytebuddy.utility.JavaModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
+import java.net.URL;
+import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -76,6 +79,23 @@ public class AgentBoot {
 
     public static void premain(String agentArgs) {
 
+    }
+
+    private static ClassLoader getClassLoader(Instrumentation inst, File arthasCoreJarFile) throws Throwable {
+        // 构造自定义的类加载器
+        return loadOrDefineClassLoader(arthasCoreJarFile);
+    }
+
+    private static volatile ClassLoader myClassLoader;
+
+    private static ClassLoader loadOrDefineClassLoader(File arthasCoreJarFile) throws Throwable {
+        if (myClassLoader == null) {
+            URL url = arthasCoreJarFile.toURI().toURL();
+            System.out.println(url);
+            myClassLoader = new MyClassLoader(new URL[]
+                    {arthasCoreJarFile.toURI().toURL()});
+        }
+        return myClassLoader;
     }
 
 
@@ -176,35 +196,35 @@ public class AgentBoot {
 
 
     public static void agentmain(String agentArgs, Instrumentation inst){
-        logger.info("this is an agent monitor agent.");
-        ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1
-                        ,new NamedThreadFactory("print-jvm",false));
-        executorService.scheduleAtFixedRate(() ->{
-            Metric.printMemoryInfo();
-            Metric.printGCInfo();
-        },0, 5000, TimeUnit.MILLISECONDS);
-
-        try {
-            Class aClass = AgentBoot.class.getClassLoader().loadClass(WS_SERVER);
-            if (aClass != null){
-                Object o = null;
+        CodeSource codeSource = AgentBoot.class.getProtectionDomain().getCodeSource();
+        final ClassLoader agentLoader;
+        if (codeSource != null) {
+            try {
+                File agentFile = new File(codeSource.getLocation().toURI().getSchemeSpecificPart());
+                agentLoader = getClassLoader(inst, agentFile);
                 try {
-                    o = aClass.newInstance();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
+                    Class<?> aClass = agentLoader.loadClass(WS_SERVER);
+                    System.out.println("ws server start--->"+aClass.getName());
+                    Object bootstrap = aClass.getMethod(
+                            "getInstance", Instrumentation.class, ClassLoader.class).invoke(null,
+                            inst, myClassLoader);
+                    System.out.println("instance"+bootstrap);
+                    aClass.getMethod("startServer").invoke(bootstrap);
+                } catch (ClassNotFoundException e ) {
                     e.printStackTrace();
                 }
-                if (o instanceof WsServer){
-                    WsServer w = (WsServer) o;
-                    w.setInstrumentation(inst);
-                    w.startServer();
-                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
-        } catch (ClassNotFoundException e ) {
-            e.printStackTrace();
         }
-
+        logger.info("this is an agent monitor agent.");
+//        ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1
+//                        ,new NamedThreadFactory("print-jvm",false));
+//        executorService.scheduleAtFixedRate(() ->{
+//            Metric.printMemoryInfo();
+//            Metric.printGCInfo();
+//        },0, 5000, TimeUnit.MILLISECONDS);
 
     }
 
