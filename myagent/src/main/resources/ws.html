@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
 <meta charset="UTF-8">
 
@@ -41,12 +41,19 @@ function send(message){
         alert("WebSocket 还没有建立连接！")
     }
 }
+
+function clearMessage(){
+    var ta = document.getElementById('responseText');
+    ta.value = '';
+}
 </script>
 <p>请输入发送给服务器端的消息</p>
 <form onsubmit="return false;">
     <br><br>
-    <input type="text" name="message" vaule=""/>
+    <input type="text" name="message" vaule=""/><br>
     <input type="button" value="发送 WebSocket 请求消息" onclick="send(this.form.message.value)">
+    <br>
+    <input type="button" value="清空消息" onclick="clearMessage()">
     <hr color="blue"/>
     <h3>服务端返回的应答消息</h3>
     <textarea id="responseText" style="width:5000px;height:3000px;"></textarea>
