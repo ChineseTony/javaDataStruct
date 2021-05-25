@@ -48,9 +48,9 @@ function clearMessage(){
 }
 </script>
 <p>请输入发送给服务器端的消息</p>
-<form onsubmit="return false;">
+<form onsubmit="return false;" >
     <br><br>
-    <input type="text" name="message" vaule=""/><br>
+    <input type="text" name="message" vaule="" style="width: 600px;height:60px;"/><br>
     <input type="button" value="发送 WebSocket 请求消息" onclick="send(this.form.message.value)">
     <br>
     <input type="button" value="清空消息" onclick="clearMessage()">
