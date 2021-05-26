@@ -86,7 +86,14 @@ public class WsServer {
     }
 
     public void stopServer(){
-        work.shutdownGracefully();
-        mainGroup.shutdownGracefully();
+        if (work != null) {
+            work.shutdownGracefully();
+        }
+        if (mainGroup != null) {
+            mainGroup.shutdownGracefully();
+        }
+        if (WsServer.wsServer != null){
+            WsServer.wsServer = null;
+        }
     }
 }
