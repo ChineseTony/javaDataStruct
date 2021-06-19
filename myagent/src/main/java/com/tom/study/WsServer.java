@@ -1,7 +1,6 @@
 package com.tom.study;
 
 
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -18,8 +17,6 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
 import java.lang.instrument.Instrumentation;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author wangtao
@@ -50,7 +47,7 @@ public class WsServer {
         this.classLoader = classLoader;
     }
 
-    public synchronized static WsServer getInstance(Instrumentation instrumentation, ClassLoader classLoader){
+    public static synchronized WsServer getInstance(Instrumentation instrumentation, ClassLoader classLoader){
         if (wsServer == null) {
             wsServer = new WsServer(instrumentation, classLoader);
         }

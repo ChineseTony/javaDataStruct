@@ -4,6 +4,9 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.instrument.Instrumentation;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Method;
@@ -18,6 +21,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class WsServerHandler  extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     private static final String WS_SERVER = "com.tom.study.WsServer";
+    private static final String DECOMPLIE_UTIL = "com.tom.study.DecomplieUtil";
+    private static final Logger logger = LoggerFactory.getLogger(WsServerHandler.class);
 
     private ConcurrentMap<String,Channel> map = new ConcurrentHashMap<>(16);
 
@@ -30,11 +35,17 @@ public class WsServerHandler  extends SimpleChannelInboundHandler<TextWebSocketF
         this.instrumentation = instrumentation;
         this.classLoader = classLoader;
     }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("连接客户端{}\n",ctx.channel().remoteAddress());
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg)
             throws Exception {
         String data = msg.text().trim();
-        System.out.println("----->"+data);
+        logger.info("----->,{}",data);
         if (Command.ALL.equalsIgnoreCase(data)) {
             Class[] allLoadedClasses = instrumentation.getAllLoadedClasses();
             StringBuilder stringBuilder = new StringBuilder();
@@ -56,20 +67,20 @@ public class WsServerHandler  extends SimpleChannelInboundHandler<TextWebSocketF
             ctx.writeAndFlush(new TextWebSocketFrame(sb.toString()));
         }else if (data.contains(Command.JAD)){
             String[] args = data.split(" ");
-            Class<?> aClass = classLoader.loadClass("com.tom.study.DecomplieUtil");
+            Class<?> aClass = classLoader.loadClass(DECOMPLIE_UTIL);
             if (aClass != null){
                 Method method = aClass.getMethod("decompile", String.class,String.class);
                 String decomple = method.invoke(null,args[1],"").toString();
-                System.out.println("decomple--->"+decomple);
+                logger.info("decomple--->{}",decomple);
                 ctx.writeAndFlush(new TextWebSocketFrame(decomple));
             }
         }else if (Command.QUIT.equalsIgnoreCase(data)){
             Class<?> aClass = classLoader.loadClass(WS_SERVER);
-            System.out.println("ws server stop--->"+aClass.getName());
+            logger.info("ws server stop--->{}",aClass.getName());
             Object bootstrap = aClass.getMethod(
                     "getInstance", Instrumentation.class, ClassLoader.class).invoke(null,
                     instrumentation, classLoader);
-            System.out.println("instance"+bootstrap);
+            logger.info("instance--->{}",bootstrap);
             classLoader = null;
             aClass.getMethod("stopServer").invoke(bootstrap);
         }
