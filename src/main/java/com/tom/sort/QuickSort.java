@@ -28,12 +28,12 @@ public class QuickSort<S extends Comparable<S>> implements Sort<S> {
         S t1 = t[low];
         while (low < high){
             //找到比t[low] 小的数
-            while (t1.compareTo(t[high]) < 0 && low < high){
+            while ( low < high && t1.compareTo(t[high]) < 0 ){
                 high--;
             }
             // 交换位置
             swap(t,low,high);
-            while (t1.compareTo(t[low]) >0 && low < high){
+            while ( low < high && t1.compareTo(t[low]) >0 ){
                 low++;
             }
             swap(t,low,high);

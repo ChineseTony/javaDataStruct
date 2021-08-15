@@ -22,6 +22,7 @@
         <module>rocketmq-study</module>
         <module>sentineStudy</module>
         <module>myagent</module>
+        <module>juc</module>
     </modules>
 
     <properties>
