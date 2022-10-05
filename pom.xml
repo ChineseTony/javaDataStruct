@@ -38,7 +38,7 @@
         <mybatis.version>3.5.3</mybatis.version>
         <cglib.version>3.3.0</cglib.version>
         <curator.version>2.12.0</curator.version>
-        <protobuf.version>3.10.0</protobuf.version>
+        <protobuf.version>3.16.3</protobuf.version>
         <seata.version>1.3.0</seata.version>
         <caffeine.version>2.8.4</caffeine.version>
         <redisson.version>3.9.1</redisson.version>
